@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -19,6 +19,15 @@ import {
   sumCommodityValues,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeStringArray,
+  decodeValueMode,
+  encodeGranularity,
+  encodeStringArray,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { ChartRow, Dataset, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import CountryMultiSelect from "./CountryMultiSelect";
@@ -74,15 +83,21 @@ function CountryAggregateChart({
   datasets,
   chartLink,
 }: CountryAggregateChartProps) {
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
   const availableCountries = useMemo(
     () => getAvailableCountries(datasets),
     [datasets],
   );
-  const [selectedCountries, setSelectedCountries] = useState<string[]>(
-    () => availableCountries,
+  const initialChartState = chartLink?.chartState;
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialChartState, "g"),
   );
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialChartState, "v"),
+  );
+  const [selectedCountries, setSelectedCountries] = useState<string[]>(
+    () => decodeStringArray(initialChartState, "c", availableCountries, availableCountries),
+  );
+  const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
   const visibleDatasets = useMemo(
     () =>
       datasets.filter(
@@ -117,6 +132,43 @@ function CountryAggregateChart({
   }, [effectiveValueMode, granularity, rows, seriesKeys]);
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
+
+  useEffect(() => {
+    if (
+      !chartLink?.chartStateKey ||
+      appliedChartStateKeyRef.current === chartLink.chartStateKey
+    ) {
+      return;
+    }
+
+    appliedChartStateKeyRef.current = chartLink.chartStateKey;
+    setGranularity(decodeGranularity(chartLink.chartState, "g"));
+    setValueMode(decodeValueMode(chartLink.chartState, "v"));
+    setSelectedCountries(
+      decodeStringArray(chartLink.chartState, "c", availableCountries, availableCountries),
+    );
+  }, [availableCountries, chartLink?.chartState, chartLink?.chartStateKey]);
+
+  function getChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedCountries = encodeStringArray(selectedCountries, availableCountries);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedCountries) {
+      state.c = encodedCountries;
+    }
+
+    return state;
+  }
 
   return (
     <section className="chart-section" aria-label={title}>
@@ -169,7 +221,9 @@ function CountryAggregateChart({
           </div>
           <div className="chart-header__actions">
             <span className="granularity">{granularity}</span>
-            {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+            {chartLink ? (
+              <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
+            ) : null}
           </div>
         </div>
 

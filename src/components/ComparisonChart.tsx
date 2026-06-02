@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -20,6 +20,15 @@ import {
   sumCommodityValues,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeString,
+  decodeValueMode,
+  encodeGranularity,
+  encodeString,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { ComparisonRow, Dataset, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
@@ -98,8 +107,13 @@ function ComparisonChart({
   indiaImportDatasets,
   chartLink,
 }: ComparisonChartProps) {
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
+  const initialChartState = chartLink?.chartState;
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialChartState, "g"),
+  );
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialChartState, "v"),
+  );
   const comparisonOptions = useMemo(() => {
     const monthlyExports = findDatasetByGranularity(exportDatasets, "monthly");
     const monthlyImports = findDatasetByGranularity(indiaImportDatasets, "monthly");
@@ -116,7 +130,14 @@ function ComparisonChart({
       }))
       .filter((option) => option.hsCode);
   }, []);
-  const [hsCode, setHsCode] = useState(allCommoditiesOption);
+  const comparisonCodes = useMemo(
+    () => [allCommoditiesOption, ...comparisonOptions.map((option) => option.hsCode)],
+    [comparisonOptions],
+  );
+  const [hsCode, setHsCode] = useState(() =>
+    decodeString(initialChartState, "h2", allCommoditiesOption, comparisonCodes),
+  );
+  const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
 
   const exportDataset = findDatasetByGranularity(exportDatasets, granularity);
   const importDataset = findDatasetByGranularity(indiaImportDatasets, granularity);
@@ -145,6 +166,43 @@ function ComparisonChart({
   }, [effectiveValueMode, granularity, rows]);
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
+
+  useEffect(() => {
+    if (
+      !chartLink?.chartStateKey ||
+      appliedChartStateKeyRef.current === chartLink.chartStateKey
+    ) {
+      return;
+    }
+
+    appliedChartStateKeyRef.current = chartLink.chartStateKey;
+    setGranularity(decodeGranularity(chartLink.chartState, "g"));
+    setValueMode(decodeValueMode(chartLink.chartState, "v"));
+    setHsCode(
+      decodeString(chartLink.chartState, "h2", allCommoditiesOption, comparisonCodes),
+    );
+  }, [chartLink?.chartState, chartLink?.chartStateKey, comparisonCodes]);
+
+  function getChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedHsCode = encodeString(hsCode, allCommoditiesOption);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedHsCode) {
+      state.h2 = encodedHsCode;
+    }
+
+    return state;
+  }
 
   return (
     <section className="chart-section" aria-label="Export import comparison">
@@ -220,7 +278,9 @@ function ComparisonChart({
           </div>
           <div className="chart-header__actions">
             <span className="granularity">{granularity}</span>
-            {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+            {chartLink ? (
+              <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
+            ) : null}
           </div>
         </div>
 

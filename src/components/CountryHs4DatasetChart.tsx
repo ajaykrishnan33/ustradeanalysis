@@ -19,6 +19,19 @@ import {
   getRowValue,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeSelection,
+  decodeString,
+  decodeStringArray,
+  decodeValueMode,
+  encodeGranularity,
+  encodeSelection,
+  encodeString,
+  encodeStringArray,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { ChartRow, Commodity, Dataset, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import CountryMultiSelect from "./CountryMultiSelect";
@@ -64,6 +77,10 @@ function getAvailableCountries(datasets: Dataset[]) {
 
 function getDefaultCountries(countries: string[]) {
   return countries.includes("India") ? ["India"] : countries.slice(0, 1);
+}
+
+function getHs2Codes(options: Hs2Option[]) {
+  return options.map((option) => option.hsCode);
 }
 
 function buildHs2Options(dataset: Dataset) {
@@ -147,19 +164,29 @@ function CountryHs4DatasetChart({
   emptyMessage,
   chartLink,
 }: CountryHs4DatasetChartProps) {
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
   const availableCountries = useMemo(
     () => getAvailableCountries(datasets),
     [datasets],
   );
-  const [selectedCountries, setSelectedCountries] = useState<string[]>(
+  const defaultCountries = useMemo(
     () => getDefaultCountries(availableCountries),
+    [availableCountries],
   );
-  const [commodityQuery, setCommodityQuery] = useState("");
-  const [selectedHs2Code, setSelectedHs2Code] = useState("");
-  const [selectedHs4Codes, setSelectedHs4Codes] = useState<Set<string>>(new Set());
-  const initializedGranularityRef = useRef<Granularity | null>(null);
+  const initialChartState = chartLink?.chartState;
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialChartState, "g"),
+  );
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialChartState, "v"),
+  );
+  const [selectedCountries, setSelectedCountries] = useState<string[]>(() =>
+    decodeStringArray(initialChartState, "c", defaultCountries, availableCountries),
+  );
+  const [commodityQuery, setCommodityQuery] = useState(() =>
+    decodeString(initialChartState, "q"),
+  );
+  const initializedGranularityRef = useRef<Granularity | null>(granularity);
+  const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
   const visibleDatasets = selectedCountries
     .map((country) => getDataset(datasets, granularity, country))
     .filter((dataset): dataset is Dataset => Boolean(dataset));
@@ -170,8 +197,17 @@ function CountryHs4DatasetChart({
     () => (primaryDataset ? buildHs2Options(primaryDataset) : []),
     [primaryDataset],
   );
+  const hs2Codes = useMemo(() => getHs2Codes(hs2Options), [hs2Options]);
+  const defaultHs2Code = hs2Options[0]?.hsCode ?? "";
+  const [selectedHs2Code, setSelectedHs2Code] = useState(() =>
+    decodeString(initialChartState, "h2", defaultHs2Code, hs2Codes),
+  );
   const selectedHs2Option = hs2Options.find(
     (option) => option.hsCode === selectedHs2Code,
+  );
+  const defaultHs4Codes = selectedHs2Option?.hs4Codes ?? [];
+  const [selectedHs4Codes, setSelectedHs4Codes] = useState<Set<string>>(
+    () => new Set(decodeSelection(initialChartState, "hs", defaultHs4Codes, defaultHs4Codes)),
   );
   const selectedHs2Commodities = useMemo(() => {
     const selectedCodes = new Set(selectedHs2Option?.hs4Codes ?? []);
@@ -257,6 +293,100 @@ function CountryHs4DatasetChart({
     setSelectedHs2Code(firstOption?.hsCode ?? "");
     setSelectedHs4Codes(new Set(firstOption?.hs4Codes ?? []));
   }, [granularity, hs2Options]);
+
+  useEffect(() => {
+    if (
+      !chartLink?.chartStateKey ||
+      appliedChartStateKeyRef.current === chartLink.chartStateKey
+    ) {
+      return;
+    }
+
+    const nextGranularity = decodeGranularity(chartLink.chartState, "g");
+    const nextCountries = decodeStringArray(
+      chartLink.chartState,
+      "c",
+      defaultCountries,
+      availableCountries,
+    );
+    const nextPrimaryDataset = nextCountries[0]
+      ? getDataset(datasets, nextGranularity, nextCountries[0])
+      : undefined;
+    const nextHs2Options = nextPrimaryDataset ? buildHs2Options(nextPrimaryDataset) : [];
+    const nextHs2Codes = getHs2Codes(nextHs2Options);
+    const nextDefaultHs2Code = nextHs2Options[0]?.hsCode ?? "";
+    const nextHs2Code = decodeString(
+      chartLink.chartState,
+      "h2",
+      nextDefaultHs2Code,
+      nextHs2Codes,
+    );
+    const nextDefaultHs4Codes =
+      nextHs2Options.find((option) => option.hsCode === nextHs2Code)?.hs4Codes ?? [];
+
+    appliedChartStateKeyRef.current = chartLink.chartStateKey;
+    initializedGranularityRef.current = nextGranularity;
+    setGranularity(nextGranularity);
+    setValueMode(decodeValueMode(chartLink.chartState, "v"));
+    setSelectedCountries(nextCountries);
+    setCommodityQuery(decodeString(chartLink.chartState, "q"));
+    setSelectedHs2Code(nextHs2Code);
+    setSelectedHs4Codes(
+      new Set(
+        decodeSelection(
+          chartLink.chartState,
+          "hs",
+          nextDefaultHs4Codes,
+          nextDefaultHs4Codes,
+        ),
+      ),
+    );
+  }, [
+    availableCountries,
+    chartLink?.chartState,
+    chartLink?.chartStateKey,
+    datasets,
+    defaultCountries,
+  ]);
+
+  function getChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const selectedHs4CodesInOrder = defaultHs4Codes.filter((hs4Code) =>
+      selectedHs4Codes.has(hs4Code),
+    );
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedCountries = encodeStringArray(selectedCountries, defaultCountries);
+    const encodedQuery = encodeString(commodityQuery);
+    const encodedHs2Code = encodeString(selectedHs2Code, defaultHs2Code);
+    const encodedHs4Codes = encodeSelection(selectedHs4CodesInOrder, defaultHs4Codes);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedCountries) {
+      state.c = encodedCountries;
+    }
+
+    if (encodedQuery) {
+      state.q = encodedQuery;
+    }
+
+    if (encodedHs2Code) {
+      state.h2 = encodedHs2Code;
+    }
+
+    if (encodedHs4Codes) {
+      state.hs = encodedHs4Codes;
+    }
+
+    return state;
+  }
 
   function selectHs2(hsCode: string) {
     setSelectedHs2Code(hsCode);
@@ -413,7 +543,9 @@ function CountryHs4DatasetChart({
             </div>
             <div className="chart-header__actions">
               <span className="granularity">{granularity}</span>
-              {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+              {chartLink ? (
+                <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
+              ) : null}
             </div>
           </div>
 

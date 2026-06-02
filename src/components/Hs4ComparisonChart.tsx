@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -18,6 +18,15 @@ import {
   getRowValue,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeString,
+  decodeValueMode,
+  encodeGranularity,
+  encodeString,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { ComparisonRow, Dataset, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
@@ -130,6 +139,14 @@ function buildHs4Options({
     );
 }
 
+function getHs2Codes(options: Hs2ComparisonOption[]) {
+  return options.map((option) => option.hsCode);
+}
+
+function getHs4Codes(options: Hs4ComparisonOption[]) {
+  return options.map((option) => option.hs4Code);
+}
+
 function buildComparisonRows({
   hs4Code,
   exportDataset,
@@ -196,15 +213,24 @@ function Hs4ComparisonChart({
   indiaImportHs4Datasets,
   chartLink,
 }: Hs4ComparisonChartProps) {
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
+  const initialChartState = chartLink?.chartState;
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialChartState, "g"),
+  );
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialChartState, "v"),
+  );
   const exportDataset = findDatasetByGranularity(exportHs4Datasets, granularity);
   const importDataset = findDatasetByGranularity(indiaImportHs4Datasets, granularity);
   const hs2Options = useMemo(
     () => buildHs2Options(exportDataset, importDataset),
     [exportDataset, importDataset],
   );
-  const [hsCode, setHsCode] = useState(hs2Options[0]?.hsCode ?? "");
+  const hs2Codes = useMemo(() => getHs2Codes(hs2Options), [hs2Options]);
+  const defaultHs2Code = hs2Options[0]?.hsCode ?? "";
+  const [hsCode, setHsCode] = useState(() =>
+    decodeString(initialChartState, "h2", defaultHs2Code, hs2Codes),
+  );
   const hs4Options = useMemo(
     () =>
       buildHs4Options({
@@ -214,7 +240,12 @@ function Hs4ComparisonChart({
       }),
     [exportDataset, hsCode, importDataset],
   );
-  const [hs4Code, setHs4Code] = useState(hs4Options[0]?.hs4Code ?? "");
+  const hs4Codes = useMemo(() => getHs4Codes(hs4Options), [hs4Options]);
+  const defaultHs4Code = hs4Options[0]?.hs4Code ?? "";
+  const [hs4Code, setHs4Code] = useState(() =>
+    decodeString(initialChartState, "h4", defaultHs4Code, hs4Codes),
+  );
+  const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
   const { rows, exportCommodity, importCommodity } = useMemo(
     () =>
       buildComparisonRows({
@@ -241,13 +272,91 @@ function Hs4ComparisonChart({
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
 
   useEffect(() => {
-    const nextHs2 = hs2Options[0]?.hsCode ?? "";
-    setHsCode(nextHs2);
-  }, [exportDataset, hs2Options, importDataset]);
+    if (hsCode && hs2Options.some((option) => option.hsCode === hsCode)) {
+      return;
+    }
+
+    setHsCode(hs2Options[0]?.hsCode ?? "");
+  }, [hs2Options, hsCode]);
 
   useEffect(() => {
+    if (hs4Code && hs4Options.some((option) => option.hs4Code === hs4Code)) {
+      return;
+    }
+
     setHs4Code(hs4Options[0]?.hs4Code ?? "");
-  }, [hs4Options]);
+  }, [hs4Code, hs4Options]);
+
+  useEffect(() => {
+    if (
+      !chartLink?.chartStateKey ||
+      appliedChartStateKeyRef.current === chartLink.chartStateKey
+    ) {
+      return;
+    }
+
+    const nextGranularity = decodeGranularity(chartLink.chartState, "g");
+    const nextExportDataset = findDatasetByGranularity(exportHs4Datasets, nextGranularity);
+    const nextImportDataset = findDatasetByGranularity(
+      indiaImportHs4Datasets,
+      nextGranularity,
+    );
+    const nextHs2Options = buildHs2Options(nextExportDataset, nextImportDataset);
+    const nextHs2Codes = getHs2Codes(nextHs2Options);
+    const nextDefaultHs2Code = nextHs2Options[0]?.hsCode ?? "";
+    const nextHs2Code = decodeString(
+      chartLink.chartState,
+      "h2",
+      nextDefaultHs2Code,
+      nextHs2Codes,
+    );
+    const nextHs4Options = buildHs4Options({
+      hsCode: nextHs2Code,
+      exportDataset: nextExportDataset,
+      importDataset: nextImportDataset,
+    });
+    const nextHs4Codes = getHs4Codes(nextHs4Options);
+    const nextDefaultHs4Code = nextHs4Options[0]?.hs4Code ?? "";
+
+    appliedChartStateKeyRef.current = chartLink.chartStateKey;
+    setGranularity(nextGranularity);
+    setValueMode(decodeValueMode(chartLink.chartState, "v"));
+    setHsCode(nextHs2Code);
+    setHs4Code(
+      decodeString(chartLink.chartState, "h4", nextDefaultHs4Code, nextHs4Codes),
+    );
+  }, [
+    chartLink?.chartState,
+    chartLink?.chartStateKey,
+    exportHs4Datasets,
+    indiaImportHs4Datasets,
+  ]);
+
+  function getChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedHs2Code = encodeString(hsCode, defaultHs2Code);
+    const encodedHs4Code = encodeString(hs4Code, defaultHs4Code);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedHs2Code) {
+      state.h2 = encodedHs2Code;
+    }
+
+    if (encodedHs4Code) {
+      state.h4 = encodedHs4Code;
+    }
+
+    return state;
+  }
 
   function selectHs2(nextHsCode: string) {
     setHsCode(nextHsCode);
@@ -334,7 +443,9 @@ function Hs4ComparisonChart({
           </div>
           <div className="chart-header__actions">
             <span className="granularity">{granularity}</span>
-            {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+            {chartLink ? (
+              <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
+            ) : null}
           </div>
         </div>
 

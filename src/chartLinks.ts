@@ -1,7 +1,12 @@
+import type { ChartUrlState } from "./chartUrlState";
+
 export type ChartLinkProps = {
   activeTab: string;
   chartId: string;
-  onChartLink: (chartId: string) => void;
+  chartState?: ChartUrlState;
+  chartStateKey?: string;
+  getChartParams?: () => ChartUrlState;
+  onChartLink: (chartId: string, chartState?: ChartUrlState) => void;
 };
 
 function sanitizeUrlPart(value: string) {

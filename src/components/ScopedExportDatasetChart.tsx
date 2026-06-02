@@ -21,6 +21,19 @@ import {
   getRowValue,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeSelection,
+  decodeString,
+  decodeStringArray,
+  decodeValueMode,
+  encodeGranularity,
+  encodeSelection,
+  encodeString,
+  encodeStringArray,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { ChartRow, Commodity, Dataset, ExportScope, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
@@ -43,6 +56,16 @@ function seriesKey(scope: ExportScope, hsCode: string) {
 function getAvailableScopes(datasets: Dataset[]) {
   const scopes = new Set(datasets.map((dataset) => dataset.scope));
   return exportScopeOrder.filter((scope) => scopes.has(scope));
+}
+
+function getDefaultScopes(scopes: ExportScope[]) {
+  return scopes.includes("us") ? ["us"] : scopes.slice(0, 1);
+}
+
+function getCommodityHsCodes(commodities: Commodity[]) {
+  return commodities
+    .map((commodity) => commodity.hsCode)
+    .filter((hsCode): hsCode is string => Boolean(hsCode));
 }
 
 function getDataset(
@@ -105,15 +128,29 @@ function ScopedExportDatasetChart({
   valueDescription,
   chartLink,
 }: ScopedExportDatasetChartProps) {
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
   const availableScopes = useMemo(() => getAvailableScopes(datasets), [datasets]);
-  const [selectedScopes, setSelectedScopes] = useState<ExportScope[]>(() =>
-    availableScopes.includes("us") ? ["us"] : availableScopes.slice(0, 1),
+  const defaultScopes = useMemo(() => getDefaultScopes(availableScopes), [availableScopes]);
+  const initialChartState = chartLink?.chartState;
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialChartState, "g"),
   );
-  const [commodityQuery, setCommodityQuery] = useState("");
-  const [selectedHsCodes, setSelectedHsCodes] = useState<Set<string>>(new Set());
-  const initializedGranularityRef = useRef<Granularity | null>(null);
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialChartState, "v"),
+  );
+  const [selectedScopes, setSelectedScopes] = useState<ExportScope[]>(
+    () =>
+      decodeStringArray(
+        initialChartState,
+        "sc",
+        defaultScopes,
+        availableScopes,
+      ) as ExportScope[],
+  );
+  const [commodityQuery, setCommodityQuery] = useState(() =>
+    decodeString(initialChartState, "q"),
+  );
+  const initializedGranularityRef = useRef<Granularity | null>(granularity);
+  const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
   const visibleDatasets = selectedScopes
     .map((scope) => getDataset(datasets, granularity, scope))
     .filter((dataset): dataset is Dataset => Boolean(dataset));
@@ -122,6 +159,13 @@ function ScopedExportDatasetChart({
     ? getDataset(datasets, granularity, primaryScope)
     : undefined;
   const primaryCommodities = primaryDataset?.commodities ?? [];
+  const defaultHsCodes = useMemo(
+    () => getCommodityHsCodes(primaryCommodities),
+    [primaryCommodities],
+  );
+  const [selectedHsCodes, setSelectedHsCodes] = useState<Set<string>>(
+    () => new Set(decodeSelection(initialChartState, "hs", defaultHsCodes, defaultHsCodes)),
+  );
   const filteredCommodities = useMemo(() => {
     const normalizedQuery = commodityQuery.trim().toLowerCase();
 
@@ -202,6 +246,84 @@ function ScopedExportDatasetChart({
       ),
     );
   }, [granularity, primaryCommodities]);
+
+  useEffect(() => {
+    if (
+      !chartLink?.chartStateKey ||
+      appliedChartStateKeyRef.current === chartLink.chartStateKey
+    ) {
+      return;
+    }
+
+    const nextGranularity = decodeGranularity(chartLink.chartState, "g");
+    const nextScopes = decodeStringArray(
+      chartLink.chartState,
+      "sc",
+      defaultScopes,
+      availableScopes,
+    ) as ExportScope[];
+    const nextPrimaryDataset = nextScopes[0]
+      ? getDataset(datasets, nextGranularity, nextScopes[0])
+      : undefined;
+    const nextDefaultHsCodes = getCommodityHsCodes(nextPrimaryDataset?.commodities ?? []);
+
+    appliedChartStateKeyRef.current = chartLink.chartStateKey;
+    initializedGranularityRef.current = nextGranularity;
+    setGranularity(nextGranularity);
+    setValueMode(decodeValueMode(chartLink.chartState, "v"));
+    setSelectedScopes(nextScopes);
+    setCommodityQuery(decodeString(chartLink.chartState, "q"));
+    setSelectedHsCodes(
+      new Set(
+        decodeSelection(
+          chartLink.chartState,
+          "hs",
+          nextDefaultHsCodes,
+          nextDefaultHsCodes,
+        ),
+      ),
+    );
+  }, [
+    availableScopes,
+    chartLink?.chartState,
+    chartLink?.chartStateKey,
+    datasets,
+    defaultScopes,
+  ]);
+
+  function getChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const selectedHsCodesInOrder = defaultHsCodes.filter((hsCode) =>
+      selectedHsCodes.has(hsCode),
+    );
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedScopes = encodeStringArray(selectedScopes, defaultScopes);
+    const encodedQuery = encodeString(commodityQuery);
+    const encodedHsCodes = encodeSelection(selectedHsCodesInOrder, defaultHsCodes);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedScopes) {
+      state.sc = encodedScopes;
+    }
+
+    if (encodedQuery) {
+      state.q = encodedQuery;
+    }
+
+    if (encodedHsCodes) {
+      state.hs = encodedHsCodes;
+    }
+
+    return state;
+  }
 
   function toggleCommodity(hsCode?: string | null) {
     if (!hsCode) {
@@ -350,7 +472,9 @@ function ScopedExportDatasetChart({
             </div>
             <div className="chart-header__actions">
               <span className="granularity">{granularity}</span>
-              {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+              {chartLink ? (
+                <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
+              ) : null}
             </div>
           </div>
 

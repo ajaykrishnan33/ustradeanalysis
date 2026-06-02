@@ -19,6 +19,19 @@ import {
   getRowValue,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeSelection,
+  decodeString,
+  decodeStringArray,
+  decodeValueMode,
+  encodeGranularity,
+  encodeSelection,
+  encodeString,
+  encodeStringArray,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { ChartRow, Commodity, Dataset, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import CountryMultiSelect from "./CountryMultiSelect";
@@ -57,6 +70,12 @@ function getAvailableCountries(datasets: Dataset[]) {
 
 function getDefaultCountries(countries: string[]) {
   return countries.includes("India") ? ["India"] : countries.slice(0, 1);
+}
+
+function getCommodityHsCodes(commodities: Commodity[]) {
+  return commodities
+    .map((commodity) => commodity.hsCode)
+    .filter((hsCode): hsCode is string => Boolean(hsCode));
 }
 
 function buildRows({
@@ -106,18 +125,29 @@ function CountryDatasetChart({
   valueDescription,
   chartLink,
 }: CountryDatasetChartProps) {
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
   const availableCountries = useMemo(
     () => getAvailableCountries(datasets),
     [datasets],
   );
-  const [selectedCountries, setSelectedCountries] = useState<string[]>(
+  const defaultCountries = useMemo(
     () => getDefaultCountries(availableCountries),
+    [availableCountries],
   );
-  const [commodityQuery, setCommodityQuery] = useState("");
-  const [selectedHsCodes, setSelectedHsCodes] = useState<Set<string>>(new Set());
-  const initializedGranularityRef = useRef<Granularity | null>(null);
+  const initialChartState = chartLink?.chartState;
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialChartState, "g"),
+  );
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialChartState, "v"),
+  );
+  const [selectedCountries, setSelectedCountries] = useState<string[]>(() =>
+    decodeStringArray(initialChartState, "c", defaultCountries, availableCountries),
+  );
+  const [commodityQuery, setCommodityQuery] = useState(() =>
+    decodeString(initialChartState, "q"),
+  );
+  const initializedGranularityRef = useRef<Granularity | null>(granularity);
+  const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
   const visibleDatasets = selectedCountries
     .map((country) => getDataset(datasets, granularity, country))
     .filter((dataset): dataset is Dataset => Boolean(dataset));
@@ -125,6 +155,13 @@ function CountryDatasetChart({
   const primaryDataset =
     primaryCountry ? getDataset(datasets, granularity, primaryCountry) : undefined;
   const primaryCommodities = primaryDataset?.commodities ?? [];
+  const defaultHsCodes = useMemo(
+    () => getCommodityHsCodes(primaryCommodities),
+    [primaryCommodities],
+  );
+  const [selectedHsCodes, setSelectedHsCodes] = useState<Set<string>>(
+    () => new Set(decodeSelection(initialChartState, "hs", defaultHsCodes, defaultHsCodes)),
+  );
   const filteredCommodities = useMemo(() => {
     const normalizedQuery = commodityQuery.trim().toLowerCase();
 
@@ -205,6 +242,84 @@ function CountryDatasetChart({
       ),
     );
   }, [granularity, primaryCommodities]);
+
+  useEffect(() => {
+    if (
+      !chartLink?.chartStateKey ||
+      appliedChartStateKeyRef.current === chartLink.chartStateKey
+    ) {
+      return;
+    }
+
+    const nextGranularity = decodeGranularity(chartLink.chartState, "g");
+    const nextCountries = decodeStringArray(
+      chartLink.chartState,
+      "c",
+      defaultCountries,
+      availableCountries,
+    );
+    const nextPrimaryDataset = nextCountries[0]
+      ? getDataset(datasets, nextGranularity, nextCountries[0])
+      : undefined;
+    const nextDefaultHsCodes = getCommodityHsCodes(nextPrimaryDataset?.commodities ?? []);
+
+    appliedChartStateKeyRef.current = chartLink.chartStateKey;
+    initializedGranularityRef.current = nextGranularity;
+    setGranularity(nextGranularity);
+    setValueMode(decodeValueMode(chartLink.chartState, "v"));
+    setSelectedCountries(nextCountries);
+    setCommodityQuery(decodeString(chartLink.chartState, "q"));
+    setSelectedHsCodes(
+      new Set(
+        decodeSelection(
+          chartLink.chartState,
+          "hs",
+          nextDefaultHsCodes,
+          nextDefaultHsCodes,
+        ),
+      ),
+    );
+  }, [
+    availableCountries,
+    chartLink?.chartState,
+    chartLink?.chartStateKey,
+    datasets,
+    defaultCountries,
+  ]);
+
+  function getChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const selectedHsCodesInOrder = defaultHsCodes.filter((hsCode) =>
+      selectedHsCodes.has(hsCode),
+    );
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedCountries = encodeStringArray(selectedCountries, defaultCountries);
+    const encodedQuery = encodeString(commodityQuery);
+    const encodedHsCodes = encodeSelection(selectedHsCodesInOrder, defaultHsCodes);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedCountries) {
+      state.c = encodedCountries;
+    }
+
+    if (encodedQuery) {
+      state.q = encodedQuery;
+    }
+
+    if (encodedHsCodes) {
+      state.hs = encodedHsCodes;
+    }
+
+    return state;
+  }
 
   function toggleCommodity(hsCode?: string | null) {
     if (!hsCode) {
@@ -353,7 +468,9 @@ function CountryDatasetChart({
             </div>
             <div className="chart-header__actions">
               <span className="granularity">{granularity}</span>
-              {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+              {chartLink ? (
+                <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
+              ) : null}
             </div>
           </div>
 

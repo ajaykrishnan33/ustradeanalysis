@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -21,6 +21,15 @@ import {
   sumCommodityValues,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeStringArray,
+  decodeValueMode,
+  encodeGranularity,
+  encodeStringArray,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { ChartRow, Dataset, ExportScope, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
@@ -89,12 +98,24 @@ function ScopedAggregateExportChart({
   datasets,
   chartLink,
 }: ScopedAggregateExportChartProps) {
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
   const availableScopes = useMemo(() => getAvailableScopes(datasets), [datasets]);
-  const [selectedScopes, setSelectedScopes] = useState<ExportScope[]>(
-    () => availableScopes,
+  const initialChartState = chartLink?.chartState;
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialChartState, "g"),
   );
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialChartState, "v"),
+  );
+  const [selectedScopes, setSelectedScopes] = useState<ExportScope[]>(
+    () =>
+      decodeStringArray(
+        initialChartState,
+        "sc",
+        availableScopes,
+        availableScopes,
+      ) as ExportScope[],
+  );
+  const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
   const visibleDatasets = useMemo(
     () =>
       selectedScopes
@@ -122,6 +143,48 @@ function ScopedAggregateExportChart({
   }, [effectiveValueMode, granularity, rows, seriesKeys]);
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
+
+  useEffect(() => {
+    if (
+      !chartLink?.chartStateKey ||
+      appliedChartStateKeyRef.current === chartLink.chartStateKey
+    ) {
+      return;
+    }
+
+    appliedChartStateKeyRef.current = chartLink.chartStateKey;
+    setGranularity(decodeGranularity(chartLink.chartState, "g"));
+    setValueMode(decodeValueMode(chartLink.chartState, "v"));
+    setSelectedScopes(
+      decodeStringArray(
+        chartLink.chartState,
+        "sc",
+        availableScopes,
+        availableScopes,
+      ) as ExportScope[],
+    );
+  }, [availableScopes, chartLink?.chartState, chartLink?.chartStateKey]);
+
+  function getChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedScopes = encodeStringArray(selectedScopes, availableScopes);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedScopes) {
+      state.sc = encodedScopes;
+    }
+
+    return state;
+  }
 
   return (
     <section className="chart-section" aria-label={title}>
@@ -175,7 +238,9 @@ function ScopedAggregateExportChart({
           </div>
           <div className="chart-header__actions">
             <span className="granularity">{granularity}</span>
-            {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+            {chartLink ? (
+              <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
+            ) : null}
           </div>
         </div>
 

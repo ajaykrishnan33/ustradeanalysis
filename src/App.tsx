@@ -11,6 +11,11 @@ import Hs4ImportChart from "./components/Hs4ImportChart";
 import ScopedAggregateExportChart from "./components/ScopedAggregateExportChart";
 import ScopedExportDatasetChart from "./components/ScopedExportDatasetChart";
 import { getChartTargetId } from "./chartLinks";
+import {
+  getChartUrlState,
+  setChartUrlState,
+  type ChartUrlState,
+} from "./chartUrlState";
 import { getHelpContent } from "./helpContent";
 import { sectorConfigs } from "./sectorConfigs";
 import {
@@ -98,7 +103,7 @@ function hasInvalidChartParam(tabId = getTabIdFromUrl()) {
   return chartId !== null && !isValidChartId(tabId, chartId);
 }
 
-function getTabUrl(tabId: string, chartId?: string) {
+function getTabUrl(tabId: string, chartId?: string, chartState?: ChartUrlState) {
   const url = new URL(window.location.href);
   const nextTabId = isValidTabId(tabId) ? tabId : defaultTabId;
 
@@ -106,8 +111,10 @@ function getTabUrl(tabId: string, chartId?: string) {
 
   if (chartId && isValidChartId(nextTabId, chartId)) {
     url.searchParams.set("chart", chartId);
+    setChartUrlState(url, chartState);
   } else {
     url.searchParams.delete("chart");
+    setChartUrlState(url);
   }
 
   return `${url.pathname}${url.search}${url.hash}`;
@@ -291,6 +298,7 @@ function App() {
   const [initialChartId] = useState(() => getChartIdFromUrl(initialTabId));
   const [activeTab, setActiveTab] = useState(initialTabId);
   const [activeChart, setActiveChart] = useState<string | undefined>(initialChartId);
+  const [locationSearch, setLocationSearch] = useState(() => window.location.search);
   const [retryCount, setRetryCount] = useState(0);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const helpButtonRef = useRef<HTMLButtonElement>(null);
@@ -313,6 +321,7 @@ function App() {
     !activeTabData && loadState.tabId === activeTab ? loadState.error : undefined;
   const activeTabLabel = getTabLabel(activeTab);
   const activeHelpContent = getHelpContent(activeTab);
+  const activeChartState = getChartUrlState(locationSearch);
   const loadingMessage = `Loading ${getTabLabel(activeTab)} data...`;
   const summaryStats = getSummaryStats(getSummaryImportDatasets(activeTabData));
 
@@ -323,6 +332,7 @@ function App() {
         "",
         getTabUrl(initialTabId, initialChartId),
       );
+      setLocationSearch(window.location.search);
     }
 
     function handlePopState() {
@@ -339,6 +349,7 @@ function App() {
 
       setActiveTab(nextTabId);
       setActiveChart(nextChartId);
+      setLocationSearch(window.location.search);
     }
 
     window.addEventListener("popstate", handlePopState);
@@ -420,6 +431,7 @@ function App() {
     window.history.pushState({ tabId }, "", getTabUrl(tabId));
     setActiveTab(tabId);
     setActiveChart(undefined);
+    setLocationSearch(window.location.search);
   }
 
   function scrollToChart(tabId: string, chartId: string) {
@@ -430,7 +442,7 @@ function App() {
     });
   }
 
-  function linkToChart(chartId: string) {
+  function linkToChart(chartId: string, chartState?: ChartUrlState) {
     if (!isValidChartId(activeTab, chartId)) {
       return;
     }
@@ -438,10 +450,23 @@ function App() {
     window.history.pushState(
       { tabId: activeTab, chartId },
       "",
-      getTabUrl(activeTab, chartId),
+      getTabUrl(activeTab, chartId, chartState),
     );
     setActiveChart(chartId);
+    setLocationSearch(window.location.search);
     scrollToChart(activeTab, chartId);
+  }
+
+  function getChartLink(chartId: string) {
+    const isActiveChart = activeChart === chartId;
+
+    return {
+      activeTab,
+      chartId,
+      chartState: isActiveChart ? activeChartState : undefined,
+      chartStateKey: isActiveChart ? locationSearch : undefined,
+      onChartLink: linkToChart,
+    };
   }
 
   function openHelp() {
@@ -548,11 +573,7 @@ function App() {
               title="All US-reported imports"
               description="Total customs value across all import commodities for each period, shown separately for every available reporting country."
               datasets={activeTabData.data.importDatasets}
-              chartLink={{
-                activeTab,
-                chartId: "all-imports",
-                onChartLink: linkToChart,
-              }}
+              chartLink={getChartLink("all-imports")}
             />
 
             <CountryDatasetChart
@@ -560,20 +581,12 @@ function App() {
               description="Customs value by two-digit HS import commodity from the US Census trade data."
               datasets={activeTabData.data.importDatasets}
               valueDescription="Customs value by commodity"
-              chartLink={{
-                activeTab,
-                chartId: "hs2-imports",
-                onChartLink: linkToChart,
-              }}
+              chartLink={getChartLink("hs2-imports")}
             />
 
             <Hs4ImportChart
               importHs4Datasets={activeTabData.data.importHs4Datasets}
-              chartLink={{
-                activeTab,
-                chartId: "hs4-imports",
-                onChartLink: linkToChart,
-              }}
+              chartLink={getChartLink("hs4-imports")}
             />
           </section>
         ) : null}
@@ -590,11 +603,7 @@ function App() {
               title="All India-reported exports"
               description="Total export value across all HS commodities for each period."
               datasets={activeTabData.data.exportScopeDatasets}
-              chartLink={{
-                activeTab,
-                chartId: "all-exports",
-                onChartLink: linkToChart,
-              }}
+              chartLink={getChartLink("all-exports")}
             />
 
             <ScopedExportDatasetChart
@@ -602,20 +611,12 @@ function App() {
               description="TradeStat export values by two-digit HS commodity, converted from US $ million to US dollars."
               datasets={activeTabData.data.exportScopeDatasets}
               valueDescription="Export value by HS commodity"
-              chartLink={{
-                activeTab,
-                chartId: "hs2-exports",
-                onChartLink: linkToChart,
-              }}
+              chartLink={getChartLink("hs2-exports")}
             />
 
             <Hs4ExportChart
               exportHs4ScopeDatasets={activeTabData.data.exportHs4ScopeDatasets}
-              chartLink={{
-                activeTab,
-                chartId: "hs4-exports",
-                onChartLink: linkToChart,
-              }}
+              chartLink={getChartLink("hs4-exports")}
             />
           </section>
         ) : null}
@@ -630,20 +631,12 @@ function App() {
             <ComparisonChart
               exportDatasets={activeTabData.data.exportDatasets}
               indiaImportDatasets={activeTabData.data.indiaImportDatasets}
-              chartLink={{
-                activeTab,
-                chartId: "hs2-comparison",
-                onChartLink: linkToChart,
-              }}
+              chartLink={getChartLink("hs2-comparison")}
             />
             <Hs4ComparisonChart
               exportHs4Datasets={activeTabData.data.exportHs4Datasets}
               indiaImportHs4Datasets={activeTabData.data.indiaImportHs4Datasets}
-              chartLink={{
-                activeTab,
-                chartId: "hs4-comparison",
-                onChartLink: linkToChart,
-              }}
+              chartLink={getChartLink("hs4-comparison")}
             />
           </section>
         ) : null}
@@ -659,6 +652,9 @@ function App() {
             <CommodityWiseTab
               {...activeTabData.data}
               activeTab={activeTab}
+              activeChart={activeChart}
+              chartState={activeChartState}
+              chartStateKey={locationSearch}
               onChartLink={linkToChart}
             />
           </section>
@@ -675,6 +671,9 @@ function App() {
               key={activeTabData.data.id}
               config={activeTabData.data}
               activeTab={activeTab}
+              activeChart={activeChart}
+              chartState={activeChartState}
+              chartStateKey={locationSearch}
               onChartLink={linkToChart}
             />
           </section>

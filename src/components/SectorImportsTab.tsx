@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -21,6 +21,17 @@ import {
   getRowValue,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeString,
+  decodeStringArray,
+  decodeValueMode,
+  encodeGranularity,
+  encodeString,
+  encodeStringArray,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { SectorConfig } from "../sectorConfigs";
 import type {
   ChartRow,
@@ -71,6 +82,7 @@ type ParsedHs6Input = {
 type Hs6SumTimeView = "monthly" | "calendarYear" | "fiscalYear";
 
 const defaultImportScopeKey = "import:India";
+const hs6SumTimeViews: Hs6SumTimeView[] = ["monthly", "calendarYear", "fiscalYear"];
 const defaultHs6SumExportScopeKeys = exportScopeOrder.map((scope) =>
   getScopeKey({ type: "export", scope }),
 );
@@ -189,6 +201,36 @@ function getDefaultHs6SumScopeKeys(scopeOptions: SectorScopeOption[]) {
   }
 
   return scopeOptions.slice(0, 1).map((option) => option.key);
+}
+
+function getDefaultScopeKeys(scopeOptions: SectorScopeOption[]) {
+  return scopeOptions.some((option) => option.key === defaultImportScopeKey)
+    ? [defaultImportScopeKey]
+    : scopeOptions.slice(0, 1).map((option) => option.key);
+}
+
+function getHs2Codes(options: Hs2Option[]) {
+  return options.map((option) => option.hsCode);
+}
+
+function getHs4Codes(options: Hs4Option[]) {
+  return options.map((option) => option.hs4Code);
+}
+
+function getHs6Codes(options: Hs6Option[]) {
+  return options.map((option) => option.hs6Code);
+}
+
+function getHs8Codes(options: Hs8Option[]) {
+  return options.map((option) => option.hs8Code);
+}
+
+function isSectorLevel(value: string | undefined): value is SectorLevel {
+  return value === "hs2" || value === "hs4" || value === "hs6" || value === "hs8";
+}
+
+function decodeHs6SumTimeView(state: ChartUrlState | undefined) {
+  return decodeString(state, "bt", "monthly", hs6SumTimeViews) as Hs6SumTimeView;
 }
 
 function findDataset(
@@ -898,11 +940,17 @@ function SectorLineChart({
 export function SectorImportsTab({
   config,
   activeTab,
+  activeChart,
+  chartState,
+  chartStateKey,
   onChartLink,
 }: {
   config: SectorConfig;
   activeTab: string;
-  onChartLink: (chartId: string) => void;
+  activeChart?: string;
+  chartState?: ChartUrlState;
+  chartStateKey?: string;
+  onChartLink: (chartId: string, chartState?: ChartUrlState) => void;
 }) {
   const levelsToRender = config.levelsToRender ?? ["hs2", "hs4", "hs6"];
   const shouldRenderHs8 = levelsToRender.includes("hs8");
@@ -910,38 +958,93 @@ export function SectorImportsTab({
   const hs2Options = useMemo(() => buildHs2Options(config), [config]);
   const knownHs6Labels = useMemo(() => buildKnownHs6Labels(config), [config]);
   const hs10CodeCounts = useMemo(() => buildHs10CodeCounts(config), [config]);
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
+  const standardChartIds = levelsToRender;
+  const defaultScopeKeys = useMemo(() => getDefaultScopeKeys(scopeOptions), [scopeOptions]);
+  const defaultHs6SumScopeKeys = useMemo(
+    () => getDefaultHs6SumScopeKeys(scopeOptions),
+    [scopeOptions],
+  );
+  const scopeKeys = useMemo(
+    () => scopeOptions.map((option) => option.key),
+    [scopeOptions],
+  );
+  const knownHs6Codes = useMemo(
+    () => [...knownHs6Labels.keys()],
+    [knownHs6Labels],
+  );
+  const hs2Codes = useMemo(() => getHs2Codes(hs2Options), [hs2Options]);
+  const defaultHs2Code = hs2Options[0]?.hsCode ?? "";
+  const initialStandardState =
+    isSectorLevel(activeChart) && standardChartIds.includes(activeChart)
+      ? chartState
+      : undefined;
+  const initialBasketState = activeChart === "hs6-sum" ? chartState : undefined;
+  const initialHs6SumCodes = useMemo(
+    () =>
+      decodeStringArray(
+        initialBasketState,
+        "bc",
+        config.defaultHs6SumCodes,
+        knownHs6Codes,
+      ),
+    [config.defaultHs6SumCodes, initialBasketState, knownHs6Codes],
+  );
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialStandardState, "g"),
+  );
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialStandardState, "v"),
+  );
   const [selectedScopeKeys, setSelectedScopeKeys] = useState<string[]>(() =>
-    scopeOptions.some((option) => option.key === defaultImportScopeKey)
-      ? [defaultImportScopeKey]
-      : scopeOptions.slice(0, 1).map((option) => option.key),
+    decodeStringArray(initialStandardState, "sc", defaultScopeKeys, scopeKeys),
   );
   const [selectedHs6SumScopeKeys, setSelectedHs6SumScopeKeys] = useState<string[]>(
-    () => getDefaultHs6SumScopeKeys(scopeOptions),
+    () => decodeStringArray(initialBasketState, "bsc", defaultHs6SumScopeKeys, scopeKeys),
   );
-  const [hs6SumTimeView, setHs6SumTimeView] = useState<Hs6SumTimeView>("monthly");
-  const [hs6SumValueMode, setHs6SumValueMode] = useState<ChartValueMode>("value");
-  const [selectedHs2Code, setSelectedHs2Code] = useState("");
+  const [hs6SumTimeView, setHs6SumTimeView] = useState<Hs6SumTimeView>(() =>
+    decodeHs6SumTimeView(initialBasketState),
+  );
+  const [hs6SumValueMode, setHs6SumValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialBasketState, "bvm"),
+  );
+  const [selectedHs2Code, setSelectedHs2Code] = useState(() =>
+    decodeString(initialStandardState, "h2", defaultHs2Code, hs2Codes),
+  );
   const hs4Options = useMemo(
     () => buildHs4Options(config, selectedHs2Code),
     [config, selectedHs2Code],
   );
-  const [selectedHs4Code, setSelectedHs4Code] = useState("");
+  const hs4Codes = useMemo(() => getHs4Codes(hs4Options), [hs4Options]);
+  const defaultHs4Code = hs4Options[0]?.hs4Code ?? "";
+  const [selectedHs4Code, setSelectedHs4Code] = useState(() =>
+    decodeString(initialStandardState, "h4", defaultHs4Code, hs4Codes),
+  );
   const hs6Options = useMemo(
     () => buildHs6Options(config, selectedHs4Code),
     [config, selectedHs4Code],
   );
-  const [selectedHs6Code, setSelectedHs6Code] = useState("");
+  const hs6Codes = useMemo(() => getHs6Codes(hs6Options), [hs6Options]);
+  const defaultHs6Code = hs6Options[0]?.hs6Code ?? "";
+  const [selectedHs6Code, setSelectedHs6Code] = useState(() =>
+    decodeString(initialStandardState, "h6", defaultHs6Code, hs6Codes),
+  );
   const hs8Options = useMemo(
     () => buildHs8Options(config, selectedHs6Code),
     [config, selectedHs6Code],
   );
-  const [selectedHs8Code, setSelectedHs8Code] = useState("");
-  const [hs6SumInput, setHs6SumInput] = useState(
-    config.defaultHs6SumCodes.join("\n"),
+  const hs8Codes = useMemo(() => getHs8Codes(hs8Options), [hs8Options]);
+  const defaultHs8Code = hs8Options[0]?.hs8Code ?? "";
+  const [selectedHs8Code, setSelectedHs8Code] = useState(() =>
+    decodeString(initialStandardState, "h8", defaultHs8Code, hs8Codes),
   );
-  const [selectedHs6SumCode, setSelectedHs6SumCode] = useState(allHs6SumCodesKey);
+  const [hs6SumInput, setHs6SumInput] = useState(initialHs6SumCodes.join("\n"));
+  const [selectedHs6SumCode, setSelectedHs6SumCode] = useState(() =>
+    decodeString(initialBasketState, "bsel", allHs6SumCodesKey, [
+      allHs6SumCodesKey,
+      ...initialHs6SumCodes,
+    ]),
+  );
+  const appliedChartStateKeyRef = useRef<string | undefined>(chartStateKey);
   const selectedScopes = useMemo(
     () =>
       selectedScopeKeys
@@ -1086,44 +1189,58 @@ export function SectorImportsTab({
   const sectorTitleLower = config.title.toLowerCase();
 
   useEffect(() => {
+    if (selectedHs2Code && hs2Options.some((option) => option.hsCode === selectedHs2Code)) {
+      return;
+    }
+
+    setSelectedHs2Code(defaultHs2Code);
+  }, [defaultHs2Code, hs2Options, selectedHs2Code]);
+
+  useEffect(() => {
+    const nextHs4Code = hs4Options[0]?.hs4Code ?? "";
+
     if (!selectedHs2Code) {
       setSelectedHs4Code("");
       return;
     }
 
     if (
-      selectedHs4Code &&
+      !selectedHs4Code ||
       !hs4Options.some((option) => option.hs4Code === selectedHs4Code)
     ) {
-      setSelectedHs4Code("");
+      setSelectedHs4Code(nextHs4Code);
     }
   }, [hs4Options, selectedHs2Code, selectedHs4Code]);
 
   useEffect(() => {
+    const nextHs6Code = hs6Options[0]?.hs6Code ?? "";
+
     if (!selectedHs4Code) {
       setSelectedHs6Code("");
       return;
     }
 
     if (
-      selectedHs6Code &&
+      !selectedHs6Code ||
       !hs6Options.some((option) => option.hs6Code === selectedHs6Code)
     ) {
-      setSelectedHs6Code("");
+      setSelectedHs6Code(nextHs6Code);
     }
   }, [hs6Options, selectedHs4Code, selectedHs6Code]);
 
   useEffect(() => {
+    const nextHs8Code = hs8Options[0]?.hs8Code ?? "";
+
     if (!selectedHs6Code) {
       setSelectedHs8Code("");
       return;
     }
 
     if (
-      selectedHs8Code &&
+      !selectedHs8Code ||
       !hs8Options.some((option) => option.hs8Code === selectedHs8Code)
     ) {
-      setSelectedHs8Code("");
+      setSelectedHs8Code(nextHs8Code);
     }
   }, [hs8Options, selectedHs6Code, selectedHs8Code]);
 
@@ -1135,6 +1252,180 @@ export function SectorImportsTab({
       setSelectedHs6SumCode(allHs6SumCodesKey);
     }
   }, [parsedHs6SumInput.selectedCodes, selectedHs6SumCode]);
+
+  useEffect(() => {
+    if (
+      !chartStateKey ||
+      appliedChartStateKeyRef.current === chartStateKey ||
+      activeChart !== "hs6-sum"
+    ) {
+      return;
+    }
+
+    const nextHs6SumCodes = decodeStringArray(
+      chartState,
+      "bc",
+      config.defaultHs6SumCodes,
+      knownHs6Codes,
+    );
+
+    appliedChartStateKeyRef.current = chartStateKey;
+    setSelectedHs6SumScopeKeys(
+      decodeStringArray(chartState, "bsc", defaultHs6SumScopeKeys, scopeKeys),
+    );
+    setHs6SumTimeView(decodeHs6SumTimeView(chartState));
+    setHs6SumValueMode(decodeValueMode(chartState, "bvm"));
+    setHs6SumInput(nextHs6SumCodes.join("\n"));
+    setSelectedHs6SumCode(
+      decodeString(chartState, "bsel", allHs6SumCodesKey, [
+        allHs6SumCodesKey,
+        ...nextHs6SumCodes,
+      ]),
+    );
+  }, [
+    activeChart,
+    chartState,
+    chartStateKey,
+    config.defaultHs6SumCodes,
+    defaultHs6SumScopeKeys,
+    knownHs6Codes,
+    scopeKeys,
+  ]);
+
+  useEffect(() => {
+    if (
+      !chartStateKey ||
+      appliedChartStateKeyRef.current === chartStateKey ||
+      !activeChart ||
+      !isSectorLevel(activeChart) ||
+      !standardChartIds.includes(activeChart)
+    ) {
+      return;
+    }
+
+    const nextDefaultHs2Code = hs2Options[0]?.hsCode ?? "";
+    const nextHs2Code = decodeString(chartState, "h2", nextDefaultHs2Code, hs2Codes);
+    const nextHs4Options = buildHs4Options(config, nextHs2Code);
+    const nextHs4Codes = getHs4Codes(nextHs4Options);
+    const nextDefaultHs4Code = nextHs4Options[0]?.hs4Code ?? "";
+    const nextHs4Code = decodeString(
+      chartState,
+      "h4",
+      nextDefaultHs4Code,
+      nextHs4Codes,
+    );
+    const nextHs6Options = buildHs6Options(config, nextHs4Code);
+    const nextHs6Codes = getHs6Codes(nextHs6Options);
+    const nextDefaultHs6Code = nextHs6Options[0]?.hs6Code ?? "";
+    const nextHs6Code = decodeString(
+      chartState,
+      "h6",
+      nextDefaultHs6Code,
+      nextHs6Codes,
+    );
+    const nextHs8Options = buildHs8Options(config, nextHs6Code);
+    const nextHs8Codes = getHs8Codes(nextHs8Options);
+    const nextDefaultHs8Code = nextHs8Options[0]?.hs8Code ?? "";
+
+    appliedChartStateKeyRef.current = chartStateKey;
+    setGranularity(decodeGranularity(chartState, "g"));
+    setValueMode(decodeValueMode(chartState, "v"));
+    setSelectedScopeKeys(decodeStringArray(chartState, "sc", defaultScopeKeys, scopeKeys));
+    setSelectedHs2Code(nextHs2Code);
+    setSelectedHs4Code(nextHs4Code);
+    setSelectedHs6Code(nextHs6Code);
+    setSelectedHs8Code(
+      decodeString(chartState, "h8", nextDefaultHs8Code, nextHs8Codes),
+    );
+  }, [
+    activeChart,
+    chartState,
+    chartStateKey,
+    config,
+    defaultScopeKeys,
+    hs2Codes,
+    hs2Options,
+    scopeKeys,
+    standardChartIds,
+  ]);
+
+  function getHs6SumChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const encodedScopes = encodeStringArray(
+      selectedHs6SumScopeKeys,
+      defaultHs6SumScopeKeys,
+    );
+    const encodedTimeView = encodeString(hs6SumTimeView, "monthly");
+    const encodedValueMode = encodeValueMode(hs6SumValueMode);
+    const encodedCodes = encodeStringArray(
+      parsedHs6SumInput.selectedCodes,
+      config.defaultHs6SumCodes,
+    );
+    const encodedSelectedCode = encodeString(selectedHs6SumCode, allHs6SumCodesKey);
+
+    if (encodedScopes) {
+      state.bsc = encodedScopes;
+    }
+
+    if (encodedTimeView) {
+      state.bt = encodedTimeView;
+    }
+
+    if (encodedValueMode) {
+      state.bvm = encodedValueMode;
+    }
+
+    if (encodedCodes) {
+      state.bc = encodedCodes;
+    }
+
+    if (encodedSelectedCode) {
+      state.bsel = encodedSelectedCode;
+    }
+
+    return state;
+  }
+
+  function getStandardChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedScopes = encodeStringArray(selectedScopeKeys, defaultScopeKeys);
+    const encodedHs2Code = encodeString(selectedHs2Code, defaultHs2Code);
+    const encodedHs4Code = encodeString(selectedHs4Code, defaultHs4Code);
+    const encodedHs6Code = encodeString(selectedHs6Code, defaultHs6Code);
+    const encodedHs8Code = encodeString(selectedHs8Code, defaultHs8Code);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedScopes) {
+      state.sc = encodedScopes;
+    }
+
+    if (encodedHs2Code) {
+      state.h2 = encodedHs2Code;
+    }
+
+    if (encodedHs4Code) {
+      state.h4 = encodedHs4Code;
+    }
+
+    if (encodedHs6Code) {
+      state.h6 = encodedHs6Code;
+    }
+
+    if (shouldRenderHs8 && encodedHs8Code) {
+      state.h8 = encodedHs8Code;
+    }
+
+    return state;
+  }
 
   return (
     <section className="chart-section" aria-label={`${config.title} imports`}>
@@ -1232,7 +1523,12 @@ export function SectorImportsTab({
             selectedScopes={selectedHs6SumScopes}
             granularity={hs6SumGranularity}
             granularityLabel={hs6SumGranularityLabel}
-            chartLink={{ activeTab, chartId: "hs6-sum", onChartLink }}
+            chartLink={{
+              activeTab,
+              chartId: "hs6-sum",
+              getChartParams: getHs6SumChartParams,
+              onChartLink,
+            }}
             tooltipGrowthMode={hs6SumTooltipGrowthMode}
             effectiveValueMode={hs6SumEffectiveValueMode}
             valueFormatter={hs6SumValueFormatter}
@@ -1294,7 +1590,12 @@ export function SectorImportsTab({
           rows={hs2Rows}
           selectedScopes={selectedScopes}
           granularity={granularity}
-          chartLink={{ activeTab, chartId: "hs2", onChartLink }}
+          chartLink={{
+            activeTab,
+            chartId: "hs2",
+            getChartParams: getStandardChartParams,
+            onChartLink,
+          }}
           tooltipGrowthMode={tooltipGrowthMode}
           effectiveValueMode={effectiveValueMode}
           valueFormatter={valueFormatter}
@@ -1333,7 +1634,12 @@ export function SectorImportsTab({
           rows={hs4Rows}
           selectedScopes={selectedScopes}
           granularity={granularity}
-          chartLink={{ activeTab, chartId: "hs4", onChartLink }}
+          chartLink={{
+            activeTab,
+            chartId: "hs4",
+            getChartParams: getStandardChartParams,
+            onChartLink,
+          }}
           tooltipGrowthMode={tooltipGrowthMode}
           effectiveValueMode={effectiveValueMode}
           valueFormatter={valueFormatter}
@@ -1372,7 +1678,12 @@ export function SectorImportsTab({
           rows={hs6Rows}
           selectedScopes={selectedScopes}
           granularity={granularity}
-          chartLink={{ activeTab, chartId: "hs6", onChartLink }}
+          chartLink={{
+            activeTab,
+            chartId: "hs6",
+            getChartParams: getStandardChartParams,
+            onChartLink,
+          }}
           tooltipGrowthMode={tooltipGrowthMode}
           effectiveValueMode={effectiveValueMode}
           valueFormatter={valueFormatter}
@@ -1413,7 +1724,12 @@ export function SectorImportsTab({
               rows={hs8Rows}
               selectedScopes={selectedScopes}
               granularity={granularity}
-              chartLink={{ activeTab, chartId: "hs8", onChartLink }}
+              chartLink={{
+                activeTab,
+                chartId: "hs8",
+                getChartParams: getStandardChartParams,
+                onChartLink,
+              }}
               tooltipGrowthMode={tooltipGrowthMode}
               effectiveValueMode={effectiveValueMode}
               valueFormatter={valueFormatter}

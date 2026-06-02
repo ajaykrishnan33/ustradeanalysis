@@ -1,11 +1,11 @@
 import type { ChartLinkProps } from "../chartLinks";
 
-function ChartLinkButton({ chartId, onChartLink }: ChartLinkProps) {
+function ChartLinkButton({ chartId, getChartParams, onChartLink }: ChartLinkProps) {
   return (
     <button
       type="button"
       className="chart-link-button"
-      onClick={() => onChartLink(chartId)}
+      onClick={() => onChartLink(chartId, getChartParams?.())}
       aria-label="Link to this chart"
     >
       Link

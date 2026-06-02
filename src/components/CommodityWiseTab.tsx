@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -21,6 +21,17 @@ import {
   getRowValue,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeString,
+  decodeStringArray,
+  decodeValueMode,
+  encodeGranularity,
+  encodeString,
+  encodeStringArray,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { ChartRow, Dataset, ExportScope, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
@@ -54,7 +65,10 @@ type CommodityWiseTabData = {
 
 type CommodityWiseTabProps = CommodityWiseTabData & {
   activeTab: string;
-  onChartLink: (chartId: string) => void;
+  activeChart?: string;
+  chartState?: ChartUrlState;
+  chartStateKey?: string;
+  onChartLink: (chartId: string, chartState?: ChartUrlState) => void;
 };
 
 const defaultImportScopeKey = "import:India";
@@ -99,6 +113,20 @@ function buildScopeOptions(data: CommodityWiseTabData) {
     }));
 
   return [...exportOptions, ...importOptions];
+}
+
+function getDefaultScopeKeys(scopeOptions: CommodityScopeOption[]) {
+  return scopeOptions.some((option) => option.key === defaultImportScopeKey)
+    ? [defaultImportScopeKey]
+    : scopeOptions.slice(0, 1).map((option) => option.key);
+}
+
+function getHs2Codes(options: Hs2Option[]) {
+  return options.map((option) => option.hsCode);
+}
+
+function getHs4Codes(options: Hs4Option[]) {
+  return options.map((option) => option.hs4Code);
 }
 
 function findScopedDataset(
@@ -459,19 +487,41 @@ function CommodityLineChart({
 function CommodityWiseTab(data: CommodityWiseTabProps) {
   const scopeOptions = useMemo(() => buildScopeOptions(data), [data]);
   const hs2Options = useMemo(() => buildHs2Options(data), [data]);
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
-  const [selectedScopeKeys, setSelectedScopeKeys] = useState<string[]>(() =>
-    scopeOptions.some((option) => option.key === defaultImportScopeKey)
-      ? [defaultImportScopeKey]
-      : scopeOptions.slice(0, 1).map((option) => option.key),
+  const defaultScopeKeys = useMemo(
+    () => getDefaultScopeKeys(scopeOptions),
+    [scopeOptions],
   );
-  const [selectedHs2Code, setSelectedHs2Code] = useState("");
+  const hs2Codes = useMemo(() => getHs2Codes(hs2Options), [hs2Options]);
+  const initialChartState =
+    data.activeChart === "hs2-commodity" || data.activeChart === "hs4-commodity"
+      ? data.chartState
+      : undefined;
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialChartState, "g"),
+  );
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialChartState, "v"),
+  );
+  const [selectedScopeKeys, setSelectedScopeKeys] = useState<string[]>(() =>
+    decodeStringArray(
+      initialChartState,
+      "sc",
+      defaultScopeKeys,
+      scopeOptions.map((option) => option.key),
+    ),
+  );
+  const [selectedHs2Code, setSelectedHs2Code] = useState(() =>
+    decodeString(initialChartState, "h2", "", hs2Codes),
+  );
   const hs4Options = useMemo(
     () => buildHs4Options(data, selectedHs2Code),
     [data, selectedHs2Code],
   );
-  const [selectedHs4Code, setSelectedHs4Code] = useState("");
+  const hs4Codes = useMemo(() => getHs4Codes(hs4Options), [hs4Options]);
+  const [selectedHs4Code, setSelectedHs4Code] = useState(() =>
+    decodeString(initialChartState, "h4", "", hs4Codes),
+  );
+  const appliedChartStateKeyRef = useRef<string | undefined>(data.chartStateKey);
   const selectedScopes = useMemo(
     () =>
       selectedScopeKeys
@@ -528,6 +578,73 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
 
     setSelectedHs4Code(hs4Options[0]?.hs4Code ?? "");
   }, [hs4Options, selectedHs4Code]);
+
+  useEffect(() => {
+    if (
+      !data.chartStateKey ||
+      appliedChartStateKeyRef.current === data.chartStateKey ||
+      (data.activeChart !== "hs2-commodity" && data.activeChart !== "hs4-commodity")
+    ) {
+      return;
+    }
+
+    const nextHs2Code = decodeString(data.chartState, "h2", "", hs2Codes);
+    const nextHs4Options = buildHs4Options(data, nextHs2Code);
+    const nextHs4Codes = getHs4Codes(nextHs4Options);
+
+    appliedChartStateKeyRef.current = data.chartStateKey;
+    setGranularity(decodeGranularity(data.chartState, "g"));
+    setValueMode(decodeValueMode(data.chartState, "v"));
+    setSelectedScopeKeys(
+      decodeStringArray(
+        data.chartState,
+        "sc",
+        defaultScopeKeys,
+        scopeOptions.map((option) => option.key),
+      ),
+    );
+    setSelectedHs2Code(nextHs2Code);
+    setSelectedHs4Code(decodeString(data.chartState, "h4", "", nextHs4Codes));
+  }, [
+    data,
+    data.activeChart,
+    data.chartState,
+    data.chartStateKey,
+    defaultScopeKeys,
+    hs2Codes,
+    scopeOptions,
+  ]);
+
+  function getChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedScopes = encodeStringArray(selectedScopeKeys, defaultScopeKeys);
+    const encodedHs2Code = encodeString(selectedHs2Code);
+    const encodedHs4Code = encodeString(selectedHs4Code);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedScopes) {
+      state.sc = encodedScopes;
+    }
+
+    if (encodedHs2Code) {
+      state.h2 = encodedHs2Code;
+    }
+
+    if (encodedHs4Code) {
+      state.h4 = encodedHs4Code;
+    }
+
+    return state;
+  }
 
   return (
     <section className="chart-section" aria-label="Commodity wise comparison">
@@ -594,6 +711,7 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
           chartLink={{
             activeTab: data.activeTab,
             chartId: "hs2-commodity",
+            getChartParams,
             onChartLink: data.onChartLink,
           }}
           effectiveValueMode={effectiveValueMode}
@@ -635,6 +753,7 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
           chartLink={{
             activeTab: data.activeTab,
             chartId: "hs4-commodity",
+            getChartParams,
             onChartLink: data.onChartLink,
           }}
           effectiveValueMode={effectiveValueMode}

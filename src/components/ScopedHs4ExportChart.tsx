@@ -21,6 +21,19 @@ import {
   getRowValue,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
+import {
+  decodeGranularity,
+  decodeSelection,
+  decodeString,
+  decodeStringArray,
+  decodeValueMode,
+  encodeGranularity,
+  encodeSelection,
+  encodeString,
+  encodeStringArray,
+  encodeValueMode,
+  type ChartUrlState,
+} from "../chartUrlState";
 import type { ChartRow, Commodity, Dataset, ExportScope, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
@@ -50,6 +63,14 @@ function seriesKey(scope: ExportScope, hs4Code: string) {
 function getAvailableScopes(datasets: Dataset[]) {
   const scopes = new Set(datasets.map((dataset) => dataset.scope));
   return exportScopeOrder.filter((scope) => scopes.has(scope));
+}
+
+function getDefaultScopes(scopes: ExportScope[]) {
+  return scopes.includes("us") ? ["us"] : scopes.slice(0, 1);
+}
+
+function getHs2Codes(options: Hs2Option[]) {
+  return options.map((option) => option.hsCode);
 }
 
 function getDataset(
@@ -146,16 +167,29 @@ function ScopedHs4ExportChart({
   emptyMessage,
   chartLink,
 }: ScopedHs4ExportChartProps) {
-  const [granularity, setGranularity] = useState<Granularity>("monthly");
-  const [valueMode, setValueMode] = useState<ChartValueMode>("value");
   const availableScopes = useMemo(() => getAvailableScopes(datasets), [datasets]);
-  const [selectedScopes, setSelectedScopes] = useState<ExportScope[]>(() =>
-    availableScopes.includes("us") ? ["us"] : availableScopes.slice(0, 1),
+  const defaultScopes = useMemo(() => getDefaultScopes(availableScopes), [availableScopes]);
+  const initialChartState = chartLink?.chartState;
+  const [granularity, setGranularity] = useState<Granularity>(() =>
+    decodeGranularity(initialChartState, "g"),
   );
-  const [commodityQuery, setCommodityQuery] = useState("");
-  const [selectedHs2Code, setSelectedHs2Code] = useState("");
-  const [selectedHs4Codes, setSelectedHs4Codes] = useState<Set<string>>(new Set());
-  const initializedGranularityRef = useRef<Granularity | null>(null);
+  const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
+    decodeValueMode(initialChartState, "v"),
+  );
+  const [selectedScopes, setSelectedScopes] = useState<ExportScope[]>(
+    () =>
+      decodeStringArray(
+        initialChartState,
+        "sc",
+        defaultScopes,
+        availableScopes,
+      ) as ExportScope[],
+  );
+  const [commodityQuery, setCommodityQuery] = useState(() =>
+    decodeString(initialChartState, "q"),
+  );
+  const initializedGranularityRef = useRef<Granularity | null>(granularity);
+  const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
   const visibleDatasets = selectedScopes
     .map((scope) => getDataset(datasets, granularity, scope))
     .filter((dataset): dataset is Dataset => Boolean(dataset));
@@ -167,8 +201,17 @@ function ScopedHs4ExportChart({
     () => (primaryDataset ? buildHs2Options(primaryDataset) : []),
     [primaryDataset],
   );
+  const hs2Codes = useMemo(() => getHs2Codes(hs2Options), [hs2Options]);
+  const defaultHs2Code = hs2Options[0]?.hsCode ?? "";
+  const [selectedHs2Code, setSelectedHs2Code] = useState(() =>
+    decodeString(initialChartState, "h2", defaultHs2Code, hs2Codes),
+  );
   const selectedHs2Option = hs2Options.find(
     (option) => option.hsCode === selectedHs2Code,
+  );
+  const defaultHs4Codes = selectedHs2Option?.hs4Codes ?? [];
+  const [selectedHs4Codes, setSelectedHs4Codes] = useState<Set<string>>(
+    () => new Set(decodeSelection(initialChartState, "hs", defaultHs4Codes, defaultHs4Codes)),
   );
   const selectedHs2Commodities = useMemo(() => {
     const selectedCodes = new Set(selectedHs2Option?.hs4Codes ?? []);
@@ -254,6 +297,100 @@ function ScopedHs4ExportChart({
     setSelectedHs2Code(firstOption?.hsCode ?? "");
     setSelectedHs4Codes(new Set(firstOption?.hs4Codes ?? []));
   }, [granularity, hs2Options]);
+
+  useEffect(() => {
+    if (
+      !chartLink?.chartStateKey ||
+      appliedChartStateKeyRef.current === chartLink.chartStateKey
+    ) {
+      return;
+    }
+
+    const nextGranularity = decodeGranularity(chartLink.chartState, "g");
+    const nextScopes = decodeStringArray(
+      chartLink.chartState,
+      "sc",
+      defaultScopes,
+      availableScopes,
+    ) as ExportScope[];
+    const nextPrimaryDataset = nextScopes[0]
+      ? getDataset(datasets, nextGranularity, nextScopes[0])
+      : undefined;
+    const nextHs2Options = nextPrimaryDataset ? buildHs2Options(nextPrimaryDataset) : [];
+    const nextHs2Codes = getHs2Codes(nextHs2Options);
+    const nextDefaultHs2Code = nextHs2Options[0]?.hsCode ?? "";
+    const nextHs2Code = decodeString(
+      chartLink.chartState,
+      "h2",
+      nextDefaultHs2Code,
+      nextHs2Codes,
+    );
+    const nextDefaultHs4Codes =
+      nextHs2Options.find((option) => option.hsCode === nextHs2Code)?.hs4Codes ?? [];
+
+    appliedChartStateKeyRef.current = chartLink.chartStateKey;
+    initializedGranularityRef.current = nextGranularity;
+    setGranularity(nextGranularity);
+    setValueMode(decodeValueMode(chartLink.chartState, "v"));
+    setSelectedScopes(nextScopes);
+    setCommodityQuery(decodeString(chartLink.chartState, "q"));
+    setSelectedHs2Code(nextHs2Code);
+    setSelectedHs4Codes(
+      new Set(
+        decodeSelection(
+          chartLink.chartState,
+          "hs",
+          nextDefaultHs4Codes,
+          nextDefaultHs4Codes,
+        ),
+      ),
+    );
+  }, [
+    availableScopes,
+    chartLink?.chartState,
+    chartLink?.chartStateKey,
+    datasets,
+    defaultScopes,
+  ]);
+
+  function getChartParams(): ChartUrlState {
+    const state: ChartUrlState = {};
+    const selectedHs4CodesInOrder = defaultHs4Codes.filter((hs4Code) =>
+      selectedHs4Codes.has(hs4Code),
+    );
+    const encodedGranularity = encodeGranularity(granularity);
+    const encodedValueMode = encodeValueMode(valueMode);
+    const encodedScopes = encodeStringArray(selectedScopes, defaultScopes);
+    const encodedQuery = encodeString(commodityQuery);
+    const encodedHs2Code = encodeString(selectedHs2Code, defaultHs2Code);
+    const encodedHs4Codes = encodeSelection(selectedHs4CodesInOrder, defaultHs4Codes);
+
+    if (encodedGranularity) {
+      state.g = encodedGranularity;
+    }
+
+    if (encodedValueMode) {
+      state.v = encodedValueMode;
+    }
+
+    if (encodedScopes) {
+      state.sc = encodedScopes;
+    }
+
+    if (encodedQuery) {
+      state.q = encodedQuery;
+    }
+
+    if (encodedHs2Code) {
+      state.h2 = encodedHs2Code;
+    }
+
+    if (encodedHs4Codes) {
+      state.hs = encodedHs4Codes;
+    }
+
+    return state;
+  }
 
   function selectHs2(hsCode: string) {
     setSelectedHs2Code(hsCode);
@@ -410,7 +547,9 @@ function ScopedHs4ExportChart({
             </div>
             <div className="chart-header__actions">
               <span className="granularity">{granularity}</span>
-              {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+              {chartLink ? (
+                <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
+              ) : null}
             </div>
           </div>
 
