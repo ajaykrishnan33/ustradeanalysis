@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import {
   buildMonthlyGrowthRows,
+  buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   exportScopeOrder,
   formatCompactNumber,
@@ -19,7 +20,9 @@ import {
   getLineColor,
   getRowValue,
 } from "../chartUtils";
+import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import type { ChartRow, Commodity, Dataset, ExportScope, Granularity } from "../types";
+import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
 import ExportScopeMultiSelect from "./ExportScopeMultiSelect";
 import SharedTooltip from "./SharedTooltip";
@@ -33,11 +36,11 @@ type Hs2Option = {
 
 type ScopedHs4ExportChartProps = {
   title: string;
-  eyebrow: string;
   description: string;
   datasets: Dataset[];
   valueDescription: string;
   emptyMessage: string;
+  chartLink?: ChartLinkProps;
 };
 
 function seriesKey(scope: ExportScope, hs4Code: string) {
@@ -137,11 +140,11 @@ function buildRows({
 
 function ScopedHs4ExportChart({
   title,
-  eyebrow,
   description,
   datasets,
   valueDescription,
   emptyMessage,
+  chartLink,
 }: ScopedHs4ExportChartProps) {
   const [granularity, setGranularity] = useState<Granularity>("monthly");
   const [valueMode, setValueMode] = useState<ChartValueMode>("value");
@@ -222,8 +225,12 @@ function ScopedHs4ExportChart({
       return buildMonthlyGrowthRows(rows, seriesKeys);
     }
 
+    if (granularity === "monthly") {
+      return buildSameMonthPreviousYearTooltipRows(rows, seriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, rows, seriesKeys]);
+  }, [effectiveValueMode, granularity, rows, seriesKeys]);
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
   const topCommodity = useMemo(
@@ -286,7 +293,6 @@ function ScopedHs4ExportChart({
     <section className="chart-section" aria-label={title}>
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{eyebrow}</p>
           <h2>{title}</h2>
           <p>{description}</p>
         </div>
@@ -379,7 +385,15 @@ function ScopedHs4ExportChart({
           </div>
         </aside>
 
-        <section className="chart-card" aria-label={`${title} line chart`}>
+        <section
+          className={chartLink ? "chart-card chart-target" : "chart-card"}
+          id={
+            chartLink
+              ? getChartTargetId(chartLink.activeTab, chartLink.chartId)
+              : undefined
+          }
+          aria-label={`${title} line chart`}
+        >
           <div className="chart-header">
             <div>
               <h2>{valueDescription}</h2>
@@ -394,7 +408,10 @@ function ScopedHs4ExportChart({
                   : ""}
               </p>
             </div>
-            <span className="granularity">{granularity}</span>
+            <div className="chart-header__actions">
+              <span className="granularity">{granularity}</span>
+              {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+            </div>
           </div>
 
           {visibleCommodities.length > 0 && selectedScopes.length > 0 ? (

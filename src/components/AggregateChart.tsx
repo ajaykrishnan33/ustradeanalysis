@@ -19,7 +19,6 @@ import SharedTooltip from "./SharedTooltip";
 
 type AggregateChartProps = {
   title: string;
-  eyebrow: string;
   description: string;
   datasets: Dataset[];
   seriesName: string;
@@ -40,7 +39,6 @@ function buildAggregateRows(dataset: Dataset): ChartRow[] {
 
 function AggregateChart({
   title,
-  eyebrow,
   description,
   datasets,
   seriesName,
@@ -64,7 +62,6 @@ function AggregateChart({
     <section className="chart-section" aria-label={title}>
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{eyebrow}</p>
           <h2>{title}</h2>
           <p>{description}</p>
         </div>

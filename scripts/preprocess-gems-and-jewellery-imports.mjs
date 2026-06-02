@@ -147,7 +147,17 @@ function getLevelForCode(code) {
   return levels.find((level) => level.codeLength === code.length);
 }
 
-function buildCommodity(code, commodityName, level) {
+function addHs10Code(hs10CodesByHs6, hs10Code) {
+  const hs6Code = hs10Code.slice(0, 6);
+
+  if (!hs10CodesByHs6.has(hs6Code)) {
+    hs10CodesByHs6.set(hs6Code, new Set());
+  }
+
+  hs10CodesByHs6.get(hs6Code).add(hs10Code);
+}
+
+function buildCommodity(code, commodityName, level, hs10CodesByHs6) {
   return {
     id: `${level.id}_${code}`,
     code,
@@ -155,6 +165,8 @@ function buildCommodity(code, commodityName, level) {
     hs4Code: code.length >= 4 ? code.slice(0, 4) : undefined,
     hs6Code: code.length >= 6 ? code.slice(0, 6) : undefined,
     hs8Code: code.length >= 8 ? code.slice(0, 8) : undefined,
+    hs10CodeCount:
+      level.id === "hs6" ? hs10CodesByHs6.get(code)?.size : undefined,
     name: commodityName,
     total: 0,
   };
@@ -179,6 +191,7 @@ async function readEntries() {
   }
 
   const entriesByLevel = Object.fromEntries(levels.map((level) => [level.id, []]));
+  const hs10CodesByHs6 = new Map();
   let aggregatedTenDigitRows = 0;
   let skippedRows = 0;
 
@@ -204,6 +217,7 @@ async function readEntries() {
     }
 
     if (rawCode.length === 10) {
+      addHs10Code(hs10CodesByHs6, rawCode);
       aggregatedTenDigitRows += 1;
     }
 
@@ -233,6 +247,7 @@ async function readEntries() {
 
   return {
     entriesByLevel,
+    hs10CodesByHs6,
     aggregatedTenDigitRows,
     skippedRows,
   };
@@ -293,6 +308,7 @@ function buildDataset({
     hs4Code: commodity.hs4Code,
     hs6Code: commodity.hs6Code,
     hs8Code: commodity.hs8Code,
+    hs10CodeCount: commodity.hs10CodeCount,
     name: commodity.name,
     total: 0,
   }));
@@ -331,7 +347,7 @@ function buildDataset({
   };
 }
 
-function buildDatasetsForCountry({ country, entries }, level) {
+function buildDatasetsForCountry({ country, entries }, level, hs10CodesByHs6) {
   const commodityByCode = new Map();
   const monthlyPeriodsByKey = new Map();
   const monthlyValues = new Map();
@@ -342,7 +358,7 @@ function buildDatasetsForCountry({ country, entries }, level) {
     if (!commodityByCode.has(entry.code)) {
       commodityByCode.set(
         entry.code,
-        buildCommodity(entry.code, entry.commodityName, level),
+        buildCommodity(entry.code, entry.commodityName, level, hs10CodesByHs6),
       );
     }
 
@@ -406,14 +422,15 @@ function buildDatasetsForCountry({ country, entries }, level) {
   ];
 }
 
-const { entriesByLevel, aggregatedTenDigitRows, skippedRows } = await readEntries();
+const { entriesByLevel, hs10CodesByHs6, aggregatedTenDigitRows, skippedRows } =
+  await readEntries();
 
 await mkdir(generatedDataDir, { recursive: true });
 
 for (const level of levels) {
   const countryEntries = groupEntriesByCountry(entriesByLevel[level.id]);
   const datasets = countryEntries.flatMap((item) =>
-    buildDatasetsForCountry(item, level),
+    buildDatasetsForCountry(item, level, hs10CodesByHs6),
   );
   const outputPath = path.join(generatedDataDir, level.outputFile);
 

@@ -6,7 +6,6 @@ export type SectorConfigMetadata = {
   id: string;
   tabLabel: string;
   title: string;
-  eyebrow: string;
   description: string;
   levelsToRender?: SectorLevel[];
   hs2Codes?: string[];
@@ -25,7 +24,6 @@ export const autoPartsSectorConfig: SectorConfigMetadata = {
   id: "auto-parts",
   tabLabel: "Auto-parts",
   title: "Auto-parts",
-  eyebrow: "US Census import data",
   description:
     "Compare US-reported imports for HS84, HS85, and HS87 commodities across the countries available in the deep auto-parts source file.",
   levelsToRender: ["hs2", "hs4", "hs6"],
@@ -87,7 +85,6 @@ export const seafoodSectorConfig: SectorConfigMetadata = {
   id: "seafood",
   tabLabel: "Seafood",
   title: "Seafood",
-  eyebrow: "US Census import data and India export data",
   description:
     "Compare seafood and prepared seafood imports into the US with India-reported export scopes for HS03 and HS16 commodities.",
   levelsToRender: ["hs2", "hs4", "hs6", "hs8"],
@@ -98,7 +95,6 @@ export const electronicsSectorConfig: SectorConfigMetadata = {
   id: "electronics",
   tabLabel: "Electronics",
   title: "Electronics",
-  eyebrow: "US Census import data",
   description:
     "Compare US-reported electronics imports with India-reported export scopes for HS85 commodities.",
   levelsToRender: ["hs2", "hs4", "hs6", "hs8"],
@@ -109,7 +105,6 @@ export const textilesSectorConfig: SectorConfigMetadata = {
   id: "textiles",
   tabLabel: "Textiles",
   title: "Textiles",
-  eyebrow: "US Census import data and India export data",
   description:
     "Compare US-reported textiles and apparel imports with India-reported export scopes for HS61, HS62, and HS63 commodities.",
   levelsToRender: ["hs2", "hs4", "hs6", "hs8"],
@@ -134,7 +129,6 @@ export const gemsAndJewellerySectorConfig: SectorConfigMetadata = {
   id: "gems-and-jewellery",
   tabLabel: "Gems & Jewellery",
   title: "Gems & Jewellery",
-  eyebrow: "US Census import data and India export data",
   description:
     "Compare US-reported gems and jewellery imports with India-reported export scopes for HS71 commodities.",
   levelsToRender: ["hs2", "hs4", "hs6", "hs8"],

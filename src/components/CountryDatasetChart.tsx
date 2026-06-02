@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import {
   buildMonthlyGrowthRows,
+  buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   formatCompactNumber,
   formatPercent,
@@ -17,7 +18,9 @@ import {
   getLineColor,
   getRowValue,
 } from "../chartUtils";
+import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import type { ChartRow, Commodity, Dataset, Granularity } from "../types";
+import ChartLinkButton from "./ChartLinkButton";
 import CountryMultiSelect from "./CountryMultiSelect";
 import EventReferenceLines from "./EventReferenceLines";
 import SharedTooltip from "./SharedTooltip";
@@ -25,10 +28,10 @@ import ValueModeToggle from "./ValueModeToggle";
 
 type CountryDatasetChartProps = {
   title: string;
-  eyebrow: string;
   description: string;
   datasets: Dataset[];
   valueDescription: string;
+  chartLink?: ChartLinkProps;
 };
 
 function seriesKey(country: string, hsCode: string) {
@@ -98,10 +101,10 @@ function buildRows({
 
 function CountryDatasetChart({
   title,
-  eyebrow,
   description,
   datasets,
   valueDescription,
+  chartLink,
 }: CountryDatasetChartProps) {
   const [granularity, setGranularity] = useState<Granularity>("monthly");
   const [valueMode, setValueMode] = useState<ChartValueMode>("value");
@@ -169,8 +172,12 @@ function CountryDatasetChart({
       return buildMonthlyGrowthRows(rows, seriesKeys);
     }
 
+    if (granularity === "monthly") {
+      return buildSameMonthPreviousYearTooltipRows(rows, seriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, rows, seriesKeys]);
+  }, [effectiveValueMode, granularity, rows, seriesKeys]);
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
   const topCommodity = useMemo(
@@ -235,7 +242,6 @@ function CountryDatasetChart({
     <section className="chart-section" aria-label={title}>
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{eyebrow}</p>
           <h2>{title}</h2>
           <p>{description}</p>
         </div>
@@ -322,7 +328,15 @@ function CountryDatasetChart({
           </div>
         </aside>
 
-        <section className="chart-card" aria-label={`${title} line chart`}>
+        <section
+          className={chartLink ? "chart-card chart-target" : "chart-card"}
+          id={
+            chartLink
+              ? getChartTargetId(chartLink.activeTab, chartLink.chartId)
+              : undefined
+          }
+          aria-label={`${title} line chart`}
+        >
           <div className="chart-header">
             <div>
               <h2>{valueDescription}</h2>
@@ -337,7 +351,10 @@ function CountryDatasetChart({
                   : ""}
               </p>
             </div>
-            <span className="granularity">{granularity}</span>
+            <div className="chart-header__actions">
+              <span className="granularity">{granularity}</span>
+              {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+            </div>
           </div>
 
           {visibleCommodities.length > 0 ? (

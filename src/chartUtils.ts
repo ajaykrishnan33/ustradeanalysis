@@ -19,6 +19,21 @@ const percentFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1,
 });
 
+const tooltipGrowthPercentFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 2,
+  signDisplay: "exceptZero",
+});
+
+export const tooltipGrowthMetadataKey = "__tooltipGrowth";
+
+export type TooltipGrowthMetadata = Record<
+  string,
+  {
+    label: string;
+    value: number;
+  }
+>;
+
 export const exportScopeOrder: ExportScope[] = [
   "global",
   "us",
@@ -110,6 +125,10 @@ export function formatPercent(value: number) {
   return `${percentFormatter.format(value)}%`;
 }
 
+export function formatTooltipGrowthPercent(value: number) {
+  return `${tooltipGrowthPercentFormatter.format(value)}%`;
+}
+
 export function findDatasetByGranularity(
   datasets: Dataset[],
   granularity: Granularity,
@@ -131,6 +150,99 @@ export function getRowValue(row: ChartRow, commodityId?: string) {
 
   const value = row[commodityId];
   return typeof value === "number" ? value : undefined;
+}
+
+export function getTooltipGrowthMetadata(row?: ChartRow) {
+  const metadata = row?.[tooltipGrowthMetadataKey];
+
+  if (metadata && typeof metadata === "object") {
+    return metadata as TooltipGrowthMetadata;
+  }
+
+  return undefined;
+}
+
+function getGrowthPercent(currentValue: number, comparisonValue: number) {
+  if (comparisonValue === 0) {
+    return undefined;
+  }
+
+  return ((currentValue - comparisonValue) / comparisonValue) * 100;
+}
+
+export function buildTooltipGrowthRows({
+  rows,
+  dataKeys,
+  label,
+  getComparisonSort,
+}: {
+  rows: ChartRow[];
+  dataKeys: readonly string[];
+  label: string;
+  getComparisonSort: (periodSort: number) => number;
+}) {
+  const rowsBySort = new Map(rows.map((row) => [row.periodSort, row]));
+
+  return rows.map((row) => {
+    const comparisonRow = rowsBySort.get(getComparisonSort(row.periodSort));
+
+    if (!comparisonRow) {
+      return { ...row };
+    }
+
+    const metadata: TooltipGrowthMetadata = {};
+
+    for (const dataKey of dataKeys) {
+      const currentValue = row[dataKey];
+      const comparisonValue = comparisonRow[dataKey];
+
+      if (typeof currentValue !== "number" || typeof comparisonValue !== "number") {
+        continue;
+      }
+
+      const value = getGrowthPercent(currentValue, comparisonValue);
+
+      if (value == null) {
+        continue;
+      }
+
+      metadata[dataKey] = {
+        label,
+        value,
+      };
+    }
+
+    return Object.keys(metadata).length > 0
+      ? {
+          ...row,
+          [tooltipGrowthMetadataKey]: metadata,
+        }
+      : { ...row };
+  });
+}
+
+export function buildSameMonthPreviousYearTooltipRows(
+  rows: ChartRow[],
+  dataKeys: readonly string[],
+) {
+  return buildTooltipGrowthRows({
+    rows,
+    dataKeys,
+    label: "YoY",
+    getComparisonSort: (periodSort) => periodSort - 100,
+  });
+}
+
+export function buildPreviousFiscalYearTooltipRows(
+  rows: ChartRow[],
+  dataKeys: readonly string[],
+) {
+  return buildTooltipGrowthRows({
+    rows,
+    dataKeys,
+    label: "vs previous FY",
+    getComparisonSort: (periodSort) => periodSort - 1,
+  });
 }
 
 export function sumCommodityValues(row: ChartRow, commodityIds: string[]) {

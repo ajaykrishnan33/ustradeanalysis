@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import {
   buildMonthlyGrowthRows,
+  buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   formatCompactNumber,
   formatPercent,
@@ -17,7 +18,9 @@ import {
   getLineColor,
   sumCommodityValues,
 } from "../chartUtils";
+import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import type { ChartRow, Dataset, Granularity } from "../types";
+import ChartLinkButton from "./ChartLinkButton";
 import CountryMultiSelect from "./CountryMultiSelect";
 import EventReferenceLines from "./EventReferenceLines";
 import SharedTooltip from "./SharedTooltip";
@@ -25,9 +28,9 @@ import ValueModeToggle from "./ValueModeToggle";
 
 type CountryAggregateChartProps = {
   title: string;
-  eyebrow: string;
   description: string;
   datasets: Dataset[];
+  chartLink?: ChartLinkProps;
 };
 
 function buildCountryRows(datasets: Dataset[]) {
@@ -67,9 +70,9 @@ function getAvailableCountries(datasets: Dataset[]) {
 
 function CountryAggregateChart({
   title,
-  eyebrow,
   description,
   datasets,
+  chartLink,
 }: CountryAggregateChartProps) {
   const [granularity, setGranularity] = useState<Granularity>("monthly");
   const [valueMode, setValueMode] = useState<ChartValueMode>("value");
@@ -106,8 +109,12 @@ function CountryAggregateChart({
       return buildMonthlyGrowthRows(rows, seriesKeys);
     }
 
+    if (granularity === "monthly") {
+      return buildSameMonthPreviousYearTooltipRows(rows, seriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, rows, seriesKeys]);
+  }, [effectiveValueMode, granularity, rows, seriesKeys]);
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
 
@@ -115,7 +122,6 @@ function CountryAggregateChart({
     <section className="chart-section" aria-label={title}>
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{eyebrow}</p>
           <h2>{title}</h2>
           <p>{description}</p>
         </div>
@@ -142,7 +148,15 @@ function CountryAggregateChart({
         ) : null}
       </section>
 
-      <section className="chart-card" aria-label={`${title} line chart`}>
+      <section
+        className={chartLink ? "chart-card chart-target" : "chart-card"}
+        id={
+          chartLink
+            ? getChartTargetId(chartLink.activeTab, chartLink.chartId)
+            : undefined
+        }
+        aria-label={`${title} line chart`}
+      >
         <div className="chart-header">
           <div>
             <h2>All Commodities imports</h2>
@@ -153,7 +167,10 @@ function CountryAggregateChart({
                 : " Values shown in US dollars."}
             </p>
           </div>
-          <span className="granularity">{granularity}</span>
+          <div className="chart-header__actions">
+            <span className="granularity">{granularity}</span>
+            {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+          </div>
         </div>
 
         <div className="chart-wrap chart-wrap--comparison">

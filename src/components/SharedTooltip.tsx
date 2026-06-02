@@ -1,11 +1,17 @@
 import { useMemo } from "react";
-import { formatNumber } from "../chartUtils";
+import {
+  formatNumber,
+  formatTooltipGrowthPercent,
+  getTooltipGrowthMetadata,
+} from "../chartUtils";
+import type { ChartRow } from "../types";
 
 type TooltipPayloadItem = {
   dataKey?: string | number;
   name?: string | number;
   value?: number | string;
   color?: string;
+  payload?: ChartRow;
 };
 
 type SharedTooltipProps = {
@@ -28,11 +34,17 @@ function SharedTooltip({
 
     return payload
       .filter((item) => typeof item.value === "number")
-      .map((item) => ({
-        name: String(item.name ?? item.dataKey ?? ""),
-        value: Number(item.value),
-        color: item.color,
-      }))
+      .map((item) => {
+        const dataKey = String(item.dataKey ?? "");
+        const growth = getTooltipGrowthMetadata(item.payload)?.[dataKey];
+
+        return {
+          name: String(item.name ?? item.dataKey ?? ""),
+          value: Number(item.value),
+          color: item.color,
+          growth,
+        };
+      })
       .sort((left, right) => right.value - left.value);
   }, [payload]);
 
@@ -51,7 +63,14 @@ function SharedTooltip({
               style={{ backgroundColor: item.color }}
             />
             <span className="tooltip__name">{item.name}</span>
-            <span className="tooltip__value">{valueFormatter(item.value)}</span>
+            <span className="tooltip__value">
+              <span>{valueFormatter(item.value)}</span>
+              {item.growth ? (
+                <span className="tooltip__growth">
+                  {item.growth.label}: {formatTooltipGrowthPercent(item.growth.value)}
+                </span>
+              ) : null}
+            </span>
           </div>
         ))}
       </div>

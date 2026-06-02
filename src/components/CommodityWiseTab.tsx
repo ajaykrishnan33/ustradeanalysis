@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import {
   buildMonthlyGrowthRows,
+  buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   exportScopeOrder,
   findDatasetByGranularity,
@@ -19,7 +20,9 @@ import {
   getLineColor,
   getRowValue,
 } from "../chartUtils";
+import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import type { ChartRow, Dataset, ExportScope, Granularity } from "../types";
+import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
 import SharedTooltip from "./SharedTooltip";
 import ValueModeToggle from "./ValueModeToggle";
@@ -47,6 +50,11 @@ type CommodityWiseTabData = {
   exportScopeDatasets: Dataset[];
   importDatasets: Dataset[];
   importHs4Datasets: Dataset[];
+};
+
+type CommodityWiseTabProps = CommodityWiseTabData & {
+  activeTab: string;
+  onChartLink: (chartId: string) => void;
 };
 
 const defaultImportScopeKey = "import:India";
@@ -344,6 +352,7 @@ function CommodityLineChart({
   rows,
   selectedScopes,
   granularity,
+  chartLink,
   effectiveValueMode,
   valueFormatter,
 }: {
@@ -352,6 +361,7 @@ function CommodityLineChart({
   rows: ChartRow[];
   selectedScopes: CommodityScopeOption[];
   granularity: Granularity;
+  chartLink?: ChartLinkProps;
   effectiveValueMode: ChartValueMode;
   valueFormatter: (value: number) => string;
 }) {
@@ -364,17 +374,32 @@ function CommodityLineChart({
       return buildMonthlyGrowthRows(rows, seriesKeys);
     }
 
+    if (granularity === "monthly") {
+      return buildSameMonthPreviousYearTooltipRows(rows, seriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, rows, seriesKeys]);
+  }, [effectiveValueMode, granularity, rows, seriesKeys]);
 
   return (
-    <section className="chart-card" aria-label={`${title} chart`}>
+    <section
+      className={chartLink ? "chart-card chart-target" : "chart-card"}
+      id={
+        chartLink
+          ? getChartTargetId(chartLink.activeTab, chartLink.chartId)
+          : undefined
+      }
+      aria-label={`${title} chart`}
+    >
       <div className="chart-header">
         <div>
           <h2>{title}</h2>
           <p>{description}</p>
         </div>
-        <span className="granularity">{granularity}</span>
+        <div className="chart-header__actions">
+          <span className="granularity">{granularity}</span>
+          {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+        </div>
       </div>
 
       {selectedScopes.length > 0 ? (
@@ -431,7 +456,7 @@ function CommodityLineChart({
   );
 }
 
-function CommodityWiseTab(data: CommodityWiseTabData) {
+function CommodityWiseTab(data: CommodityWiseTabProps) {
   const scopeOptions = useMemo(() => buildScopeOptions(data), [data]);
   const hs2Options = useMemo(() => buildHs2Options(data), [data]);
   const [granularity, setGranularity] = useState<Granularity>("monthly");
@@ -508,8 +533,7 @@ function CommodityWiseTab(data: CommodityWiseTabData) {
     <section className="chart-section" aria-label="Commodity wise comparison">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">Commodity-wise comparison</p>
-          <h2>Commodity-wise</h2>
+          <h2>Commodity-wise comparison</h2>
           <p>
             Compare one HS2 commodity and one HS4 commodity across India export
             scopes and US-reported import scopes.
@@ -567,6 +591,11 @@ function CommodityWiseTab(data: CommodityWiseTabData) {
           rows={hs2Rows}
           selectedScopes={selectedScopes}
           granularity={granularity}
+          chartLink={{
+            activeTab: data.activeTab,
+            chartId: "hs2-commodity",
+            onChartLink: data.onChartLink,
+          }}
           effectiveValueMode={effectiveValueMode}
           valueFormatter={valueFormatter}
         />
@@ -603,6 +632,11 @@ function CommodityWiseTab(data: CommodityWiseTabData) {
           rows={hs4Rows}
           selectedScopes={selectedScopes}
           granularity={granularity}
+          chartLink={{
+            activeTab: data.activeTab,
+            chartId: "hs4-commodity",
+            onChartLink: data.onChartLink,
+          }}
           effectiveValueMode={effectiveValueMode}
           valueFormatter={valueFormatter}
         />

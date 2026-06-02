@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
-import { SectorImportsTab } from "./components/AutoPartsTab";
+import { useEffect, useRef, useState } from "react";
+import { SectorImportsTab } from "./components/SectorImportsTab";
 import CommodityWiseTab from "./components/CommodityWiseTab";
 import ComparisonChart from "./components/ComparisonChart";
 import CountryAggregateChart from "./components/CountryAggregateChart";
 import CountryDatasetChart from "./components/CountryDatasetChart";
+import HelpPanel from "./components/HelpPanel";
 import Hs4ComparisonChart from "./components/Hs4ComparisonChart";
 import Hs4ExportChart from "./components/Hs4ExportChart";
 import Hs4ImportChart from "./components/Hs4ImportChart";
 import ScopedAggregateExportChart from "./components/ScopedAggregateExportChart";
 import ScopedExportDatasetChart from "./components/ScopedExportDatasetChart";
+import { getChartTargetId } from "./chartLinks";
+import { getHelpContent } from "./helpContent";
 import { sectorConfigs } from "./sectorConfigs";
 import {
   loadCommodityWiseTabData,
@@ -45,6 +48,70 @@ const tabs = [
     label: config.tabLabel,
   })),
 ];
+const defaultTabId = "us-imports";
+const chartIdsByTab: Record<string, string[]> = {
+  "us-imports": ["all-imports", "hs2-imports", "hs4-imports"],
+  "india-exports": ["all-exports", "hs2-exports", "hs4-exports"],
+  comparison: ["hs2-comparison", "hs4-comparison"],
+  "commodity-wise": ["hs2-commodity", "hs4-commodity"],
+};
+
+function isValidTabId(tabId: string | null): tabId is string {
+  return Boolean(tabId && tabs.some((tab) => tab.id === tabId));
+}
+
+function getTabIdFromUrl() {
+  const tabId = new URLSearchParams(window.location.search).get("tab");
+
+  return isValidTabId(tabId) ? tabId : defaultTabId;
+}
+
+function hasInvalidTabParam() {
+  const tabId = new URLSearchParams(window.location.search).get("tab");
+
+  return tabId !== null && !isValidTabId(tabId);
+}
+
+function getChartIdsForTab(tabId: string) {
+  const sectorMetadata = sectorConfigs.find((config) => config.id === tabId);
+
+  if (sectorMetadata) {
+    return ["hs6-sum", ...(sectorMetadata.levelsToRender ?? ["hs2", "hs4", "hs6"])];
+  }
+
+  return chartIdsByTab[tabId] ?? [];
+}
+
+function isValidChartId(tabId: string, chartId: string | null): chartId is string {
+  return Boolean(chartId && getChartIdsForTab(tabId).includes(chartId));
+}
+
+function getChartIdFromUrl(tabId = getTabIdFromUrl()) {
+  const chartId = new URLSearchParams(window.location.search).get("chart");
+
+  return isValidChartId(tabId, chartId) ? chartId : undefined;
+}
+
+function hasInvalidChartParam(tabId = getTabIdFromUrl()) {
+  const chartId = new URLSearchParams(window.location.search).get("chart");
+
+  return chartId !== null && !isValidChartId(tabId, chartId);
+}
+
+function getTabUrl(tabId: string, chartId?: string) {
+  const url = new URL(window.location.href);
+  const nextTabId = isValidTabId(tabId) ? tabId : defaultTabId;
+
+  url.searchParams.set("tab", nextTabId);
+
+  if (chartId && isValidChartId(nextTabId, chartId)) {
+    url.searchParams.set("chart", chartId);
+  } else {
+    url.searchParams.delete("chart");
+  }
+
+  return `${url.pathname}${url.search}${url.hash}`;
+}
 
 type LoadedTabData =
   | {
@@ -220,13 +287,18 @@ function formatSummaryStat(value: number | undefined) {
 }
 
 function App() {
-  const [activeTab, setActiveTab] = useState("us-imports");
+  const [initialTabId] = useState(getTabIdFromUrl);
+  const [initialChartId] = useState(() => getChartIdFromUrl(initialTabId));
+  const [activeTab, setActiveTab] = useState(initialTabId);
+  const [activeChart, setActiveChart] = useState<string | undefined>(initialChartId);
   const [retryCount, setRetryCount] = useState(0);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const helpButtonRef = useRef<HTMLButtonElement>(null);
   const [loadState, setLoadState] = useState<LoadState>(() => {
-    const data = getCachedTabData("us-imports");
+    const data = getCachedTabData(initialTabId);
 
     return {
-      tabId: "us-imports",
+      tabId: initialTabId,
       data,
       isLoading: !data,
     };
@@ -239,8 +311,42 @@ function App() {
     !activeTabData && loadState.tabId === activeTab && loadState.isLoading;
   const loadError =
     !activeTabData && loadState.tabId === activeTab ? loadState.error : undefined;
+  const activeTabLabel = getTabLabel(activeTab);
+  const activeHelpContent = getHelpContent(activeTab);
   const loadingMessage = `Loading ${getTabLabel(activeTab)} data...`;
   const summaryStats = getSummaryStats(getSummaryImportDatasets(activeTabData));
+
+  useEffect(() => {
+    if (hasInvalidTabParam() || hasInvalidChartParam(initialTabId)) {
+      window.history.replaceState(
+        { tabId: initialTabId, chartId: initialChartId ?? null },
+        "",
+        getTabUrl(initialTabId, initialChartId),
+      );
+    }
+
+    function handlePopState() {
+      const nextTabId = getTabIdFromUrl();
+      const nextChartId = getChartIdFromUrl(nextTabId);
+
+      if (hasInvalidTabParam() || hasInvalidChartParam(nextTabId)) {
+        window.history.replaceState(
+          { tabId: nextTabId, chartId: nextChartId ?? null },
+          "",
+          getTabUrl(nextTabId, nextChartId),
+        );
+      }
+
+      setActiveTab(nextTabId);
+      setActiveChart(nextChartId);
+    }
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [initialChartId, initialTabId]);
 
   useEffect(() => {
     const cachedData = getCachedTabData(activeTab);
@@ -289,16 +395,68 @@ function App() {
     };
   }, [activeTab, retryCount]);
 
+  useEffect(() => {
+    if (!activeChart || !activeTabData || isLoading) {
+      return;
+    }
+
+    const frameId = scrollToChart(activeTab, activeChart);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [activeChart, activeTab, activeTabData, isLoading]);
+
   function retryActiveTabLoad() {
     clearCachedTabData(activeTab);
     setRetryCount((current) => current + 1);
+  }
+
+  function selectTab(tabId: string) {
+    if (!isValidTabId(tabId)) {
+      return;
+    }
+
+    window.history.pushState({ tabId }, "", getTabUrl(tabId));
+    setActiveTab(tabId);
+    setActiveChart(undefined);
+  }
+
+  function scrollToChart(tabId: string, chartId: string) {
+    return window.requestAnimationFrame(() => {
+      document
+        .getElementById(getChartTargetId(tabId, chartId))
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  function linkToChart(chartId: string) {
+    if (!isValidChartId(activeTab, chartId)) {
+      return;
+    }
+
+    window.history.pushState(
+      { tabId: activeTab, chartId },
+      "",
+      getTabUrl(activeTab, chartId),
+    );
+    setActiveChart(chartId);
+    scrollToChart(activeTab, chartId);
+  }
+
+  function openHelp() {
+    setIsHelpOpen(true);
+  }
+
+  function closeHelp() {
+    setIsHelpOpen(false);
+    window.requestAnimationFrame(() => helpButtonRef.current?.focus());
   }
 
   return (
     <main className="app">
       <header className="hero">
         <div>
-          <p className="eyebrow">US import and India export data</p>
           <h1>Commodity trade with the United States</h1>
           <p className="hero__text">
             Compare US-reported imports by country, India-reported exports, and
@@ -306,20 +464,32 @@ function App() {
             values.
           </p>
         </div>
-        <div className="summary">
-          <div>
-            <span className="summary__label">Import countries</span>
-            <strong>{formatSummaryStat(summaryStats?.importCountryCount)}</strong>
+        <div className="hero__aside">
+          <div className="hero__actions">
+            <button
+              type="button"
+              className="help-button"
+              onClick={openHelp}
+              ref={helpButtonRef}
+            >
+              Help
+            </button>
           </div>
-          <div>
-            <span className="summary__label">Import HS2 codes</span>
-            <strong>{formatSummaryStat(summaryStats?.importHs2CodeCount)}</strong>
-          </div>
-          <div>
-            <span className="summary__label">Monthly periods</span>
-            <strong>
-              {formatSummaryStat(summaryStats?.importMonthlyPeriodCount)}
-            </strong>
+          <div className="summary">
+            <div>
+              <span className="summary__label">Import countries</span>
+              <strong>{formatSummaryStat(summaryStats?.importCountryCount)}</strong>
+            </div>
+            <div>
+              <span className="summary__label">Import HS2 codes</span>
+              <strong>{formatSummaryStat(summaryStats?.importHs2CodeCount)}</strong>
+            </div>
+            <div>
+              <span className="summary__label">Monthly periods</span>
+              <strong>
+                {formatSummaryStat(summaryStats?.importMonthlyPeriodCount)}
+              </strong>
+            </div>
           </div>
         </div>
       </header>
@@ -338,7 +508,7 @@ function App() {
             }
             aria-controls={`${tab.id}-panel`}
             aria-selected={activeTab === tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => selectTab(tab.id)}
           >
             {tab.label}
           </button>
@@ -376,21 +546,34 @@ function App() {
           >
             <CountryAggregateChart
               title="All US-reported imports"
-              eyebrow="US Census import data"
               description="Total customs value across all import commodities for each period, shown separately for every available reporting country."
               datasets={activeTabData.data.importDatasets}
+              chartLink={{
+                activeTab,
+                chartId: "all-imports",
+                onChartLink: linkToChart,
+              }}
             />
 
             <CountryDatasetChart
-              title="US-reported imports HS2"
-              eyebrow="US Census import data"
+              title="US-reported imports by HS2"
               description="Customs value by two-digit HS import commodity from the US Census trade data."
               datasets={activeTabData.data.importDatasets}
               valueDescription="Customs value by commodity"
+              chartLink={{
+                activeTab,
+                chartId: "hs2-imports",
+                onChartLink: linkToChart,
+              }}
             />
 
             <Hs4ImportChart
               importHs4Datasets={activeTabData.data.importHs4Datasets}
+              chartLink={{
+                activeTab,
+                chartId: "hs4-imports",
+                onChartLink: linkToChart,
+              }}
             />
           </section>
         ) : null}
@@ -404,22 +587,35 @@ function App() {
             aria-labelledby="india-exports-tab"
           >
             <ScopedAggregateExportChart
-              title="All India Exports"
-              eyebrow="India Ministry of Commerce export data"
+              title="All India-reported exports"
               description="Total export value across all HS commodities for each period."
               datasets={activeTabData.data.exportScopeDatasets}
+              chartLink={{
+                activeTab,
+                chartId: "all-exports",
+                onChartLink: linkToChart,
+              }}
             />
 
             <ScopedExportDatasetChart
               title="India-reported exports"
-              eyebrow="India Ministry of Commerce export data"
               description="TradeStat export values by two-digit HS commodity, converted from US $ million to US dollars."
               datasets={activeTabData.data.exportScopeDatasets}
               valueDescription="Export value by HS commodity"
+              chartLink={{
+                activeTab,
+                chartId: "hs2-exports",
+                onChartLink: linkToChart,
+              }}
             />
 
             <Hs4ExportChart
               exportHs4ScopeDatasets={activeTabData.data.exportHs4ScopeDatasets}
+              chartLink={{
+                activeTab,
+                chartId: "hs4-exports",
+                onChartLink: linkToChart,
+              }}
             />
           </section>
         ) : null}
@@ -434,10 +630,20 @@ function App() {
             <ComparisonChart
               exportDatasets={activeTabData.data.exportDatasets}
               indiaImportDatasets={activeTabData.data.indiaImportDatasets}
+              chartLink={{
+                activeTab,
+                chartId: "hs2-comparison",
+                onChartLink: linkToChart,
+              }}
             />
             <Hs4ComparisonChart
               exportHs4Datasets={activeTabData.data.exportHs4Datasets}
               indiaImportHs4Datasets={activeTabData.data.indiaImportHs4Datasets}
+              chartLink={{
+                activeTab,
+                chartId: "hs4-comparison",
+                onChartLink: linkToChart,
+              }}
             />
           </section>
         ) : null}
@@ -450,7 +656,11 @@ function App() {
             id="commodity-wise-panel"
             aria-labelledby="commodity-wise-tab"
           >
-            <CommodityWiseTab {...activeTabData.data} />
+            <CommodityWiseTab
+              {...activeTabData.data}
+              activeTab={activeTab}
+              onChartLink={linkToChart}
+            />
           </section>
         ) : null}
 
@@ -464,10 +674,19 @@ function App() {
             <SectorImportsTab
               key={activeTabData.data.id}
               config={activeTabData.data}
+              activeTab={activeTab}
+              onChartLink={linkToChart}
             />
           </section>
         ) : null}
       </div>
+
+      <HelpPanel
+        isOpen={isHelpOpen}
+        activeTabLabel={activeTabLabel}
+        content={activeHelpContent}
+        onClose={closeHelp}
+      />
     </main>
   );
 }

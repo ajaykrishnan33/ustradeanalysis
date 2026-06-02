@@ -9,6 +9,7 @@ export type Commodity = {
   hs4Code?: string | null;
   hs6Code?: string | null;
   hs8Code?: string | null;
+  hs10CodeCount?: number;
   name: string;
   total: number;
 };
@@ -22,7 +23,7 @@ export type ChartRow = {
   periodKey: string;
   periodLabel: string;
   periodSort: number;
-  [commodityId: string]: string | number | undefined;
+  [commodityId: string]: string | number | object | undefined;
 };
 
 export type Dataset = {

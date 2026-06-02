@@ -15,7 +15,6 @@ import SharedTooltip from "./SharedTooltip";
 
 type DatasetChartProps = {
   title: string;
-  eyebrow: string;
   description: string;
   datasets: Dataset[];
   valueDescription: string;
@@ -23,7 +22,6 @@ type DatasetChartProps = {
 
 function DatasetChart({
   title,
-  eyebrow,
   description,
   datasets,
   valueDescription,
@@ -108,7 +106,6 @@ function DatasetChart({
     <section className="chart-section" aria-label={title}>
       <div className="section-heading">
         <div>
-          <p className="eyebrow">{eyebrow}</p>
           <h2>{title}</h2>
           <p>{description}</p>
         </div>

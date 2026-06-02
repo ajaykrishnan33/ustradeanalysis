@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import {
   buildMonthlyGrowthRows,
+  buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   comparisonYearKey,
   findDatasetByGranularity,
@@ -18,7 +19,9 @@ import {
   getRowValue,
   sumCommodityValues,
 } from "../chartUtils";
+import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import type { ComparisonRow, Dataset, Granularity } from "../types";
+import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
 import SharedTooltip from "./SharedTooltip";
 import ValueModeToggle from "./ValueModeToggle";
@@ -87,11 +90,13 @@ function buildComparisonRows({
 type ComparisonChartProps = {
   exportDatasets: Dataset[];
   indiaImportDatasets: Dataset[];
+  chartLink?: ChartLinkProps;
 };
 
 function ComparisonChart({
   exportDatasets,
   indiaImportDatasets,
+  chartLink,
 }: ComparisonChartProps) {
   const [granularity, setGranularity] = useState<Granularity>("monthly");
   const [valueMode, setValueMode] = useState<ChartValueMode>("value");
@@ -132,8 +137,12 @@ function ComparisonChart({
       return buildMonthlyGrowthRows(rows, comparisonSeriesKeys);
     }
 
+    if (granularity === "monthly") {
+      return buildSameMonthPreviousYearTooltipRows(rows, comparisonSeriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, rows]);
+  }, [effectiveValueMode, granularity, rows]);
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
 
@@ -141,7 +150,6 @@ function ComparisonChart({
     <section className="chart-section" aria-label="Export import comparison">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">HS-code comparison</p>
           <h2>India exports vs US imports</h2>
           <p>
             Compare the two reported time series for one HS commodity. Export
@@ -179,7 +187,15 @@ function ComparisonChart({
         ) : null}
       </section>
 
-      <section className="chart-card" aria-label="Export import comparison chart">
+      <section
+        className={chartLink ? "chart-card chart-target" : "chart-card"}
+        id={
+          chartLink
+            ? getChartTargetId(chartLink.activeTab, chartLink.chartId)
+            : undefined
+        }
+        aria-label="Export import comparison chart"
+      >
         <div className="chart-header">
           <div>
             <h2>
@@ -202,7 +218,10 @@ function ComparisonChart({
                 : " Values shown in US dollars."}
             </p>
           </div>
-          <span className="granularity">{granularity}</span>
+          <div className="chart-header__actions">
+            <span className="granularity">{granularity}</span>
+            {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+          </div>
         </div>
 
         <div className="chart-wrap chart-wrap--comparison">

@@ -145,13 +145,25 @@ function getLevelForCode(code) {
   return levels.find((level) => level.codeLength === code.length);
 }
 
-function buildCommodity(code, commodityName, level) {
+function addHs10Code(hs10CodesByHs6, hs10Code) {
+  const hs6Code = hs10Code.slice(0, 6);
+
+  if (!hs10CodesByHs6.has(hs6Code)) {
+    hs10CodesByHs6.set(hs6Code, new Set());
+  }
+
+  hs10CodesByHs6.get(hs6Code).add(hs10Code);
+}
+
+function buildCommodity(code, commodityName, level, hs10CodesByHs6) {
   return {
     id: `${level.id}_${code}`,
     code,
     hsCode: code.slice(0, 2),
     hs4Code: code.length >= 4 ? code.slice(0, 4) : undefined,
     hs6Code: code.length >= 6 ? code.slice(0, 6) : undefined,
+    hs10CodeCount:
+      level.id === "hs6" ? hs10CodesByHs6.get(code)?.size : undefined,
     name: commodityName,
     total: 0,
   };
@@ -172,6 +184,7 @@ async function readEntriesFromSource(sourceFile) {
   }
 
   const entriesByLevel = Object.fromEntries(levels.map((level) => [level.id, []]));
+  const hs10CodesByHs6 = new Map();
   let skippedTenDigitRows = 0;
 
   for (const record of records) {
@@ -188,6 +201,7 @@ async function readEntriesFromSource(sourceFile) {
     }
 
     if (code.length === 10) {
+      addHs10Code(hs10CodesByHs6, code);
       skippedTenDigitRows += 1;
       continue;
     }
@@ -219,12 +233,14 @@ async function readEntriesFromSource(sourceFile) {
 
   return {
     entriesByLevel,
+    hs10CodesByHs6,
     skippedTenDigitRows,
   };
 }
 
 async function readEntries() {
   const entriesByLevel = Object.fromEntries(levels.map((level) => [level.id, []]));
+  const hs10CodesByHs6 = new Map();
   const skippedTenDigitRowsBySource = new Map();
 
   for (const sourceFile of sourceFiles) {
@@ -236,11 +252,22 @@ async function readEntries() {
       }
     }
 
+    for (const [hs6Code, hs10Codes] of sourceEntries.hs10CodesByHs6.entries()) {
+      if (!hs10CodesByHs6.has(hs6Code)) {
+        hs10CodesByHs6.set(hs6Code, new Set());
+      }
+
+      for (const hs10Code of hs10Codes) {
+        hs10CodesByHs6.get(hs6Code).add(hs10Code);
+      }
+    }
+
     skippedTenDigitRowsBySource.set(sourceFile, sourceEntries.skippedTenDigitRows);
   }
 
   return {
     entriesByLevel,
+    hs10CodesByHs6,
     skippedTenDigitRows: [...skippedTenDigitRowsBySource.values()].reduce(
       (total, count) => total + count,
       0,
@@ -343,6 +370,7 @@ function buildDataset({
     hsCode: commodity.hsCode,
     hs4Code: commodity.hs4Code,
     hs6Code: commodity.hs6Code,
+    hs10CodeCount: commodity.hs10CodeCount,
     name: commodity.name,
     total: 0,
   }));
@@ -381,7 +409,11 @@ function buildDataset({
   };
 }
 
-function buildDatasetsForCountry({ country, sourceFile: datasetSourceFile, entries }, level) {
+function buildDatasetsForCountry(
+  { country, sourceFile: datasetSourceFile, entries },
+  level,
+  hs10CodesByHs6,
+) {
   const commodityByCode = new Map();
   const monthlyPeriodsByKey = new Map();
   const monthlyValues = new Map();
@@ -392,7 +424,7 @@ function buildDatasetsForCountry({ country, sourceFile: datasetSourceFile, entri
     if (!commodityByCode.has(entry.code)) {
       commodityByCode.set(
         entry.code,
-        buildCommodity(entry.code, entry.commodityName, level),
+        buildCommodity(entry.code, entry.commodityName, level, hs10CodesByHs6),
       );
     }
 
@@ -458,7 +490,12 @@ function buildDatasetsForCountry({ country, sourceFile: datasetSourceFile, entri
   ];
 }
 
-const { entriesByLevel, skippedTenDigitRows, skippedTenDigitRowsBySource } = await readEntries();
+const {
+  entriesByLevel,
+  hs10CodesByHs6,
+  skippedTenDigitRows,
+  skippedTenDigitRowsBySource,
+} = await readEntries();
 
 await mkdir(generatedDataDir, { recursive: true });
 
@@ -469,7 +506,7 @@ for (const level of levels) {
   ];
   const countryEntries = groupEntriesByCountry(entries);
   const datasets = countryEntries.flatMap((item) =>
-    buildDatasetsForCountry(item, level),
+    buildDatasetsForCountry(item, level, hs10CodesByHs6),
   );
   const outputPath = path.join(generatedDataDir, level.outputFile);
 

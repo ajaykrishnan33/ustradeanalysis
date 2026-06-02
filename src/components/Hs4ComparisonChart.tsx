@@ -10,13 +10,16 @@ import {
 } from "recharts";
 import {
   buildMonthlyGrowthRows,
+  buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   findDatasetByGranularity,
   formatCompactNumber,
   formatPercent,
   getRowValue,
 } from "../chartUtils";
+import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import type { ComparisonRow, Dataset, Granularity } from "../types";
+import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
 import SharedTooltip from "./SharedTooltip";
 import ValueModeToggle from "./ValueModeToggle";
@@ -185,11 +188,13 @@ function buildComparisonRows({
 type Hs4ComparisonChartProps = {
   exportHs4Datasets: Dataset[];
   indiaImportHs4Datasets: Dataset[];
+  chartLink?: ChartLinkProps;
 };
 
 function Hs4ComparisonChart({
   exportHs4Datasets,
   indiaImportHs4Datasets,
+  chartLink,
 }: Hs4ComparisonChartProps) {
   const [granularity, setGranularity] = useState<Granularity>("monthly");
   const [valueMode, setValueMode] = useState<ChartValueMode>("value");
@@ -226,8 +231,12 @@ function Hs4ComparisonChart({
       return buildMonthlyGrowthRows(rows, comparisonSeriesKeys);
     }
 
+    if (granularity === "monthly") {
+      return buildSameMonthPreviousYearTooltipRows(rows, comparisonSeriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, rows]);
+  }, [effectiveValueMode, granularity, rows]);
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
 
@@ -250,7 +259,6 @@ function Hs4ComparisonChart({
     <section className="chart-section" aria-label="HS4 export import comparison">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">HS4 comparison</p>
           <h2>India exports vs US imports by HS4</h2>
           <p>
             Select an HS2 parent, then compare matched four-digit HS import and
@@ -304,7 +312,15 @@ function Hs4ComparisonChart({
         ) : null}
       </section>
 
-      <section className="chart-card" aria-label="HS4 export import comparison chart">
+      <section
+        className={chartLink ? "chart-card chart-target" : "chart-card"}
+        id={
+          chartLink
+            ? getChartTargetId(chartLink.activeTab, chartLink.chartId)
+            : undefined
+        }
+        aria-label="HS4 export import comparison chart"
+      >
         <div className="chart-header">
           <div>
             <h2>{selectedTitle}</h2>
@@ -316,7 +332,10 @@ function Hs4ComparisonChart({
                 : " Values shown in US dollars."}
             </p>
           </div>
-          <span className="granularity">{granularity}</span>
+          <div className="chart-header__actions">
+            <span className="granularity">{granularity}</span>
+            {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+          </div>
         </div>
 
         <div className="chart-wrap chart-wrap--comparison">
