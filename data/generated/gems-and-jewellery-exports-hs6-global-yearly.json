@@ -1,0 +1,682 @@
+{
+  "dataset": {
+    "id": "gems-and-jewellery-exports-hs6-global-yearly",
+    "label": "Yearly HS6 Global Indian exports",
+    "scope": "global",
+    "sourceFile": "data/raw/tradestat/exports/hs8/global",
+    "valueLabel": "Export value (US $)",
+    "expectedGranularity": "yearly",
+    "actualGranularity": "yearly",
+    "coverage": {
+      "2024": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "2025": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "2026": [
+        1,
+        2,
+        3
+      ]
+    },
+    "hs2Commodities": [
+      {
+        "hsCode": "71",
+        "name": "71"
+      }
+    ],
+    "periods": [
+      {
+        "key": "2024",
+        "label": "2024",
+        "sort": 202412
+      },
+      {
+        "key": "2025",
+        "label": "2025",
+        "sort": 202512
+      },
+      {
+        "key": "2026",
+        "label": "2026 through Mar",
+        "sort": 202603
+      }
+    ],
+    "commodities": [
+      {
+        "id": "hs6_710110",
+        "hsCode": "71",
+        "hs4Code": "7101",
+        "hs6Code": "710110",
+        "name": "710110 NATURAL(REAL)PERLS WRKD",
+        "total": 10470000
+      },
+      {
+        "id": "hs6_710121",
+        "hsCode": "71",
+        "hs4Code": "7101",
+        "hs6Code": "710121",
+        "name": "710121 CULTURED PEARLS UNWRKD",
+        "total": 1850000
+      },
+      {
+        "id": "hs6_710122",
+        "hsCode": "71",
+        "hs4Code": "7101",
+        "hs6Code": "710122",
+        "name": "710122 CULTURED PEARLS WORKED",
+        "total": 5170000
+      },
+      {
+        "id": "hs6_710210",
+        "hsCode": "71",
+        "hs4Code": "7102",
+        "hs6Code": "710210",
+        "name": "710210 UNSORTED DIAMONDS W/N WORKED,NOT MOUNTED",
+        "total": 180000
+      },
+      {
+        "id": "hs6_710221",
+        "hsCode": "71",
+        "hs4Code": "7102",
+        "hs6Code": "710221",
+        "name": "710221 UNSORTED INDUSTRIAL DIAMONDS",
+        "total": 12990000
+      },
+      {
+        "id": "hs6_710229",
+        "hsCode": "71",
+        "hs4Code": "7102",
+        "hs6Code": "710229",
+        "name": "710229 OTHERS",
+        "total": 10000
+      },
+      {
+        "id": "hs6_710231",
+        "hsCode": "71",
+        "hs4Code": "7102",
+        "hs6Code": "710231",
+        "name": "710231 NON-INDUSTRIAL DIAMONDS UNWORKED/SIMPLY   SAWN CLEAVED OR BRUTED",
+        "total": 1141120000
+      },
+      {
+        "id": "hs6_710239",
+        "hsCode": "71",
+        "hs4Code": "7102",
+        "hs6Code": "710239",
+        "name": "710239 OTHERS",
+        "total": 29384060000
+      },
+      {
+        "id": "hs6_710310",
+        "hsCode": "71",
+        "hs4Code": "7103",
+        "hs6Code": "710310",
+        "name": "710310 OTHER",
+        "total": 40690000
+      },
+      {
+        "id": "hs6_710391",
+        "hsCode": "71",
+        "hs4Code": "7103",
+        "hs6Code": "710391",
+        "name": "710391 EMERALDS",
+        "total": 620440000
+      },
+      {
+        "id": "hs6_710399",
+        "hsCode": "71",
+        "hs4Code": "7103",
+        "hs6Code": "710399",
+        "name": "710399 OTHER STONE CUT(TOPAZ AQUAMARINE ETC)",
+        "total": 402960000
+      },
+      {
+        "id": "hs6_710410",
+        "hsCode": "71",
+        "hs4Code": "7104",
+        "hs6Code": "710410",
+        "name": "710410 PIEZO ELECTRIC QUARTZ",
+        "total": 0
+      },
+      {
+        "id": "hs6_710421",
+        "hsCode": "71",
+        "hs4Code": "7104",
+        "hs6Code": "710421",
+        "name": "710421 Non-Industrial Diamonds",
+        "total": 148550000
+      },
+      {
+        "id": "hs6_710429",
+        "hsCode": "71",
+        "hs4Code": "7104",
+        "hs6Code": "710429",
+        "name": "710429 OTHER",
+        "total": 1700000
+      },
+      {
+        "id": "hs6_710491",
+        "hsCode": "71",
+        "hs4Code": "7104",
+        "hs6Code": "710491",
+        "name": "710491 Non-Industrial Diamonds",
+        "total": 2793200000
+      },
+      {
+        "id": "hs6_710499",
+        "hsCode": "71",
+        "hs4Code": "7104",
+        "hs6Code": "710499",
+        "name": "710499 OTHER",
+        "total": 42720000
+      },
+      {
+        "id": "hs6_710510",
+        "hsCode": "71",
+        "hs4Code": "7105",
+        "hs6Code": "710510",
+        "name": "710510 Of heading 7104",
+        "total": 7430000
+      },
+      {
+        "id": "hs6_710590",
+        "hsCode": "71",
+        "hs4Code": "7105",
+        "hs6Code": "710590",
+        "name": "710590 DUST AND POWDER OF OTHER PRECIOUS STONES",
+        "total": 30000
+      },
+      {
+        "id": "hs6_710610",
+        "hsCode": "71",
+        "hs4Code": "7106",
+        "hs6Code": "710610",
+        "name": "710610 SILVER IN POWDER FORM",
+        "total": 2240000
+      },
+      {
+        "id": "hs6_710691",
+        "hsCode": "71",
+        "hs4Code": "7106",
+        "hs6Code": "710691",
+        "name": "710691 OTHER",
+        "total": 11540000
+      },
+      {
+        "id": "hs6_710692",
+        "hsCode": "71",
+        "hs4Code": "7106",
+        "hs6Code": "710692",
+        "name": "710692 ALL OTHER SEMI MANUFACTURED FORMS OF SLVR",
+        "total": 517970000
+      },
+      {
+        "id": "hs6_710700",
+        "hsCode": "71",
+        "hs4Code": "7107",
+        "hs6Code": "710700",
+        "name": "710700 BASE MATL CLAD WTH SLVR ONLY SEMI MNFCTRD",
+        "total": 920000
+      },
+      {
+        "id": "hs6_710811",
+        "hsCode": "71",
+        "hs4Code": "7108",
+        "hs6Code": "710811",
+        "name": "710811 NON-MONETARY POWDER OF GOLD",
+        "total": 10000
+      },
+      {
+        "id": "hs6_710812",
+        "hsCode": "71",
+        "hs4Code": "7108",
+        "hs6Code": "710812",
+        "name": "710812 GOLD",
+        "total": 1062150000
+      },
+      {
+        "id": "hs6_710813",
+        "hsCode": "71",
+        "hs4Code": "7108",
+        "hs6Code": "710813",
+        "name": "710813 GOLD",
+        "total": 194800000
+      },
+      {
+        "id": "hs6_710900",
+        "hsCode": "71",
+        "hs4Code": "7109",
+        "hs6Code": "710900",
+        "name": "710900 SEMI MNFCTRD BASE MTLS/SLVR CLAD WTH GOLD",
+        "total": 20000
+      },
+      {
+        "id": "hs6_711011",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711011",
+        "name": "711011 IN POWDER FORM",
+        "total": 65650000
+      },
+      {
+        "id": "hs6_711019",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711019",
+        "name": "711019 OTHER PRECIOUS AND BASE METALS",
+        "total": 31660000
+      },
+      {
+        "id": "hs6_711021",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711021",
+        "name": "711021 PALLADIUM UNWROUGHT OR IN POWDER FORM",
+        "total": 7750000
+      },
+      {
+        "id": "hs6_711029",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711029",
+        "name": "711029 PALLADIUM IN OTHER FORM",
+        "total": 15020000
+      },
+      {
+        "id": "hs6_711031",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711031",
+        "name": "711031 RHODIUM UNWROUGHT OR IN POWDER FORM",
+        "total": 43260000
+      },
+      {
+        "id": "hs6_711039",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711039",
+        "name": "711039 OTHER RHODIUM",
+        "total": 2880000
+      },
+      {
+        "id": "hs6_711041",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711041",
+        "name": "711041 IRIDIUM OSMIUM AND RUTHENIUM UNWROUGHT      OR IN POWDER FORM",
+        "total": 1080000
+      },
+      {
+        "id": "hs6_711049",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711049",
+        "name": "711049 OTHR IRIDIUM OSMIUM AND RUTHENIUM",
+        "total": 1310000
+      },
+      {
+        "id": "hs6_711100",
+        "hsCode": "71",
+        "hs4Code": "7111",
+        "hs6Code": "711100",
+        "name": "711100 SMI MNFCTRD BS MTLS;SLVR/GLD,CLD WTH PLTNM",
+        "total": 0
+      },
+      {
+        "id": "hs6_711230",
+        "hsCode": "71",
+        "hs4Code": "7112",
+        "hs6Code": "711230",
+        "name": "711230 ASH CNTNG PRCS MTL/PRCS MTL CMPNDS",
+        "total": 41580000
+      },
+      {
+        "id": "hs6_711291",
+        "hsCode": "71",
+        "hs4Code": "7112",
+        "hs6Code": "711291",
+        "name": "711291 WST AND SCRP OF GOLD INCL MTL CLD WTH GOLD  BUT EXCL SWEPNGS CONTNG OTHR PRECIOUS MTLS",
+        "total": 4120000
+      },
+      {
+        "id": "hs6_711292",
+        "hsCode": "71",
+        "hs4Code": "7112",
+        "hs6Code": "711292",
+        "name": "711292 WST AND SCRP OF PLTNM INCL MTL CLD WTH      PLTNMBUT EXCL SWEPNGS CONTNG OTHR PRCS    MTLS",
+        "total": 10330000
+      },
+      {
+        "id": "hs6_711299",
+        "hsCode": "71",
+        "hs4Code": "7112",
+        "hs6Code": "711299",
+        "name": "711299 OTHR WST AND SCRP OF OTHR PRCS MTLS N.E.S",
+        "total": 444090000
+      },
+      {
+        "id": "hs6_711311",
+        "hsCode": "71",
+        "hs4Code": "7113",
+        "hs6Code": "711311",
+        "name": "711311 PARTS",
+        "total": 3010260000
+      },
+      {
+        "id": "hs6_711319",
+        "hsCode": "71",
+        "hs4Code": "7113",
+        "hs6Code": "711319",
+        "name": "711319 ARTCLS OF OTHR PRCS METAL",
+        "total": 26009110000
+      },
+      {
+        "id": "hs6_711320",
+        "hsCode": "71",
+        "hs4Code": "7113",
+        "hs6Code": "711320",
+        "name": "711320 ARTCLS OF BASE MTL CLD WTH PRCS MTL",
+        "total": 6140000
+      },
+      {
+        "id": "hs6_711411",
+        "hsCode": "71",
+        "hs4Code": "7114",
+        "hs6Code": "711411",
+        "name": "711411 PARTS",
+        "total": 33150000
+      },
+      {
+        "id": "hs6_711419",
+        "hsCode": "71",
+        "hs4Code": "7114",
+        "hs6Code": "711419",
+        "name": "711419 PARTS",
+        "total": 7920000
+      },
+      {
+        "id": "hs6_711420",
+        "hsCode": "71",
+        "hs4Code": "7114",
+        "hs6Code": "711420",
+        "name": "711420 PARTS",
+        "total": 490000
+      },
+      {
+        "id": "hs6_711510",
+        "hsCode": "71",
+        "hs4Code": "7115",
+        "hs6Code": "711510",
+        "name": "711510 CTLYSTS IN WIRE CLOTH/GRIL FORM OF PLTNM",
+        "total": 640000
+      },
+      {
+        "id": "hs6_711590",
+        "hsCode": "71",
+        "hs4Code": "7115",
+        "hs6Code": "711590",
+        "name": "711590 OTHR ARTCLS OF PRCS MTL/ROLLED GOLD",
+        "total": 5780000
+      },
+      {
+        "id": "hs6_711610",
+        "hsCode": "71",
+        "hs4Code": "7116",
+        "hs6Code": "711610",
+        "name": "711610 ARTCLS OF NATRL/CULTURED PEARLS",
+        "total": 1300000
+      },
+      {
+        "id": "hs6_711620",
+        "hsCode": "71",
+        "hs4Code": "7116",
+        "hs6Code": "711620",
+        "name": "711620 ARTICLES OF PRECIOUS OR SEMI PRECIOUS     STONES(NATURAL SYNTHETIC/RECONSTRUCTED)",
+        "total": 91310000
+      },
+      {
+        "id": "hs6_711711",
+        "hsCode": "71",
+        "hs4Code": "7117",
+        "hs6Code": "711711",
+        "name": "711711 CUFF LINKS AND STUDS OF BASE METAL W/N      PLATED WITH PRECIOUS METAL",
+        "total": 530000
+      },
+      {
+        "id": "hs6_711719",
+        "hsCode": "71",
+        "hs4Code": "7117",
+        "hs6Code": "711719",
+        "name": "711719 OTHER",
+        "total": 75300000
+      },
+      {
+        "id": "hs6_711790",
+        "hsCode": "71",
+        "hs4Code": "7117",
+        "hs6Code": "711790",
+        "name": "711790 OTHER IMITATION JEWELLERY FOR PERSONAL    ADORNMENT(OTHER THAN ARTWARE)",
+        "total": 231590000
+      },
+      {
+        "id": "hs6_711810",
+        "hsCode": "71",
+        "hs4Code": "7118",
+        "hs6Code": "711810",
+        "name": "711810 COIN(EXCL GOLD)NOT BEING LEGAL TENDER",
+        "total": 8080000
+      },
+      {
+        "id": "hs6_711890",
+        "hsCode": "71",
+        "hs4Code": "7118",
+        "hs6Code": "711890",
+        "name": "711890 OTHER COIN",
+        "total": 188320000
+      }
+    ],
+    "rows": [
+      {
+        "periodKey": "2024",
+        "periodLabel": "2024",
+        "periodSort": 202412,
+        "hs6_710110": 4730000,
+        "hs6_710121": 880000,
+        "hs6_710122": 2550000,
+        "hs6_710210": 100000,
+        "hs6_710221": 6120000,
+        "hs6_710229": 0,
+        "hs6_710231": 670000000,
+        "hs6_710239": 13718350000,
+        "hs6_710310": 19830000,
+        "hs6_710391": 258570000,
+        "hs6_710399": 183140000,
+        "hs6_710410": 0,
+        "hs6_710421": 77270000,
+        "hs6_710429": 310000,
+        "hs6_710491": 1307300000,
+        "hs6_710499": 20450000,
+        "hs6_710510": 3240000,
+        "hs6_710590": 10000,
+        "hs6_710610": 1600000,
+        "hs6_710691": 11120000,
+        "hs6_710692": 410090000,
+        "hs6_710700": 210000,
+        "hs6_710811": 0,
+        "hs6_710812": 320170000,
+        "hs6_710813": 31850000,
+        "hs6_710900": 20000,
+        "hs6_711011": 14460000,
+        "hs6_711019": 6770000,
+        "hs6_711021": 1990000,
+        "hs6_711029": 1910000,
+        "hs6_711031": 42280000,
+        "hs6_711039": 630000,
+        "hs6_711041": 390000,
+        "hs6_711049": 230000,
+        "hs6_711100": 0,
+        "hs6_711230": 14080000,
+        "hs6_711291": 40000,
+        "hs6_711292": 4160000,
+        "hs6_711299": 83540000,
+        "hs6_711311": 1174040000,
+        "hs6_711319": 11150330000,
+        "hs6_711320": 980000,
+        "hs6_711411": 13280000,
+        "hs6_711419": 3830000,
+        "hs6_711420": 370000,
+        "hs6_711510": 320000,
+        "hs6_711590": 2540000,
+        "hs6_711610": 300000,
+        "hs6_711620": 40780000,
+        "hs6_711711": 260000,
+        "hs6_711719": 32360000,
+        "hs6_711790": 106940000,
+        "hs6_711810": 3500000,
+        "hs6_711890": 184690000
+      },
+      {
+        "periodKey": "2025",
+        "periodLabel": "2025",
+        "periodSort": 202512,
+        "hs6_710110": 4500000,
+        "hs6_710121": 930000,
+        "hs6_710122": 2240000,
+        "hs6_710210": 80000,
+        "hs6_710221": 4930000,
+        "hs6_710229": 10000,
+        "hs6_710231": 387420000,
+        "hs6_710239": 12470930000,
+        "hs6_710310": 17370000,
+        "hs6_710391": 272500000,
+        "hs6_710399": 168040000,
+        "hs6_710410": 0,
+        "hs6_710421": 57520000,
+        "hs6_710429": 970000,
+        "hs6_710491": 1188350000,
+        "hs6_710499": 17890000,
+        "hs6_710510": 3460000,
+        "hs6_710590": 20000,
+        "hs6_710610": 620000,
+        "hs6_710691": 300000,
+        "hs6_710692": 87760000,
+        "hs6_710700": 560000,
+        "hs6_710811": 0,
+        "hs6_710812": 703210000,
+        "hs6_710813": 152330000,
+        "hs6_710900": 0,
+        "hs6_711011": 27410000,
+        "hs6_711019": 22790000,
+        "hs6_711021": 5730000,
+        "hs6_711029": 12470000,
+        "hs6_711031": 980000,
+        "hs6_711039": 1550000,
+        "hs6_711041": 540000,
+        "hs6_711049": 680000,
+        "hs6_711100": 0,
+        "hs6_711230": 22010000,
+        "hs6_711291": 1610000,
+        "hs6_711292": 3890000,
+        "hs6_711299": 241250000,
+        "hs6_711311": 1348190000,
+        "hs6_711319": 12342980000,
+        "hs6_711320": 4990000,
+        "hs6_711411": 16970000,
+        "hs6_711419": 2710000,
+        "hs6_711420": 70000,
+        "hs6_711510": 320000,
+        "hs6_711590": 2860000,
+        "hs6_711610": 850000,
+        "hs6_711620": 40870000,
+        "hs6_711711": 210000,
+        "hs6_711719": 33260000,
+        "hs6_711790": 97790000,
+        "hs6_711810": 4130000,
+        "hs6_711890": 1950000
+      },
+      {
+        "periodKey": "2026",
+        "periodLabel": "2026 through Mar",
+        "periodSort": 202603,
+        "hs6_710110": 1240000,
+        "hs6_710121": 40000,
+        "hs6_710122": 380000,
+        "hs6_710210": 0,
+        "hs6_710221": 1940000,
+        "hs6_710229": 0,
+        "hs6_710231": 83700000,
+        "hs6_710239": 3194780000,
+        "hs6_710310": 3490000,
+        "hs6_710391": 89370000,
+        "hs6_710399": 51780000,
+        "hs6_710410": 0,
+        "hs6_710421": 13760000,
+        "hs6_710429": 420000,
+        "hs6_710491": 297550000,
+        "hs6_710499": 4380000,
+        "hs6_710510": 730000,
+        "hs6_710590": 0,
+        "hs6_710610": 20000,
+        "hs6_710691": 120000,
+        "hs6_710692": 20120000,
+        "hs6_710700": 150000,
+        "hs6_710811": 10000,
+        "hs6_710812": 38770000,
+        "hs6_710813": 10620000,
+        "hs6_710900": 0,
+        "hs6_711011": 23780000,
+        "hs6_711019": 2100000,
+        "hs6_711021": 30000,
+        "hs6_711029": 640000,
+        "hs6_711031": 0,
+        "hs6_711039": 700000,
+        "hs6_711041": 150000,
+        "hs6_711049": 400000,
+        "hs6_711100": 0,
+        "hs6_711230": 5490000,
+        "hs6_711291": 2470000,
+        "hs6_711292": 2280000,
+        "hs6_711299": 119300000,
+        "hs6_711311": 488030000,
+        "hs6_711319": 2515800000,
+        "hs6_711320": 170000,
+        "hs6_711411": 2900000,
+        "hs6_711419": 1380000,
+        "hs6_711420": 50000,
+        "hs6_711510": 0,
+        "hs6_711590": 380000,
+        "hs6_711610": 150000,
+        "hs6_711620": 9660000,
+        "hs6_711711": 60000,
+        "hs6_711719": 9680000,
+        "hs6_711790": 26860000,
+        "hs6_711810": 450000,
+        "hs6_711890": 1680000
+      }
+    ]
+  }
+}

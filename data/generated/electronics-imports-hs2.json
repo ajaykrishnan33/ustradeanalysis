@@ -1,0 +1,3540 @@
+{
+  "datasets": [
+    {
+      "id": "electronics-imports-hs2-china-monthly",
+      "label": "Monthly electronics HS2 imports - China",
+      "country": "China",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 219090047787
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_85": 9791379983
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_85": 8327018126
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_85": 7793032337
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_85": 8560035048
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_85": 9373590524
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_85": 8700164774
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_85": 10675451861
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_85": 10397586975
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_85": 13685607801
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_85": 13448387982
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_85": 11916142101
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_85": 11288539536
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_85": 11256441107
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_85": 8233098085
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_85": 8553396625
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_85": 6288717556
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_85": 4571658686
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_85": 4369486250
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_85": 5989710658
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_85": 5808110523
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_85": 7305288948
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_85": 7471335965
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_85": 6302599148
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_85": 5574157219
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_85": 4808864211
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_85": 3814900484
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_85": 4785345274
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-china-yearly",
+      "label": "Yearly electronics HS2 imports - China",
+      "country": "China",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 219090047787
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_85": 123956937048
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_85": 81724000770
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_85": 13409109969
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-india-monthly",
+      "label": "Monthly electronics HS2 imports - India",
+      "country": "India",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 52645149721
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_85": 1089825660
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_85": 1240757974
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_85": 1218984577
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_85": 1294883257
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_85": 1460490115
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_85": 1339297999
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_85": 1062958315
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_85": 940281140
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_85": 842439780
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_85": 1080548967
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_85": 1018534892
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_85": 1445170253
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_85": 1889531442
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_85": 2273289902
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_85": 2904622644
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_85": 2378724244
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_85": 2882115435
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_85": 3003079483
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_85": 2424904942
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_85": 1641369718
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_85": 1413976859
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_85": 2623674143
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_85": 2978127965
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_85": 3688403693
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_85": 2904453994
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_85": 2481191645
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_85": 3123510683
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-india-yearly",
+      "label": "Yearly electronics HS2 imports - India",
+      "country": "India",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 52645149721
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_85": 14034172929
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_85": 30101820470
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_85": 8509156322
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-korea-south-monthly",
+      "label": "Monthly electronics HS2 imports - Korea, South",
+      "country": "Korea, South",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 49686879271
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_85": 1611926551
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_85": 1397801251
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_85": 1640440860
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_85": 1543718401
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_85": 1649307315
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_85": 1539482175
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_85": 1795552620
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_85": 1615406507
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_85": 1851975802
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_85": 1647912598
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_85": 1929855759
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_85": 2131183221
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_85": 1642388776
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_85": 1436675759
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_85": 1652057022
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_85": 1789547563
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_85": 2012004387
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_85": 2198854856
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_85": 2061089960
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_85": 1774279494
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_85": 1625396353
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_85": 1569654530
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_85": 1956163917
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_85": 2330548433
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_85": 2380327473
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_85": 2228649987
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_85": 2674677701
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-korea-south-yearly",
+      "label": "Yearly electronics HS2 imports - Korea, South",
+      "country": "Korea, South",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 49686879271
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_85": 20354563060
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_85": 22048661050
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_85": 7283655161
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-malaysia-monthly",
+      "label": "Monthly electronics HS2 imports - Malaysia",
+      "country": "Malaysia",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 66305213134
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_85": 1849096246
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_85": 1700747578
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_85": 2265447098
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_85": 2267368709
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_85": 2242860555
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_85": 2305519582
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_85": 2500132211
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_85": 2385630351
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_85": 2875270007
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_85": 2635921898
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_85": 2412025899
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_85": 2507952502
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_85": 2193986611
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_85": 2225649150
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_85": 3170072821
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_85": 2428210004
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_85": 2573386938
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_85": 2969187106
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_85": 2502226069
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_85": 2038872899
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_85": 2429661151
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_85": 2477046712
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_85": 2677375243
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_85": 3044166922
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_85": 2403861410
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_85": 2506823751
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_85": 2716713711
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-malaysia-yearly",
+      "label": "Yearly electronics HS2 imports - Malaysia",
+      "country": "Malaysia",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 66305213134
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_85": 27947972636
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_85": 30729841626
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_85": 7627398872
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-mexico-monthly",
+      "label": "Monthly electronics HS2 imports - Mexico",
+      "country": "Mexico",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 201365747257
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_85": 6572586636
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_85": 6826705178
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_85": 7104999526
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_85": 7281199605
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_85": 7586213177
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_85": 7086937548
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_85": 7152970952
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_85": 7829962323
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_85": 7714619685
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_85": 8251548386
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_85": 7314456018
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_85": 6250602508
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_85": 7043144632
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_85": 6814262674
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_85": 7470053108
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_85": 7013464678
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_85": 7564652136
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_85": 7473773140
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_85": 8003493354
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_85": 7944976302
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_85": 8068131071
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_85": 8771481974
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_85": 7377339622
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_85": 7366464421
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_85": 7320632733
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_85": 7543236256
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_85": 8617839614
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-mexico-yearly",
+      "label": "Yearly electronics HS2 imports - Mexico",
+      "country": "Mexico",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 201365747257
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_85": 86972801542
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_85": 90911237112
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_85": 23481708603
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-taiwan-monthly",
+      "label": "Monthly electronics HS2 imports - Taiwan",
+      "country": "Taiwan",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 80611850033
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_85": 2311103461
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_85": 2047083522
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_85": 2136779138
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_85": 2342296784
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_85": 2351829612
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_85": 2626725882
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_85": 2926451707
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_85": 3023524331
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_85": 3130867100
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_85": 3051019345
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_85": 2839568269
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_85": 3175781564
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_85": 2887317545
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_85": 2493484062
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_85": 3005137732
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_85": 2917768562
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_85": 2810753727
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_85": 2942699461
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_85": 2973305604
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_85": 2922437253
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_85": 2959206461
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_85": 2979148712
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_85": 3383003519
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_85": 4077138625
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_85": 4063800271
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_85": 3630838710
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_85": 4602779074
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-taiwan-yearly",
+      "label": "Yearly electronics HS2 imports - Taiwan",
+      "country": "Taiwan",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 80611850033
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_85": 31963030715
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_85": 36351401263
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_85": 12297418055
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-thailand-monthly",
+      "label": "Monthly electronics HS2 imports - Thailand",
+      "country": "Thailand",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 65084937626
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_85": 1789492579
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_85": 1469383646
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_85": 1788668702
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_85": 1832810419
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_85": 1776545882
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_85": 1887329716
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_85": 2037978079
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_85": 1883929914
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_85": 2189826662
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_85": 2258068578
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_85": 1843672187
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_85": 1915068548
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_85": 1818206496
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_85": 1630428877
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_85": 2503694875
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_85": 2468786042
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_85": 2589844784
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_85": 3085005381
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_85": 2935615644
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_85": 2453188335
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_85": 2926350992
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_85": 3254232441
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_85": 2912075474
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_85": 3333181565
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_85": 3376796195
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_85": 3114655987
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_85": 4010099626
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-thailand-yearly",
+      "label": "Yearly electronics HS2 imports - Thailand",
+      "country": "Thailand",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 65084937626
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_85": 22672774912
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_85": 31910610906
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_85": 10501551808
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-vietnam-monthly",
+      "label": "Monthly electronics HS2 imports - Vietnam",
+      "country": "Vietnam",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 120865957856
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_85": 2917108118
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_85": 2629563115
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_85": 3033887048
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_85": 3337911025
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_85": 3513994141
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_85": 3825642566
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_85": 3461539728
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_85": 3371080033
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_85": 4518037149
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_85": 4046163758
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_85": 3781625611
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_85": 3242137831
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_85": 3815741627
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_85": 3766641852
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_85": 4354386535
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_85": 4534925878
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_85": 4762865256
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_85": 5175303710
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_85": 5594945832
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_85": 4724679573
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_85": 5532531808
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_85": 6458008371
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_85": 5833107847
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_85": 6225498914
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_85": 6800743617
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_85": 4922181009
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_85": 6685705904
+        }
+      ]
+    },
+    {
+      "id": "electronics-imports-hs2-vietnam-yearly",
+      "label": "Yearly electronics HS2 imports - Vietnam",
+      "country": "Vietnam",
+      "sourceFile": "data/raw/us-census/imports/electronics/hs85-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_85",
+          "hsCode": "85",
+          "name": "85 Electric Machinery Etc; Sound Equip; Tv Equip; Pts",
+          "total": 120865957856
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_85": 41678690123
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_85": 60778637203
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_85": 18408630530
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4844 @@
+{
+  "datasets": [
+    {
+      "id": "seafood-imports-hs2-canada-monthly",
+      "label": "Monthly seafood HS2 imports - Canada",
+      "country": "Canada",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 7651726495
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 2781947386
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 180388802,
+          "hs2_16": 83824635
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 183525068,
+          "hs2_16": 77756714
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 191895368,
+          "hs2_16": 82279176
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 312180348,
+          "hs2_16": 74431146
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 569309741,
+          "hs2_16": 120105330
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 538420481,
+          "hs2_16": 160961491
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 382197912,
+          "hs2_16": 122275246
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 231950252,
+          "hs2_16": 114575714
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 215596149,
+          "hs2_16": 124547022
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 189564898,
+          "hs2_16": 124528420
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 174289871,
+          "hs2_16": 92701385
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 210281226,
+          "hs2_16": 109445043
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 208938470,
+          "hs2_16": 98501158
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 134062559,
+          "hs2_16": 82219145
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 146843798,
+          "hs2_16": 78381674
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 393525536,
+          "hs2_16": 56787376
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 582109590,
+          "hs2_16": 126903426
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 638724828,
+          "hs2_16": 174491201
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 508400168,
+          "hs2_16": 132118418
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 256391004,
+          "hs2_16": 106840227
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 226210251,
+          "hs2_16": 121117877
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 203760543,
+          "hs2_16": 109034287
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 185444677,
+          "hs2_16": 80976514
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 208112743,
+          "hs2_16": 85892876
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 180809590,
+          "hs2_16": 78746551
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 201988893,
+          "hs2_16": 74744957
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 196803729,
+          "hs2_16": 87760377
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-canada-yearly",
+      "label": "Yearly seafood HS2 imports - Canada",
+      "country": "Canada",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 7651726495
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 2781947386
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 3379600116,
+          "hs2_16": 1287431322
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 3692524167,
+          "hs2_16": 1253264179
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 579602212,
+          "hs2_16": 241251885
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-chile-monthly",
+      "label": "Monthly seafood HS2 imports - Chile",
+      "country": "Chile",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 6347881061
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 303180326
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 264058558,
+          "hs2_16": 10349024
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 249825640,
+          "hs2_16": 8667371
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 260949475,
+          "hs2_16": 8924689
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 211655869,
+          "hs2_16": 8462400
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 234613667,
+          "hs2_16": 6970681
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 240404460,
+          "hs2_16": 13584933
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 226910760,
+          "hs2_16": 10247975
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 249064372,
+          "hs2_16": 12226101
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 225437741,
+          "hs2_16": 9323295
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 239196853,
+          "hs2_16": 7950472
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 199855696,
+          "hs2_16": 9920408
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 253278275,
+          "hs2_16": 8716270
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 272629633,
+          "hs2_16": 12768837
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 239998243,
+          "hs2_16": 12021630
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 277613445,
+          "hs2_16": 15335666
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 223552716,
+          "hs2_16": 13426394
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 240072919,
+          "hs2_16": 16819792
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 211211092,
+          "hs2_16": 11613569
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 216954374,
+          "hs2_16": 15681349
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 220170975,
+          "hs2_16": 15909407
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 210414500,
+          "hs2_16": 12121258
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 203304773,
+          "hs2_16": 10235785
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 228413687,
+          "hs2_16": 11272430
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 241167939,
+          "hs2_16": 11925894
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 260478438,
+          "hs2_16": 11421777
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 226567039,
+          "hs2_16": 8332414
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 220079922,
+          "hs2_16": 8950505
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-chile-yearly",
+      "label": "Yearly seafood HS2 imports - Chile",
+      "country": "Chile",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 6347881061
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 303180326
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 2855251366,
+          "hs2_16": 115343619
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 2785504296,
+          "hs2_16": 159132011
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 707125399,
+          "hs2_16": 28704696
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-china-monthly",
+      "label": "Monthly seafood HS2 imports - China",
+      "country": "China",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 2566752438
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 517202369
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 123457893,
+          "hs2_16": 27347666
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 114316523,
+          "hs2_16": 19261473
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 64893180,
+          "hs2_16": 17091970
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 56674447,
+          "hs2_16": 16750404
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 92561114,
+          "hs2_16": 24654505
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 103970021,
+          "hs2_16": 21100857
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 121074399,
+          "hs2_16": 22868584
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 104806442,
+          "hs2_16": 21606172
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 108767593,
+          "hs2_16": 19567552
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 102492377,
+          "hs2_16": 21797280
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 113927949,
+          "hs2_16": 23942363
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 141385976,
+          "hs2_16": 29560067
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 150655810,
+          "hs2_16": 31988195
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 156525413,
+          "hs2_16": 23293993
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 93406594,
+          "hs2_16": 13992589
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 70023095,
+          "hs2_16": 13594781
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 67092760,
+          "hs2_16": 7898754
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 45129985,
+          "hs2_16": 10119953
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 97655942,
+          "hs2_16": 20309017
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 86417104,
+          "hs2_16": 14846220
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 63517265,
+          "hs2_16": 11211048
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 74993022,
+          "hs2_16": 23853793
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 82615075,
+          "hs2_16": 17316743
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 75425669,
+          "hs2_16": 19760960
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 79489546,
+          "hs2_16": 14979854
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 83734848,
+          "hs2_16": 13473172
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 91742396,
+          "hs2_16": 15014404
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-china-yearly",
+      "label": "Yearly seafood HS2 imports - China",
+      "country": "China",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 2566752438
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 517202369
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 1248327914,
+          "hs2_16": 265548893
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 1063457734,
+          "hs2_16": 208186046
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 254966790,
+          "hs2_16": 43467430
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-ecuador-monthly",
+      "label": "Monthly seafood HS2 imports - Ecuador",
+      "country": "Ecuador",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 3644889710
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 488787577
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 121472761,
+          "hs2_16": 16719905
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 117681917,
+          "hs2_16": 14704816
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 153783374,
+          "hs2_16": 21202818
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 125737981,
+          "hs2_16": 12294518
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 137348939,
+          "hs2_16": 16610811
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 104029991,
+          "hs2_16": 15471400
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 95167781,
+          "hs2_16": 9475623
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 116720288,
+          "hs2_16": 17366046
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 110076893,
+          "hs2_16": 18321209
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 102967367,
+          "hs2_16": 16793910
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 102731944,
+          "hs2_16": 13888272
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 132188093,
+          "hs2_16": 17101367
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 121227731,
+          "hs2_16": 14097944
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 133518812,
+          "hs2_16": 25217519
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 164272770,
+          "hs2_16": 21069783
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 151384695,
+          "hs2_16": 21666928
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 146440334,
+          "hs2_16": 22507195
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 135988864,
+          "hs2_16": 18693456
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 134481330,
+          "hs2_16": 25039731
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 117759213,
+          "hs2_16": 17181492
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 139541975,
+          "hs2_16": 19496746
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 162879842,
+          "hs2_16": 17709630
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 159639905,
+          "hs2_16": 19928240
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 169950984,
+          "hs2_16": 16853204
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 154408508,
+          "hs2_16": 17491013
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 164029528,
+          "hs2_16": 19621186
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 169457890,
+          "hs2_16": 22262815
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-ecuador-yearly",
+      "label": "Yearly seafood HS2 imports - Ecuador",
+      "country": "Ecuador",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 3644889710
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 488787577
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 1419907329,
+          "hs2_16": 189950695
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 1737086455,
+          "hs2_16": 239461868
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 487895926,
+          "hs2_16": 59375014
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-india-monthly",
+      "label": "Monthly seafood HS2 imports - India",
+      "country": "India",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 4195229898
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 1357455973
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 127387521,
+          "hs2_16": 38674825
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 152610250,
+          "hs2_16": 38635055
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 144735662,
+          "hs2_16": 38833690
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 130220042,
+          "hs2_16": 44682414
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 139977359,
+          "hs2_16": 40800432
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 129998564,
+          "hs2_16": 37775826
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 169867743,
+          "hs2_16": 49014653
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 174763094,
+          "hs2_16": 42265844
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 191738928,
+          "hs2_16": 55477637
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 202397662,
+          "hs2_16": 58245384
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 179672357,
+          "hs2_16": 61711759
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 180741388,
+          "hs2_16": 57048050
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 202617383,
+          "hs2_16": 70339353
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 162113790,
+          "hs2_16": 53606340
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 162896070,
+          "hs2_16": 52730144
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 177802557,
+          "hs2_16": 57880320
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 170835245,
+          "hs2_16": 52395164
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 190847888,
+          "hs2_16": 56441819
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 206628420,
+          "hs2_16": 57541927
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 174414202,
+          "hs2_16": 58164584
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 172644745,
+          "hs2_16": 54928996
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 83000784,
+          "hs2_16": 35801357
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 113388210,
+          "hs2_16": 49881873
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 132089205,
+          "hs2_16": 62579105
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 142004062,
+          "hs2_16": 57397171
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 93523901,
+          "hs2_16": 41462183
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 86312866,
+          "hs2_16": 33140068
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-india-yearly",
+      "label": "Yearly seafood HS2 imports - India",
+      "country": "India",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 4195229898
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 1357455973
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 1924110570,
+          "hs2_16": 563165569
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 1949278499,
+          "hs2_16": 662290982
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 321840829,
+          "hs2_16": 131999422
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-indonesia-monthly",
+      "label": "Monthly seafood HS2 imports - Indonesia",
+      "country": "Indonesia",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 2477526136
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 1787676929
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 86762873,
+          "hs2_16": 67185836
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 84468932,
+          "hs2_16": 64787471
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 73500159,
+          "hs2_16": 60387244
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 83460621,
+          "hs2_16": 80068750
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 86077253,
+          "hs2_16": 77929729
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 73127432,
+          "hs2_16": 55962958
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 84047915,
+          "hs2_16": 67303796
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 92500154,
+          "hs2_16": 67076384
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 101319988,
+          "hs2_16": 66042897
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 104947401,
+          "hs2_16": 66210932
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 116384310,
+          "hs2_16": 70500016
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 104692310,
+          "hs2_16": 68061407
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 109231676,
+          "hs2_16": 63136597
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 85108932,
+          "hs2_16": 61909942
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 105919615,
+          "hs2_16": 71496353
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 110888051,
+          "hs2_16": 81434595
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 80999739,
+          "hs2_16": 60618513
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 107145900,
+          "hs2_16": 74126000
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 104397913,
+          "hs2_16": 77182256
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 72093119,
+          "hs2_16": 66184621
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 74116463,
+          "hs2_16": 61907963
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 81662453,
+          "hs2_16": 58980212
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 76783405,
+          "hs2_16": 57423250
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 70039521,
+          "hs2_16": 48610922
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 113516920,
+          "hs2_16": 62936882
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 92705751,
+          "hs2_16": 59953411
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 101627330,
+          "hs2_16": 70257992
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-indonesia-yearly",
+      "label": "Yearly seafood HS2 imports - Indonesia",
+      "country": "Indonesia",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 2477526136
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 1787676929
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 1091289348,
+          "hs2_16": 811517420
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 1078386787,
+          "hs2_16": 783011224
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 307850001,
+          "hs2_16": 193148285
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-mexico-monthly",
+      "label": "Monthly seafood HS2 imports - Mexico",
+      "country": "Mexico",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 1123411129
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 491396805
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 48002372,
+          "hs2_16": 16539326
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 41206047,
+          "hs2_16": 17991236
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 34639441,
+          "hs2_16": 14109668
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 36495367,
+          "hs2_16": 15143633
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 35301511,
+          "hs2_16": 15034003
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 31392092,
+          "hs2_16": 12625669
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 33050395,
+          "hs2_16": 17785418
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 33617443,
+          "hs2_16": 17920526
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 34322608,
+          "hs2_16": 15421834
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 38724480,
+          "hs2_16": 19502269
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 40384810,
+          "hs2_16": 15327076
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 47501296,
+          "hs2_16": 17113191
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 51864634,
+          "hs2_16": 15253978
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 50264704,
+          "hs2_16": 23075932
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 42697753,
+          "hs2_16": 15898289
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 31419727,
+          "hs2_16": 11538969
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 37611590,
+          "hs2_16": 13711198
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 33579516,
+          "hs2_16": 13234612
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 44527226,
+          "hs2_16": 21155772
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 38049693,
+          "hs2_16": 20057222
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 42029701,
+          "hs2_16": 17769522
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 56976325,
+          "hs2_16": 24962100
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 44613780,
+          "hs2_16": 21588389
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 52644067,
+          "hs2_16": 24089946
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 46114962,
+          "hs2_16": 19964622
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 47351252,
+          "hs2_16": 29545991
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 49028337,
+          "hs2_16": 25036414
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-mexico-yearly",
+      "label": "Yearly seafood HS2 imports - Mexico",
+      "country": "Mexico",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 1123411129
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 491396805
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 454637862,
+          "hs2_16": 194513849
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 526278716,
+          "hs2_16": 222335929
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 142494551,
+          "hs2_16": 74547027
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-norway-monthly",
+      "label": "Monthly seafood HS2 imports - Norway",
+      "country": "Norway",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 3145144777
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 42728794
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 104512118,
+          "hs2_16": 215764
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 88862042,
+          "hs2_16": 23460
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 110717500,
+          "hs2_16": 2248899
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 99829558,
+          "hs2_16": 304538
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 114619825,
+          "hs2_16": 1307827
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 101452930,
+          "hs2_16": 714018
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 101299196,
+          "hs2_16": 66094
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 104706022,
+          "hs2_16": 163247
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 110877960,
+          "hs2_16": 1019851
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 121356643,
+          "hs2_16": 680372
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 107887130,
+          "hs2_16": 3547397
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 127775999,
+          "hs2_16": 238896
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 130597652,
+          "hs2_16": 1385105
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 132102225,
+          "hs2_16": 471519
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 161888698,
+          "hs2_16": 5753895
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 156026515,
+          "hs2_16": 4371589
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 136601108,
+          "hs2_16": 4133059
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 117570965,
+          "hs2_16": 1742340
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 103981581,
+          "hs2_16": 1955124
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 108469761,
+          "hs2_16": 2255943
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 105478953,
+          "hs2_16": 2139826
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 113519468,
+          "hs2_16": 2016741
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 133574293,
+          "hs2_16": 2973986
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 122757446,
+          "hs2_16": 127165
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 115924724,
+          "hs2_16": 184940
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 87816990,
+          "hs2_16": 1181668
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 124937475,
+          "hs2_16": 1505531
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-norway-yearly",
+      "label": "Yearly seafood HS2 imports - Norway",
+      "country": "Norway",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 3145144777
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 42728794
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 1293896923,
+          "hs2_16": 10530363
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 1522568665,
+          "hs2_16": 29326292
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 328679189,
+          "hs2_16": 2872139
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-thailand-monthly",
+      "label": "Monthly seafood HS2 imports - Thailand",
+      "country": "Thailand",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 476751598
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 2053314713
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 17848565,
+          "hs2_16": 69272256
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 13311876,
+          "hs2_16": 53014257
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 13080022,
+          "hs2_16": 65008650
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 16151251,
+          "hs2_16": 78411540
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 15106533,
+          "hs2_16": 70392224
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 16906518,
+          "hs2_16": 69787433
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 18951823,
+          "hs2_16": 68744287
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 13047507,
+          "hs2_16": 60599215
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 17424043,
+          "hs2_16": 82471184
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 25579396,
+          "hs2_16": 100009085
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 28066437,
+          "hs2_16": 85889598
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 22987719,
+          "hs2_16": 88302340
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 19661513,
+          "hs2_16": 85759665
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 17736051,
+          "hs2_16": 70191612
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 13606561,
+          "hs2_16": 86654830
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 18325394,
+          "hs2_16": 85819470
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 12468219,
+          "hs2_16": 72359480
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 16990122,
+          "hs2_16": 77603783
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 19002883,
+          "hs2_16": 76680900
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 12946975,
+          "hs2_16": 58423894
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 10021838,
+          "hs2_16": 65113358
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 15374217,
+          "hs2_16": 77181142
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 21603274,
+          "hs2_16": 79028843
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 22703456,
+          "hs2_16": 87203056
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 27358156,
+          "hs2_16": 106482145
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 12074114,
+          "hs2_16": 66010476
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 18417135,
+          "hs2_16": 66899990
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-thailand-yearly",
+      "label": "Yearly seafood HS2 imports - Thailand",
+      "country": "Thailand",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 476751598
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 2053314713
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 218461690,
+          "hs2_16": 891902069
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 200440503,
+          "hs2_16": 922020033
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 57849405,
+          "hs2_16": 239392611
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-vietnam-monthly",
+      "label": "Monthly seafood HS2 imports - Vietnam",
+      "country": "Vietnam",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 2271557162
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 1587581644
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_03": 55565006,
+          "hs2_16": 48949334
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_03": 66290674,
+          "hs2_16": 43146065
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_03": 54227768,
+          "hs2_16": 41483094
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_03": 61313427,
+          "hs2_16": 46047376
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_03": 86432654,
+          "hs2_16": 51292099
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_03": 85651051,
+          "hs2_16": 56507676
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_03": 87713126,
+          "hs2_16": 55534365
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_03": 99659352,
+          "hs2_16": 64972516
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_03": 106198995,
+          "hs2_16": 75022552
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_03": 103389061,
+          "hs2_16": 77668959
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_03": 103022407,
+          "hs2_16": 82972751
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_03": 84756269,
+          "hs2_16": 67825350
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_03": 85314991,
+          "hs2_16": 67700929
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_03": 68781575,
+          "hs2_16": 47527648
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_03": 64867608,
+          "hs2_16": 50114130
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_03": 72604095,
+          "hs2_16": 53102619
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_03": 89866003,
+          "hs2_16": 58984652
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_03": 133889663,
+          "hs2_16": 77743318
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_03": 100081338,
+          "hs2_16": 52172636
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_03": 88656719,
+          "hs2_16": 40956275
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_03": 92351040,
+          "hs2_16": 60900069
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_03": 89594903,
+          "hs2_16": 68337175
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_03": 105967022,
+          "hs2_16": 83832724
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_03": 95816324,
+          "hs2_16": 71760804
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_03": 64243033,
+          "hs2_16": 48833768
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_03": 53539007,
+          "hs2_16": 46069659
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_03": 71764051,
+          "hs2_16": 48123101
+        }
+      ]
+    },
+    {
+      "id": "seafood-imports-hs2-vietnam-yearly",
+      "label": "Yearly seafood HS2 imports - Vietnam",
+      "country": "Vietnam",
+      "sourceFile": "data/raw/us-census/imports/seafood/hs03-16-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_03",
+          "hsCode": "03",
+          "name": "03 Fish, Crustaceans & Aquatic Invertebrates",
+          "total": 2271557162
+        },
+        {
+          "id": "hs2_16",
+          "hsCode": "16",
+          "name": "16 Prep Of Meat,of Fish,of Crustaceans Etc,of Insects",
+          "total": 1587581644
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_03": 994219790,
+          "hs2_16": 711422137
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_03": 1087791281,
+          "hs2_16": 733132979
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_03": 189546091,
+          "hs2_16": 143026528
+        }
+      ]
+    }
+  ]
+}

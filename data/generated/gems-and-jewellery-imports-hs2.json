@@ -1,0 +1,3540 @@
+{
+  "datasets": [
+    {
+      "id": "gems-and-jewellery-imports-hs2-belgium-monthly",
+      "label": "Monthly gems and jewellery HS2 imports - Belgium",
+      "country": "Belgium",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 5272447939
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_71": 176465097
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_71": 200257511
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_71": 228503073
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_71": 96323813
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_71": 244684851
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_71": 208179653
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_71": 173681133
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_71": 262343072
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_71": 212050020
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_71": 156874149
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_71": 138929721
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_71": 172425547
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_71": 194209947
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_71": 137591796
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_71": 307661952
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_71": 92334379
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_71": 165968231
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_71": 99565545
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_71": 156518136
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_71": 226906279
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_71": 165666521
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_71": 182285084
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_71": 196209728
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_71": 327173556
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_71": 286898049
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_71": 238692641
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_71": 224048455
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-belgium-yearly",
+      "label": "Yearly gems and jewellery HS2 imports - Belgium",
+      "country": "Belgium",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 5272447939
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_71": 2270717640
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_71": 2252091154
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_71": 749639145
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-china-monthly",
+      "label": "Monthly gems and jewellery HS2 imports - China",
+      "country": "China",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 3126324811
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_71": 163201499
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_71": 109326444
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_71": 118498596
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_71": 123767307
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_71": 134775749
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_71": 135561415
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_71": 156174879
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_71": 160905056
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_71": 177010462
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_71": 169983427
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_71": 146269903
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_71": 137962711
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_71": 181645520
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_71": 101423981
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_71": 114524792
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_71": 84905601
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_71": 68698491
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_71": 82738896
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_71": 99733609
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_71": 89404334
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_71": 88076947
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_71": 101453933
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_71": 76256804
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_71": 76391051
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_71": 81651244
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_71": 75074998
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_71": 70907162
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-china-yearly",
+      "label": "Yearly gems and jewellery HS2 imports - China",
+      "country": "China",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 3126324811
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_71": 1733437448
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_71": 1165253959
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_71": 227633404
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-india-monthly",
+      "label": "Monthly gems and jewellery HS2 imports - India",
+      "country": "India",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 18699685864
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_71": 859451417
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_71": 931524407
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_71": 957738205
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_71": 969845267
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_71": 1500709283
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_71": 755341983
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_71": 846128298
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_71": 860337874
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_71": 1037783450
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_71": 1225296238
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_71": 714130993
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_71": 921498205
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_71": 977807849
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_71": 793122918
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_71": 1186449008
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_71": 822944851
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_71": 482630277
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_71": 365034030
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_71": 686572795
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_71": 484812092
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_71": 170666750
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_71": 205845549
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_71": 117704206
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_71": 145054318
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_71": 185761185
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_71": 183239555
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_71": 312254861
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-india-yearly",
+      "label": "Yearly gems and jewellery HS2 imports - India",
+      "country": "India",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 18699685864
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_71": 11579785620
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_71": 6438644643
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_71": 681255601
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-israel-monthly",
+      "label": "Monthly gems and jewellery HS2 imports - Israel",
+      "country": "Israel",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 6494676943
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_71": 476974730
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_71": 262767470
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_71": 487972097
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_71": 288687205
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_71": 636753264
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_71": 285609583
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_71": 295092532
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_71": 264551650
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_71": 323865571
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_71": 294626821
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_71": 379365069
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_71": 312668247
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_71": 388394700
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_71": 303469054
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_71": 434590737
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_71": 254045618
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_71": 97760152
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_71": 35351069
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_71": 86920142
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_71": 109413311
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_71": 49247634
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_71": 48006820
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_71": 110701293
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_71": 67040416
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_71": 77936503
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_71": 79999140
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_71": 42866115
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-israel-yearly",
+      "label": "Yearly gems and jewellery HS2 imports - Israel",
+      "country": "Israel",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 6494676943
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_71": 4308934239
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_71": 1984940946
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_71": 200801758
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-italy-monthly",
+      "label": "Monthly gems and jewellery HS2 imports - Italy",
+      "country": "Italy",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 5858251131
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_71": 163341070
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_71": 181234498
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_71": 224230160
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_71": 194671563
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_71": 209322307
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_71": 190123197
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_71": 213528240
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_71": 117689333
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_71": 187989017
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_71": 255419856
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_71": 226136401
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_71": 214079680
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_71": 232098490
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_71": 326966438
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_71": 238911418
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_71": 199631258
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_71": 185022465
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_71": 186182291
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_71": 276759078
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_71": 132841123
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_71": 210384603
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_71": 289538823
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_71": 259705591
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_71": 260746811
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_71": 139331153
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_71": 264457135
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_71": 277909132
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-italy-yearly",
+      "label": "Yearly gems and jewellery HS2 imports - Italy",
+      "country": "Italy",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 5858251131
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_71": 2377765322
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_71": 2798788389
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_71": 681697420
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-thailand-monthly",
+      "label": "Monthly gems and jewellery HS2 imports - Thailand",
+      "country": "Thailand",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 3927283940
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_71": 240439215
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_71": 117655994
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_71": 134204587
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_71": 124027729
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_71": 186433074
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_71": 119344374
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_71": 134232231
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_71": 129252971
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_71": 164514128
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_71": 167821939
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_71": 162445632
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_71": 138154847
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_71": 235017488
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_71": 126208626
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_71": 155771171
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_71": 196308387
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_71": 145440435
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_71": 129227764
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_71": 187733817
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_71": 86530657
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_71": 124349212
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_71": 129728193
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_71": 124897829
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_71": 128533791
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_71": 120365696
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_71": 100932640
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_71": 117711513
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-thailand-yearly",
+      "label": "Yearly gems and jewellery HS2 imports - Thailand",
+      "country": "Thailand",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 3927283940
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_71": 1818526721
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_71": 1769747370
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_71": 339009849
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-turkey-monthly",
+      "label": "Monthly gems and jewellery HS2 imports - Turkey",
+      "country": "Turkey",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 1558138692
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_71": 43429543
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_71": 45791512
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_71": 49811123
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_71": 52470164
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_71": 55859901
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_71": 42384724
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_71": 49802071
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_71": 58036948
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_71": 69811293
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_71": 64971037
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_71": 69964185
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_71": 75028042
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_71": 183711598
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_71": 171034964
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_71": 69714368
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_71": 20828369
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_71": 47956962
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_71": 27936748
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_71": 38840111
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_71": 43426906
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_71": 58784678
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_71": 41549743
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_71": 42558598
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_71": 47006364
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_71": 20846484
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_71": 27046601
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_71": 39535655
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-turkey-yearly",
+      "label": "Yearly gems and jewellery HS2 imports - Turkey",
+      "country": "Turkey",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 1558138692
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_71": 677360543
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_71": 793349409
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_71": 87428740
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-united-arab-emirates-monthly",
+      "label": "Monthly gems and jewellery HS2 imports - United Arab Emirates",
+      "country": "United Arab Emirates",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 943301928
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_71": 26305487
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_71": 6910918
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_71": 7417924
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_71": 10264796
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_71": 6797662
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_71": 6644154
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_71": 17249515
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_71": 18770104
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_71": 19106603
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_71": 189492181
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_71": 34708827
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_71": 10489852
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_71": 9876864
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_71": 16911928
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_71": 17643369
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_71": 24871870
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_71": 28829572
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_71": 15077384
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_71": 21272528
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_71": 27129302
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_71": 42280830
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_71": 96439082
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_71": 64551556
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_71": 53674611
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_71": 54243070
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_71": 68861771
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_71": 47480168
+        }
+      ]
+    },
+    {
+      "id": "gems-and-jewellery-imports-hs2-united-arab-emirates-yearly",
+      "label": "Yearly gems and jewellery HS2 imports - United Arab Emirates",
+      "country": "United Arab Emirates",
+      "sourceFile": "data/raw/us-census/imports/gems-and-jewellery/hs71-primary.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_71",
+          "hsCode": "71",
+          "name": "71 Nat Etc Pearls, Prec Etc Stones, Pr Met Etc; Coin",
+          "total": 943301928
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_71": 354158023
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_71": 418558896
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_71": 170585009
+        }
+      ]
+    }
+  ]
+}

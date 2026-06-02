@@ -1,0 +1,973 @@
+{
+  "dataset": {
+    "id": "exports-global-yearly",
+    "label": "Yearly Global Indian exports",
+    "scope": "global",
+    "sourceFile": "data/raw/tradestat/exports/hs2/global",
+    "valueLabel": "Export value (US $)",
+    "expectedGranularity": "yearly",
+    "actualGranularity": "yearly",
+    "coverage": {
+      "2024": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "2025": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "2026": [
+        1,
+        2,
+        3
+      ]
+    },
+    "periods": [
+      {
+        "key": "2024",
+        "label": "2024",
+        "sort": 202412
+      },
+      {
+        "key": "2025",
+        "label": "2025",
+        "sort": 202512
+      },
+      {
+        "key": "2026",
+        "label": "2026 through Mar",
+        "sort": 202603
+      }
+    ],
+    "commodities": [
+      {
+        "id": "hs_00",
+        "hsCode": "00",
+        "name": "00 India's Total Export",
+        "total": 999872590000
+      },
+      {
+        "id": "hs_01",
+        "hsCode": "01",
+        "name": "01 LIVE ANIMALS",
+        "total": 51100000
+      },
+      {
+        "id": "hs_02",
+        "hsCode": "02",
+        "name": "02 MEAT AND EDIBLE MEAT OFFAL",
+        "total": 10386630000
+      },
+      {
+        "id": "hs_03",
+        "hsCode": "03",
+        "name": "03 FISH AND CRUSTACEANS, MOLLUSCS AND OTHER AQUATIC INVERTABRATES",
+        "total": 14607680000
+      },
+      {
+        "id": "hs_04",
+        "hsCode": "04",
+        "name": "04 DAIRY PRODUCE; BIRDS' EGGS; NATURAL HONEY; EDIBLE PROD. OF ANIMAL ORIGIN, NOT ELSEWHERE SPEC. OR INCLUDED",
+        "total": 1962400000
+      },
+      {
+        "id": "hs_05",
+        "hsCode": "05",
+        "name": "05 PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED",
+        "total": 735470000
+      },
+      {
+        "id": "hs_06",
+        "hsCode": "06",
+        "name": "06 LIVE TREES AND OTHER PLANTS; BULBS; ROOTS AND THE LIKE; CUT FLOWERS AND ORNAMENTAL FOLIAGE",
+        "total": 203970000
+      },
+      {
+        "id": "hs_07",
+        "hsCode": "07",
+        "name": "07 EDIBLE VEGETABLES AND CERTAIN ROOTS AND TUBERS",
+        "total": 4890340000
+      },
+      {
+        "id": "hs_08",
+        "hsCode": "08",
+        "name": "08 EDIBLE FRUIT AND NUTS; PEEL OR CITRUS FRUIT OR MELONS",
+        "total": 4270890000
+      },
+      {
+        "id": "hs_09",
+        "hsCode": "09",
+        "name": "09 COFFEE, TEA, MATE AND SPICES",
+        "total": 12316690000
+      },
+      {
+        "id": "hs_10",
+        "hsCode": "10",
+        "name": "10 CEREALS",
+        "total": 27943420000
+      },
+      {
+        "id": "hs_11",
+        "hsCode": "11",
+        "name": "11 PRODUCTS OF THE MILLING INDUSTRY; MALT; STARCHES; INULIN; WHEAT GLUTEN",
+        "total": 1548260000
+      },
+      {
+        "id": "hs_12",
+        "hsCode": "12",
+        "name": "12 OIL SEEDS AND OLEA. FRUITS; MISC. GRAINS, SEEDS AND FRUIT; INDUSTRIAL OR MEDICINAL PLANTS; STRAW AND FODDER",
+        "total": 4684120000
+      },
+      {
+        "id": "hs_13",
+        "hsCode": "13",
+        "name": "13 LAC; GUMS, RESINS AND OTHER VEGETABLE SAPS AND EXTRACTS",
+        "total": 2624350000
+      },
+      {
+        "id": "hs_14",
+        "hsCode": "14",
+        "name": "14 VEGETABLE PLAITING MATERIALS; VEGETABLE PRODUCTS NOT ELSEWHERE SPECIFIED OR INCLUDED",
+        "total": 106570000
+      },
+      {
+        "id": "hs_15",
+        "hsCode": "15",
+        "name": "15 ANIMAL OR VEGETABLE FATS AND OILS AND THEIR CLEAVAGE PRODUCTS; PRE. EDIBLE FATS; ANIMAL OR VEGETABLE WAXEX",
+        "total": 4796840000
+      },
+      {
+        "id": "hs_16",
+        "hsCode": "16",
+        "name": "16 PREPARATIONS OF MEAT, OF FISH OR OF CRUSTACEANS, MOLLUSCS OR OTHER AQUATIC INVERTEBRATES",
+        "total": 1750530000
+      },
+      {
+        "id": "hs_17",
+        "hsCode": "17",
+        "name": "17 SUGARS AND SUGAR CONFECTIONERY",
+        "total": 5909660000
+      },
+      {
+        "id": "hs_18",
+        "hsCode": "18",
+        "name": "18 COCOA AND COCOA PREPARATIONS",
+        "total": 665490000
+      },
+      {
+        "id": "hs_19",
+        "hsCode": "19",
+        "name": "19 PREPARATIONS OF CEREALS, FLOUR, STARCH OR MILK; PASTRYCOOKS PRODUCTS",
+        "total": 2115670000
+      },
+      {
+        "id": "hs_20",
+        "hsCode": "20",
+        "name": "20 PREPARATIONS OF VEGETABLES, FRUIT, NUTS OR OTHER PARTS OF PLANTS",
+        "total": 2792810000
+      },
+      {
+        "id": "hs_21",
+        "hsCode": "21",
+        "name": "21 MISCELLANEOUS EDIBLE PREPARATIONS",
+        "total": 4082720000
+      },
+      {
+        "id": "hs_22",
+        "hsCode": "22",
+        "name": "22 BEVERAGES, SPIRITS AND VINEGAR",
+        "total": 1022610000
+      },
+      {
+        "id": "hs_23",
+        "hsCode": "23",
+        "name": "23 RESIDUES AND WASTE FROM THE FOOD INDUSTRIES; PREPARED ANIMAL FODER",
+        "total": 5161230000
+      },
+      {
+        "id": "hs_24",
+        "hsCode": "24",
+        "name": "24 TOBACCO AND MANUFACTURED TOBACCO SUBSTITUTES",
+        "total": 4266920000
+      },
+      {
+        "id": "hs_25",
+        "hsCode": "25",
+        "name": "25 SALT; SULPHUR; EARTHS AND STONE; PLASTERING MATERIALS, LIME AND CEMENT",
+        "total": 4916370000
+      },
+      {
+        "id": "hs_26",
+        "hsCode": "26",
+        "name": "26 ORES, SLAG AND ASH",
+        "total": 5845810000
+      },
+      {
+        "id": "hs_27",
+        "hsCode": "27",
+        "name": "27 MINERAL FUELS, MINERAL OILS AND PRODUCTS OF THEIR DISTILLATION; BITUMINOUS SUBSTANCES; MINERAL WAXES",
+        "total": 146314230000
+      },
+      {
+        "id": "hs_28",
+        "hsCode": "28",
+        "name": "28 INORGANIC CHEMICALS; ORGANIC OR INORGANIC COMPOUNDS OF PRECIOUS METALS, OF RARE-EARTH METALS, OR RADI. ELEM. OR OF ISOTOPES",
+        "total": 9403520000
+      },
+      {
+        "id": "hs_29",
+        "hsCode": "29",
+        "name": "29 ORGANIC CHEMICALS",
+        "total": 46755140000
+      },
+      {
+        "id": "hs_30",
+        "hsCode": "30",
+        "name": "30 PHARMACEUTICAL PRODUCTS",
+        "total": 55551900000
+      },
+      {
+        "id": "hs_31",
+        "hsCode": "31",
+        "name": "31 FERTILISERS",
+        "total": 359750000
+      },
+      {
+        "id": "hs_32",
+        "hsCode": "32",
+        "name": "32 TANNING OR DYEING EXTRACTS; TANNINS AND THEIR DERI. DYES, PIGMENTS AND OTHER COLOURING MATTER; PAINTS AND VER; PUTTY AND OTHER MASTICS; INKS",
+        "total": 8461330000
+      },
+      {
+        "id": "hs_33",
+        "hsCode": "33",
+        "name": "33 ESSENTIAL OILS AND RESINOIDS; PERFUMERY, COSMETIC OR TOILET PREPARATIONS",
+        "total": 6052950000
+      },
+      {
+        "id": "hs_34",
+        "hsCode": "34",
+        "name": "34 SOAP, ORGANIC SURFACE-ACTIVE AGENTS, WASHING PREPARATIONS, LUBRICATING PREPARATIONS, ARTIFICIAL WAXES, PREPARED WAXES, POLISHING OR SCOURING PREP",
+        "total": 2387870000
+      },
+      {
+        "id": "hs_35",
+        "hsCode": "35",
+        "name": "35 ALBUMINOIDAL SUBSTANCES; MODIFIED STARCHES; GLUES; ENZYMES",
+        "total": 931630000
+      },
+      {
+        "id": "hs_36",
+        "hsCode": "36",
+        "name": "36 EXPLOSIVES; PYROTECHNIC PRODUCTS; MATCHES; PYROPHORIC ALLOYS; CERTAIN COMBUSTIBLE PREPARATIONS",
+        "total": 1000460000
+      },
+      {
+        "id": "hs_37",
+        "hsCode": "37",
+        "name": "37 PHOTOGRAPHIC OR CINEMATOGRAPHIC GOODS",
+        "total": 47280000
+      },
+      {
+        "id": "hs_38",
+        "hsCode": "38",
+        "name": "38 MISCELLANEOUS CHEMICAL PRODUCTS",
+        "total": 15816630000
+      },
+      {
+        "id": "hs_39",
+        "hsCode": "39",
+        "name": "39 PLASTIC AND ARTICLES THEREOF",
+        "total": 17734410000
+      },
+      {
+        "id": "hs_40",
+        "hsCode": "40",
+        "name": "40 RUBBER AND ARTICLES THEREOF",
+        "total": 11179390000
+      },
+      {
+        "id": "hs_41",
+        "hsCode": "41",
+        "name": "41 RAW HIDES AND SKINS (OTHER THAN FURSKINS) AND LEATHER",
+        "total": 951470000
+      },
+      {
+        "id": "hs_42",
+        "hsCode": "42",
+        "name": "42 ARTICLES OF LEATHER,SADDLERY AND HARNESS;TRAVEL GOODS, HANDBAGS AND SIMILAR CONT.ARTICLES OF ANIMAL GUT(OTHR THN SILK-WRM)GUT",
+        "total": 5859250000
+      },
+      {
+        "id": "hs_43",
+        "hsCode": "43",
+        "name": "43 FURSKINS AND ARTIFICIAL FUR, MANUFACTURES THEREOF",
+        "total": 13900000
+      },
+      {
+        "id": "hs_44",
+        "hsCode": "44",
+        "name": "44 WOOD AND ARTICLES OF WOOD; WOOD CHARCOAL",
+        "total": 1324970000
+      },
+      {
+        "id": "hs_45",
+        "hsCode": "45",
+        "name": "45 CORK AND ARTICLES OF CORK",
+        "total": 12930000
+      },
+      {
+        "id": "hs_46",
+        "hsCode": "46",
+        "name": "46 MANUFACTURES OF STRAW, OF ESPARTO OR OF OTHER PLAITING MATERIALS; BASKETWARE AND WICKERWORK",
+        "total": 159670000
+      },
+      {
+        "id": "hs_47",
+        "hsCode": "47",
+        "name": "47 PULP OF WOOD OR OF OTHER FIBROUS CELLULOSIC MATERIAL; WASTE AND SCRAP OF PAPER OR PAPERBOARD",
+        "total": 9130000
+      },
+      {
+        "id": "hs_48",
+        "hsCode": "48",
+        "name": "48 PAPER AND PAPERBOARD; ARTICLES OF PAPER PULP, OF PAPER OR OF PAPERBOARD",
+        "total": 5861110000
+      },
+      {
+        "id": "hs_49",
+        "hsCode": "49",
+        "name": "49 PRINTED BOOKDS, NEWSPAPERS, PICTURES AND OTHER PRODUCTS OF THE PRINTING INDUSTRY; MANUSCRIPTS, TYPESCRIPTS AND PLANS",
+        "total": 999700000
+      },
+      {
+        "id": "hs_50",
+        "hsCode": "50",
+        "name": "50 SILK",
+        "total": 452020000
+      },
+      {
+        "id": "hs_51",
+        "hsCode": "51",
+        "name": "51 WOOL, FINE OR COARSE ANIMAL HAIR, HORSEHAIR YARN AND WOVEN FABRIC",
+        "total": 327920000
+      },
+      {
+        "id": "hs_52",
+        "hsCode": "52",
+        "name": "52 COTTON",
+        "total": 14233390000
+      },
+      {
+        "id": "hs_53",
+        "hsCode": "53",
+        "name": "53 OTHER VEGETABLE TEXTILE FIBRES; PAPER YARN AND WOVEN FABRICS OF PAPER YARN",
+        "total": 1640290000
+      },
+      {
+        "id": "hs_54",
+        "hsCode": "54",
+        "name": "54 MAN-MADE FILAMENTS",
+        "total": 3881410000
+      },
+      {
+        "id": "hs_55",
+        "hsCode": "55",
+        "name": "55 MAN-MADE STAPLE FIBRES",
+        "total": 3607790000
+      },
+      {
+        "id": "hs_56",
+        "hsCode": "56",
+        "name": "56 WADDING, FELT AND NONWOVENS; SPACIAL YARNS; TWINE, CORDAGE, ROPES AND CABLES AND ARTICLES THEREOF",
+        "total": 1432660000
+      },
+      {
+        "id": "hs_57",
+        "hsCode": "57",
+        "name": "57 CARPETS AND OTHER TEXTILE FLOOR COVERINGS",
+        "total": 4552910000
+      },
+      {
+        "id": "hs_58",
+        "hsCode": "58",
+        "name": "58 SPECIAL WOVEN FABRICS; TUFTED TEXTILE FABRICS; LACE; TAPESTRIES; TRIMMINGS; EMBROIDERY",
+        "total": 842520000
+      },
+      {
+        "id": "hs_59",
+        "hsCode": "59",
+        "name": "59 IMPREGNATED, COATED, COVERED OR LAMINATED TEXTILE FABRICS; TEXTILE ARTICLES OF A KIND SUITABLE FOR INDUSTRIAL USE",
+        "total": 1064800000
+      },
+      {
+        "id": "hs_60",
+        "hsCode": "60",
+        "name": "60 KNITTED OR CROCHETED FABRICS",
+        "total": 1205990000
+      },
+      {
+        "id": "hs_61",
+        "hsCode": "61",
+        "name": "61 ARTICLES OF APPAREL AND CLOTHING ACCESSORIES, KNITTED OR CORCHETED",
+        "total": 17169400000
+      },
+      {
+        "id": "hs_62",
+        "hsCode": "62",
+        "name": "62 ARTICLES OF APPAREL AND CLOTHING ACCESSORIES, NOT KNITTED OR CROCHETED",
+        "total": 19044380000
+      },
+      {
+        "id": "hs_63",
+        "hsCode": "63",
+        "name": "63 OTHER MADE UP TEXTILE ARTICLES; SETS; WORN CLOTHING AND WORN TEXTILE ARTICLES; RAGS",
+        "total": 13587820000
+      },
+      {
+        "id": "hs_64",
+        "hsCode": "64",
+        "name": "64 FOOTWEAR, GAITERS AND THE LIKE; PARTS OF SUCH ARTICLES",
+        "total": 5593200000
+      },
+      {
+        "id": "hs_65",
+        "hsCode": "65",
+        "name": "65 HEADGEAR AND PARTS THEREOF",
+        "total": 234810000
+      },
+      {
+        "id": "hs_66",
+        "hsCode": "66",
+        "name": "66 UMBRELLAS, SUN UMBRELLAS, WALKING-STICKS, SEAT-STICKS, WHIPS,RIDING-CROPS AND PARTS THEREOF",
+        "total": 12740000
+      },
+      {
+        "id": "hs_67",
+        "hsCode": "67",
+        "name": "67 PREPARED FEATHERS AND DOWN AND ARTICLES MADE OF FEATHERS OR OF DOWN; ARTIFICIAL FLOWERS; ARTICLES OF HUMAN HAIR",
+        "total": 1417790000
+      },
+      {
+        "id": "hs_68",
+        "hsCode": "68",
+        "name": "68 ARTICLES OF STONE, PLASTER, CEMENT, ASBESTOS, MICA OR SIMILAR MATERIALS",
+        "total": 4768380000
+      },
+      {
+        "id": "hs_69",
+        "hsCode": "69",
+        "name": "69 CERAMIC PRODUCTS",
+        "total": 6139660000
+      },
+      {
+        "id": "hs_70",
+        "hsCode": "70",
+        "name": "70 GLASS AND GLASSWARE",
+        "total": 2579680000
+      },
+      {
+        "id": "hs_71",
+        "hsCode": "71",
+        "name": "71 NATURAL OR CULTURED PEARLS,PRECIOUS OR SEMIPRECIOUS STONES,PRE.METALS,CLAD WITH PRE.METAL AND ARTCLS THEREOF;IMIT.JEWLRY;COIN",
+        "total": 66742430000
+      },
+      {
+        "id": "hs_72",
+        "hsCode": "72",
+        "name": "72 IRON AND STEEL",
+        "total": 22916030000
+      },
+      {
+        "id": "hs_73",
+        "hsCode": "73",
+        "name": "73 ARTICLES OF IRON OR STEEL",
+        "total": 23225060000
+      },
+      {
+        "id": "hs_74",
+        "hsCode": "74",
+        "name": "74 COPPER AND ARTICLES THEREOF",
+        "total": 6026650000
+      },
+      {
+        "id": "hs_75",
+        "hsCode": "75",
+        "name": "75 NICKEL AND ARTICLES THEREOF",
+        "total": 415340000
+      },
+      {
+        "id": "hs_76",
+        "hsCode": "76",
+        "name": "76 ALUMINIUM AND ARTICLES THEREOF",
+        "total": 16163260000
+      },
+      {
+        "id": "hs_78",
+        "hsCode": "78",
+        "name": "78 LEAD AND ARTICLES THEREOF",
+        "total": 2454250000
+      },
+      {
+        "id": "hs_79",
+        "hsCode": "79",
+        "name": "79 ZINC AND ARTICLES THEREOF",
+        "total": 1770540000
+      },
+      {
+        "id": "hs_80",
+        "hsCode": "80",
+        "name": "80 TIN AND ARTICLES THEREOF",
+        "total": 80690000
+      },
+      {
+        "id": "hs_81",
+        "hsCode": "81",
+        "name": "81 OTHER BASE METALS; CERMETS; ARTICLES THEREOF",
+        "total": 473070000
+      },
+      {
+        "id": "hs_82",
+        "hsCode": "82",
+        "name": "82 TOOLS IMPLEMENTS, CUTLERY, SPOONS AND FORKS, OF BASE METAL; PARTS THEREOF OF BASE METAL",
+        "total": 2609020000
+      },
+      {
+        "id": "hs_83",
+        "hsCode": "83",
+        "name": "83 MISCELLANEOUS ARTICLES OF BASE METAL",
+        "total": 2236400000
+      },
+      {
+        "id": "hs_84",
+        "hsCode": "84",
+        "name": "84 NUCLEAR REACTORS, BOILERS, MACHINERY AND MECHANICAL APPLIANCES; PARTS THEREOF",
+        "total": 78015010000
+      },
+      {
+        "id": "hs_85",
+        "hsCode": "85",
+        "name": "85 ELECTRICAL MACHINERY AND EQUIPMENT AND PARTS THEREOF; SOUND RECORDERS AND REPRODUCERS, TELEVISION IMAGE AND SOUND RECORDERS AND REPRODUCERS,AND PARTS",
+        "total": 108185250000
+      },
+      {
+        "id": "hs_86",
+        "hsCode": "86",
+        "name": "86 RAILWAY OR TRAMWAY LOCOMOTIVES, ROLLING-STOCK AND PARTS THEREOF; RAILWAY OR TRAMWAY TRACK FIXTURES AND FITTINGS AND PARTS THEREOF; MECHANICAL",
+        "total": 933390000
+      },
+      {
+        "id": "hs_87",
+        "hsCode": "87",
+        "name": "87 VEHICLES OTHER THAN RAILWAY OR TRAMWAY ROLLING STOCK, AND PARTS AND ACCESSORIES THEREOF",
+        "total": 53911880000
+      },
+      {
+        "id": "hs_88",
+        "hsCode": "88",
+        "name": "88 AIRCRAFT, SPACECRAFT, AND PARTS THEREOF",
+        "total": 10304360000
+      },
+      {
+        "id": "hs_89",
+        "hsCode": "89",
+        "name": "89 SHIPS, BOATS AND FLOATING STRUCTURES",
+        "total": 9610220000
+      },
+      {
+        "id": "hs_90",
+        "hsCode": "90",
+        "name": "90 OPTICAL, PHOTOGRAPHIC CINEMATOGRAPHIC MEASURING, CHECKING PRECISION, MEDICAL OR SURGICAL INST. AND APPARATUS PARTS AND ACCESSORIES THEREOF;",
+        "total": 12157170000
+      },
+      {
+        "id": "hs_91",
+        "hsCode": "91",
+        "name": "91 CLOCKS AND WATCHES AND PARTS THEREOF",
+        "total": 180660000
+      },
+      {
+        "id": "hs_92",
+        "hsCode": "92",
+        "name": "92 MUSICAL INSTRUMENTS; PARTS AND ACCESSORIES OF SUCH ARTICLES",
+        "total": 109930000
+      },
+      {
+        "id": "hs_93",
+        "hsCode": "93",
+        "name": "93 ARMS AND AMMUNITION; PARTS AND ACCESSORIES THEREOF",
+        "total": 1494240000
+      },
+      {
+        "id": "hs_94",
+        "hsCode": "94",
+        "name": "94 FURNITURE; BEDDING, MATTRESSES, MATTRESS SUPPORTS, CUSHIONS AND SIMILAR STUFFED FURNISHING; LAMPS AND LIGHTING FITTINGS NOT ELSEWHERE SPECIFIED OR INC",
+        "total": 5689630000
+      },
+      {
+        "id": "hs_95",
+        "hsCode": "95",
+        "name": "95 TOYS, GAMES AND SPORTS REQUISITES; PARTS AND ACCESSORIES THEREOF",
+        "total": 1285960000
+      },
+      {
+        "id": "hs_96",
+        "hsCode": "96",
+        "name": "96 MISCELLANEOUS MANUFACTURED ARTICLES",
+        "total": 1617480000
+      },
+      {
+        "id": "hs_97",
+        "hsCode": "97",
+        "name": "97 WORKS OF ART COLLECTORS' PIECES AND ANTIQUES",
+        "total": 560950000
+      },
+      {
+        "id": "hs_98",
+        "hsCode": "98",
+        "name": "98 PROJECT GOODS; SOME SPECIAL USES",
+        "total": 35630000
+      },
+      {
+        "id": "hs_99",
+        "hsCode": "99",
+        "name": "99 MISCELLANEOUS GOODS",
+        "total": 31370000
+      }
+    ],
+    "rows": [
+      {
+        "periodKey": "2024",
+        "periodLabel": "2024",
+        "periodSort": 202412,
+        "hs_00": 442829710000,
+        "hs_01": 19950000,
+        "hs_02": 4009930000,
+        "hs_03": 6139880000,
+        "hs_04": 775150000,
+        "hs_05": 277120000,
+        "hs_06": 89110000,
+        "hs_07": 2084820000,
+        "hs_08": 1702240000,
+        "hs_09": 5321000000,
+        "hs_10": 12109850000,
+        "hs_11": 765280000,
+        "hs_12": 2200430000,
+        "hs_13": 1090520000,
+        "hs_14": 49530000,
+        "hs_15": 1997190000,
+        "hs_16": 742660000,
+        "hs_17": 2669400000,
+        "hs_18": 233030000,
+        "hs_19": 892240000,
+        "hs_20": 1201280000,
+        "hs_21": 1658510000,
+        "hs_22": 460260000,
+        "hs_23": 2368700000,
+        "hs_24": 1869580000,
+        "hs_25": 2069180000,
+        "hs_26": 3036240000,
+        "hs_27": 75894060000,
+        "hs_28": 3666010000,
+        "hs_29": 21022820000,
+        "hs_30": 23367250000,
+        "hs_31": 173130000,
+        "hs_32": 4408290000,
+        "hs_33": 2725840000,
+        "hs_34": 1064140000,
+        "hs_35": 397140000,
+        "hs_36": 321620000,
+        "hs_37": 17820000,
+        "hs_38": 6857250000,
+        "hs_39": 8110890000,
+        "hs_40": 4856050000,
+        "hs_41": 445780000,
+        "hs_42": 2557440000,
+        "hs_43": 7840000,
+        "hs_44": 586330000,
+        "hs_45": 4840000,
+        "hs_46": 70930000,
+        "hs_47": 7450000,
+        "hs_48": 2626740000,
+        "hs_49": 428110000,
+        "hs_50": 156290000,
+        "hs_51": 143550000,
+        "hs_52": 6546670000,
+        "hs_53": 542360000,
+        "hs_54": 1802610000,
+        "hs_55": 1629210000,
+        "hs_56": 657890000,
+        "hs_57": 2051430000,
+        "hs_58": 359350000,
+        "hs_59": 502260000,
+        "hs_60": 561300000,
+        "hs_61": 7524710000,
+        "hs_62": 8199070000,
+        "hs_63": 6041590000,
+        "hs_64": 2501800000,
+        "hs_65": 92720000,
+        "hs_66": 5080000,
+        "hs_67": 592980000,
+        "hs_68": 2174370000,
+        "hs_69": 2755040000,
+        "hs_70": 1137830000,
+        "hs_71": 29933060000,
+        "hs_72": 10354940000,
+        "hs_73": 10091550000,
+        "hs_74": 2129050000,
+        "hs_75": 174820000,
+        "hs_76": 7428650000,
+        "hs_78": 903420000,
+        "hs_79": 709130000,
+        "hs_80": 22740000,
+        "hs_81": 129060000,
+        "hs_82": 1152330000,
+        "hs_83": 952560000,
+        "hs_84": 32527800000,
+        "hs_85": 40169550000,
+        "hs_86": 354650000,
+        "hs_87": 22105740000,
+        "hs_88": 7445720000,
+        "hs_89": 4927610000,
+        "hs_90": 5038590000,
+        "hs_91": 72040000,
+        "hs_92": 45610000,
+        "hs_93": 506710000,
+        "hs_94": 2552430000,
+        "hs_95": 562320000,
+        "hs_96": 729750000,
+        "hs_97": 330000000,
+        "hs_98": 19940000,
+        "hs_99": 31030000
+      },
+      {
+        "periodKey": "2025",
+        "periodLabel": "2025",
+        "periodSort": 202512,
+        "hs_00": 445014710000,
+        "hs_01": 22790000,
+        "hs_02": 4980420000,
+        "hs_03": 6981380000,
+        "hs_04": 973430000,
+        "hs_05": 357400000,
+        "hs_06": 89440000,
+        "hs_07": 2283100000,
+        "hs_08": 1943210000,
+        "hs_09": 5605080000,
+        "hs_10": 12419740000,
+        "hs_11": 628530000,
+        "hs_12": 2049630000,
+        "hs_13": 1213730000,
+        "hs_14": 45180000,
+        "hs_15": 2235900000,
+        "hs_16": 840810000,
+        "hs_17": 2544930000,
+        "hs_18": 373320000,
+        "hs_19": 992310000,
+        "hs_20": 1287890000,
+        "hs_21": 1917590000,
+        "hs_22": 456050000,
+        "hs_23": 2238400000,
+        "hs_24": 1984150000,
+        "hs_25": 2189630000,
+        "hs_26": 2205520000,
+        "hs_27": 57666340000,
+        "hs_28": 4538440000,
+        "hs_29": 20112190000,
+        "hs_30": 25828220000,
+        "hs_31": 120690000,
+        "hs_32": 3247340000,
+        "hs_33": 2650930000,
+        "hs_34": 1061980000,
+        "hs_35": 428390000,
+        "hs_36": 553540000,
+        "hs_37": 23520000,
+        "hs_38": 7215500000,
+        "hs_39": 7904180000,
+        "hs_40": 5048920000,
+        "hs_41": 407080000,
+        "hs_42": 2668650000,
+        "hs_43": 5340000,
+        "hs_44": 597270000,
+        "hs_45": 6450000,
+        "hs_46": 69710000,
+        "hs_47": 1530000,
+        "hs_48": 2613590000,
+        "hs_49": 457820000,
+        "hs_50": 237040000,
+        "hs_51": 141770000,
+        "hs_52": 6102790000,
+        "hs_53": 852650000,
+        "hs_54": 1656940000,
+        "hs_55": 1564160000,
+        "hs_56": 624130000,
+        "hs_57": 2027950000,
+        "hs_58": 380490000,
+        "hs_59": 457780000,
+        "hs_60": 520110000,
+        "hs_61": 7900410000,
+        "hs_62": 8391880000,
+        "hs_63": 6106350000,
+        "hs_64": 2532910000,
+        "hs_65": 104180000,
+        "hs_66": 6090000,
+        "hs_67": 646410000,
+        "hs_68": 2103860000,
+        "hs_69": 2757010000,
+        "hs_70": 1167860000,
+        "hs_71": 29781380000,
+        "hs_72": 9903350000,
+        "hs_73": 10562850000,
+        "hs_74": 2841840000,
+        "hs_75": 188320000,
+        "hs_76": 6785560000,
+        "hs_78": 1226450000,
+        "hs_79": 785670000,
+        "hs_80": 35360000,
+        "hs_81": 246860000,
+        "hs_82": 1173200000,
+        "hs_83": 1031400000,
+        "hs_84": 36198110000,
+        "hs_85": 53690580000,
+        "hs_86": 457650000,
+        "hs_87": 25143480000,
+        "hs_88": 2420090000,
+        "hs_89": 3515660000,
+        "hs_90": 5643030000,
+        "hs_91": 84050000,
+        "hs_92": 51670000,
+        "hs_93": 833600000,
+        "hs_94": 2540100000,
+        "hs_95": 603730000,
+        "hs_96": 714790000,
+        "hs_97": 174800000,
+        "hs_98": 10900000,
+        "hs_99": 280000
+      },
+      {
+        "periodKey": "2026",
+        "periodLabel": "2026 through Mar",
+        "periodSort": 202603,
+        "hs_00": 112028170000,
+        "hs_01": 8360000,
+        "hs_02": 1396280000,
+        "hs_03": 1486420000,
+        "hs_04": 213820000,
+        "hs_05": 100950000,
+        "hs_06": 25420000,
+        "hs_07": 522420000,
+        "hs_08": 625440000,
+        "hs_09": 1390610000,
+        "hs_10": 3413830000,
+        "hs_11": 154450000,
+        "hs_12": 434060000,
+        "hs_13": 320100000,
+        "hs_14": 11860000,
+        "hs_15": 563750000,
+        "hs_16": 167060000,
+        "hs_17": 695330000,
+        "hs_18": 59140000,
+        "hs_19": 231120000,
+        "hs_20": 303640000,
+        "hs_21": 506620000,
+        "hs_22": 106300000,
+        "hs_23": 554130000,
+        "hs_24": 413190000,
+        "hs_25": 657560000,
+        "hs_26": 604050000,
+        "hs_27": 12753830000,
+        "hs_28": 1199070000,
+        "hs_29": 5620130000,
+        "hs_30": 6356430000,
+        "hs_31": 65930000,
+        "hs_32": 805700000,
+        "hs_33": 676180000,
+        "hs_34": 261750000,
+        "hs_35": 106100000,
+        "hs_36": 125300000,
+        "hs_37": 5940000,
+        "hs_38": 1743880000,
+        "hs_39": 1719340000,
+        "hs_40": 1274420000,
+        "hs_41": 98610000,
+        "hs_42": 633160000,
+        "hs_43": 720000,
+        "hs_44": 141370000,
+        "hs_45": 1640000,
+        "hs_46": 19030000,
+        "hs_47": 150000,
+        "hs_48": 620780000,
+        "hs_49": 113770000,
+        "hs_50": 58690000,
+        "hs_51": 42600000,
+        "hs_52": 1583930000,
+        "hs_53": 245280000,
+        "hs_54": 421860000,
+        "hs_55": 414420000,
+        "hs_56": 150640000,
+        "hs_57": 473530000,
+        "hs_58": 102680000,
+        "hs_59": 104760000,
+        "hs_60": 124580000,
+        "hs_61": 1744280000,
+        "hs_62": 2453430000,
+        "hs_63": 1439880000,
+        "hs_64": 558490000,
+        "hs_65": 37910000,
+        "hs_66": 1570000,
+        "hs_67": 178400000,
+        "hs_68": 490150000,
+        "hs_69": 627610000,
+        "hs_70": 273990000,
+        "hs_71": 7027990000,
+        "hs_72": 2657740000,
+        "hs_73": 2570660000,
+        "hs_74": 1055760000,
+        "hs_75": 52200000,
+        "hs_76": 1949050000,
+        "hs_78": 324380000,
+        "hs_79": 275740000,
+        "hs_80": 22590000,
+        "hs_81": 97150000,
+        "hs_82": 283490000,
+        "hs_83": 252440000,
+        "hs_84": 9289100000,
+        "hs_85": 14325120000,
+        "hs_86": 121090000,
+        "hs_87": 6662660000,
+        "hs_88": 438550000,
+        "hs_89": 1166950000,
+        "hs_90": 1475550000,
+        "hs_91": 24570000,
+        "hs_92": 12650000,
+        "hs_93": 153930000,
+        "hs_94": 597100000,
+        "hs_95": 119910000,
+        "hs_96": 172940000,
+        "hs_97": 56150000,
+        "hs_98": 4790000,
+        "hs_99": 60000
+      }
+    ]
+  }
+}

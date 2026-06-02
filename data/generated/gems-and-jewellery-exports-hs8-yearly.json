@@ -1,0 +1,479 @@
+{
+  "dataset": {
+    "id": "gems-and-jewellery-exports-hs8-yearly",
+    "label": "Yearly HS8 Indian exports to the US",
+    "scope": "us",
+    "sourceFile": "data/raw/tradestat/exports/hs8/us",
+    "valueLabel": "Export value (US $)",
+    "expectedGranularity": "yearly",
+    "actualGranularity": "yearly",
+    "coverage": {
+      "2024": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "2025": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "2026": [
+        1,
+        2,
+        3
+      ]
+    },
+    "hs2Commodities": [
+      {
+        "hsCode": "71",
+        "name": "71"
+      }
+    ],
+    "periods": [
+      {
+        "key": "2024",
+        "label": "2024",
+        "sort": 202412
+      },
+      {
+        "key": "2025",
+        "label": "2025",
+        "sort": 202512
+      },
+      {
+        "key": "2026",
+        "label": "2026 through Mar",
+        "sort": 202603
+      }
+    ],
+    "commodities": [
+      {
+        "id": "hs8_71012100",
+        "hsCode": "71",
+        "hs4Code": "7101",
+        "hs6Code": "710121",
+        "hs8Code": "71012100",
+        "name": "71012100 CULTURED PEARLS UNWRKD",
+        "total": 0
+      },
+      {
+        "id": "hs8_71021000",
+        "hsCode": "71",
+        "hs4Code": "7102",
+        "hs6Code": "710210",
+        "hs8Code": "71021000",
+        "name": "71021000 UNSORTED DIAMONDS W/N WORKED,NOT MOUNTED",
+        "total": 0
+      },
+      {
+        "id": "hs8_71022110",
+        "hsCode": "71",
+        "hs4Code": "7102",
+        "hs6Code": "710221",
+        "hs8Code": "71022110",
+        "name": "71022110 SORTED INDUSTRIAL DIAMONDS",
+        "total": 850000
+      },
+      {
+        "id": "hs8_71023100",
+        "hsCode": "71",
+        "hs4Code": "7102",
+        "hs6Code": "710231",
+        "hs8Code": "71023100",
+        "name": "71023100 NON-INDUSTRIAL DIAMONDS UNWORKED/SIMPLY   SAWN CLEAVED OR BRUTED",
+        "total": 1210000
+      },
+      {
+        "id": "hs8_71041000",
+        "hsCode": "71",
+        "hs4Code": "7104",
+        "hs6Code": "710410",
+        "hs8Code": "71041000",
+        "name": "71041000 PIEZO ELECTRIC QUARTZ",
+        "total": 0
+      },
+      {
+        "id": "hs8_71042900",
+        "hsCode": "71",
+        "hs4Code": "7104",
+        "hs6Code": "710429",
+        "hs8Code": "71042900",
+        "name": "71042900 OTHER",
+        "total": 0
+      },
+      {
+        "id": "hs8_71049110",
+        "hsCode": "71",
+        "hs4Code": "7104",
+        "hs6Code": "710491",
+        "hs8Code": "71049110",
+        "name": "71049110 Industrial Diamonds",
+        "total": 3720000
+      },
+      {
+        "id": "hs8_71059000",
+        "hsCode": "71",
+        "hs4Code": "7105",
+        "hs6Code": "710590",
+        "hs8Code": "71059000",
+        "name": "71059000 DUST AND POWDER OF OTHER PRECIOUS STONES",
+        "total": 0
+      },
+      {
+        "id": "hs8_71061000",
+        "hsCode": "71",
+        "hs4Code": "7106",
+        "hs6Code": "710610",
+        "hs8Code": "71061000",
+        "name": "71061000 SILVER IN POWDER FORM",
+        "total": 0
+      },
+      {
+        "id": "hs8_71069110",
+        "hsCode": "71",
+        "hs4Code": "7106",
+        "hs6Code": "710691",
+        "hs8Code": "71069110",
+        "name": "71069110 GRAINS",
+        "total": 40000
+      },
+      {
+        "id": "hs8_71069210",
+        "hsCode": "71",
+        "hs4Code": "7106",
+        "hs6Code": "710692",
+        "hs8Code": "71069210",
+        "name": "71069210 SHEETS PLATES STRIPS TUBES AND PIPES OF SLVR",
+        "total": 1570000
+      },
+      {
+        "id": "hs8_71070000",
+        "hsCode": "71",
+        "hs4Code": "7107",
+        "hs6Code": "710700",
+        "hs8Code": "71070000",
+        "name": "71070000 BASE MATL CLAD WTH SLVR ONLY SEMI MNFCTRD",
+        "total": 10000
+      },
+      {
+        "id": "hs8_71081210",
+        "hsCode": "71",
+        "hs4Code": "7108",
+        "hs6Code": "710812",
+        "hs8Code": "71081210",
+        "name": "71081210 GOLD",
+        "total": 29710000
+      },
+      {
+        "id": "hs8_71081310",
+        "hsCode": "71",
+        "hs4Code": "7108",
+        "hs6Code": "710813",
+        "hs8Code": "71081310",
+        "name": "71081310 GOLD",
+        "total": 10300000
+      },
+      {
+        "id": "hs8_71101900",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711019",
+        "hs8Code": "71101900",
+        "name": "71101900 PLATINUM IN OTHER FORMS",
+        "total": 80000
+      },
+      {
+        "id": "hs8_71102100",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711021",
+        "hs8Code": "71102100",
+        "name": "71102100 PALLADIUM UNWROUGHT OR IN POWDER FORM",
+        "total": 1250000
+      },
+      {
+        "id": "hs8_71102900",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711029",
+        "hs8Code": "71102900",
+        "name": "71102900 PALLADIUM IN OTHER FORM",
+        "total": 6230000
+      },
+      {
+        "id": "hs8_71103100",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711031",
+        "hs8Code": "71103100",
+        "name": "71103100 RHODIUM UNWROUGHT OR IN POWDER FORM",
+        "total": 0
+      },
+      {
+        "id": "hs8_71104100",
+        "hsCode": "71",
+        "hs4Code": "7110",
+        "hs6Code": "711041",
+        "hs8Code": "71104100",
+        "name": "71104100 IRIDIUM OSMIUM AND RUTHENIUM UNWROUGHT      OR IN POWDER FORM",
+        "total": 160000
+      },
+      {
+        "id": "hs8_71110000",
+        "hsCode": "71",
+        "hs4Code": "7111",
+        "hs6Code": "711100",
+        "hs8Code": "71110000",
+        "name": "71110000 SMI MNFCTRD BS MTLS;SLVR/GLD,CLD WTH PLTNM",
+        "total": 0
+      },
+      {
+        "id": "hs8_71131110",
+        "hsCode": "71",
+        "hs4Code": "7113",
+        "hs6Code": "711311",
+        "hs8Code": "71131110",
+        "name": "71131110 SILVER FILLIGREE WORK",
+        "total": 290000
+      },
+      {
+        "id": "hs8_71131921",
+        "hsCode": "71",
+        "hs4Code": "7113",
+        "hs6Code": "711319",
+        "hs8Code": "71131921",
+        "name": "71131921 Of platinum, Unstudded",
+        "total": 11070000
+      },
+      {
+        "id": "hs8_71131925",
+        "hsCode": "71",
+        "hs4Code": "7113",
+        "hs6Code": "711319",
+        "hs8Code": "71131925",
+        "name": "71131925 Of platinum, Studded with other precious and semi-precious stones",
+        "total": 1610000
+      },
+      {
+        "id": "hs8_71131929",
+        "hsCode": "71",
+        "hs4Code": "7113",
+        "hs6Code": "711319",
+        "hs8Code": "71131929",
+        "name": "71131929 Other",
+        "total": 15720000
+      },
+      {
+        "id": "hs8_71141110",
+        "hsCode": "71",
+        "hs4Code": "7114",
+        "hs6Code": "711411",
+        "hs8Code": "71141110",
+        "name": "71141110 MANUFACTURES OF SILVER",
+        "total": 12800000
+      },
+      {
+        "id": "hs8_71141120",
+        "hsCode": "71",
+        "hs4Code": "7114",
+        "hs6Code": "711411",
+        "hs8Code": "71141120",
+        "name": "71141120 PARTS",
+        "total": 0
+      },
+      {
+        "id": "hs8_71171100",
+        "hsCode": "71",
+        "hs4Code": "7117",
+        "hs6Code": "711711",
+        "hs8Code": "71171100",
+        "name": "71171100 CUFF LINKS AND STUDS OF BASE METAL W/N      PLATED WITH PRECIOUS METAL",
+        "total": 90000
+      },
+      {
+        "id": "hs8_71171920",
+        "hsCode": "71",
+        "hs4Code": "7117",
+        "hs6Code": "711719",
+        "hs8Code": "71171920",
+        "name": "71171920 GERMAN SILVER JEWELLERY",
+        "total": 120000
+      },
+      {
+        "id": "hs8_71171990",
+        "hsCode": "71",
+        "hs4Code": "7117",
+        "hs6Code": "711719",
+        "hs8Code": "71171990",
+        "name": "71171990 OTHER",
+        "total": 10620000
+      },
+      {
+        "id": "hs8_71179010",
+        "hsCode": "71",
+        "hs4Code": "7117",
+        "hs6Code": "711790",
+        "hs8Code": "71179010",
+        "name": "71179010 JEWELLERY SET WITH IMITATION PEARLS       OR IMITATION OR SYNTHETIC STONES",
+        "total": 6300000
+      },
+      {
+        "id": "hs8_71179090",
+        "hsCode": "71",
+        "hs4Code": "7117",
+        "hs6Code": "711790",
+        "hs8Code": "71179090",
+        "name": "71179090 OTHER IMITATION JEWELLERY FOR PERSONAL    ADORNMENT(OTHER THAN ARTWARE)",
+        "total": 59640000
+      },
+      {
+        "id": "hs8_71181000",
+        "hsCode": "71",
+        "hs4Code": "7118",
+        "hs6Code": "711810",
+        "hs8Code": "71181000",
+        "name": "71181000 COIN(EXCL GOLD)NOT BEING LEGAL TENDER",
+        "total": 3850000
+      },
+      {
+        "id": "hs8_71189000",
+        "hsCode": "71",
+        "hs4Code": "7118",
+        "hs6Code": "711890",
+        "hs8Code": "71189000",
+        "name": "71189000 OTHER COIN",
+        "total": 790000
+      }
+    ],
+    "rows": [
+      {
+        "periodKey": "2024",
+        "periodLabel": "2024",
+        "periodSort": 202412,
+        "hs8_71012100": 0,
+        "hs8_71021000": 0,
+        "hs8_71022110": 480000,
+        "hs8_71023100": 950000,
+        "hs8_71041000": 0,
+        "hs8_71042900": 0,
+        "hs8_71049110": 3380000,
+        "hs8_71059000": 0,
+        "hs8_71061000": 0,
+        "hs8_71069110": 0,
+        "hs8_71069210": 160000,
+        "hs8_71070000": 10000,
+        "hs8_71081210": 0,
+        "hs8_71081310": 0,
+        "hs8_71101900": 10000,
+        "hs8_71102100": 1250000,
+        "hs8_71102900": 0,
+        "hs8_71103100": 0,
+        "hs8_71104100": 130000,
+        "hs8_71110000": 0,
+        "hs8_71131110": 170000,
+        "hs8_71131921": 4350000,
+        "hs8_71131925": 960000,
+        "hs8_71131929": 8510000,
+        "hs8_71141110": 6290000,
+        "hs8_71141120": 0,
+        "hs8_71171100": 50000,
+        "hs8_71171920": 70000,
+        "hs8_71171990": 5320000,
+        "hs8_71179010": 3370000,
+        "hs8_71179090": 27040000,
+        "hs8_71181000": 1850000,
+        "hs8_71189000": 300000
+      },
+      {
+        "periodKey": "2025",
+        "periodLabel": "2025",
+        "periodSort": 202512,
+        "hs8_71012100": 0,
+        "hs8_71021000": 0,
+        "hs8_71022110": 310000,
+        "hs8_71023100": 210000,
+        "hs8_71041000": 0,
+        "hs8_71042900": 0,
+        "hs8_71049110": 340000,
+        "hs8_71059000": 0,
+        "hs8_71061000": 0,
+        "hs8_71069110": 10000,
+        "hs8_71069210": 1410000,
+        "hs8_71070000": 0,
+        "hs8_71081210": 6810000,
+        "hs8_71081310": 750000,
+        "hs8_71101900": 70000,
+        "hs8_71102100": 0,
+        "hs8_71102900": 6230000,
+        "hs8_71103100": 0,
+        "hs8_71104100": 0,
+        "hs8_71110000": 0,
+        "hs8_71131110": 90000,
+        "hs8_71131921": 5210000,
+        "hs8_71131925": 520000,
+        "hs8_71131929": 6410000,
+        "hs8_71141110": 5750000,
+        "hs8_71141120": 0,
+        "hs8_71171100": 40000,
+        "hs8_71171920": 50000,
+        "hs8_71171990": 4450000,
+        "hs8_71179010": 2480000,
+        "hs8_71179090": 24660000,
+        "hs8_71181000": 1940000,
+        "hs8_71189000": 380000
+      },
+      {
+        "periodKey": "2026",
+        "periodLabel": "2026 through Mar",
+        "periodSort": 202603,
+        "hs8_71022110": 60000,
+        "hs8_71023100": 50000,
+        "hs8_71041000": 0,
+        "hs8_71042900": 0,
+        "hs8_71049110": 0,
+        "hs8_71059000": 0,
+        "hs8_71061000": 0,
+        "hs8_71069110": 30000,
+        "hs8_71069210": 0,
+        "hs8_71070000": 0,
+        "hs8_71081210": 22900000,
+        "hs8_71081310": 9550000,
+        "hs8_71101900": 0,
+        "hs8_71102900": 0,
+        "hs8_71103100": 0,
+        "hs8_71104100": 30000,
+        "hs8_71131110": 30000,
+        "hs8_71131921": 1510000,
+        "hs8_71131925": 130000,
+        "hs8_71131929": 800000,
+        "hs8_71141110": 760000,
+        "hs8_71171100": 0,
+        "hs8_71171920": 0,
+        "hs8_71171990": 850000,
+        "hs8_71179010": 450000,
+        "hs8_71179090": 7940000,
+        "hs8_71181000": 60000,
+        "hs8_71189000": 110000
+      }
+    ]
+  }
+}
