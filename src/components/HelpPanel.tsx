@@ -75,6 +75,20 @@ function HelpPanel({ isOpen, activeTabLabel, content, onClose }: HelpPanelProps)
                   ))}
                 </ul>
               ) : null}
+              {section.links ? (
+                <div className="help-drawer__links">
+                  {section.links.map((link) => (
+                    <a
+                      href={link.href}
+                      key={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
             </section>
           ))}
         </div>

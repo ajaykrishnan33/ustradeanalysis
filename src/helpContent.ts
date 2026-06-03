@@ -4,6 +4,10 @@ export type HelpSection = {
   title: string;
   body?: string;
   bullets?: string[];
+  links?: Array<{
+    href: string;
+    label: string;
+  }>;
 };
 
 export type HelpContent = {
@@ -35,6 +39,27 @@ const chartBasics: HelpSection = {
   ],
 };
 
+const linkBasics: HelpSection = {
+  title: "Sharing a chart",
+  bullets: [
+    "Use the Link button on a chart to update the page URL for that chart.",
+    "The link includes the chart's current inputs, so reloading or sharing that URL restores those selections.",
+    "Changing inputs does not update the URL until you click Link again.",
+    "Inputs not included in the URL use their default values.",
+  ],
+};
+
+const dataSourceLinks: HelpSection["links"] = [
+  {
+    href: "https://usatrade.census.gov/",
+    label: "USA Trade Online",
+  },
+  {
+    href: "https://tradestat.commerce.gov.in/",
+    label: "TradeStat",
+  },
+];
+
 const scopeBasics: HelpSection = {
   title: "Scopes and sources",
   bullets: [
@@ -43,6 +68,7 @@ const scopeBasics: HelpSection = {
     "Indian exports to the US are reported by India, while US-reported imports from India are reported by the US. They may differ because of timing, definitions, or reporting methods.",
     "Global Indian exports excluding the US subtracts US-reported imports from India from India's global export totals.",
   ],
+  links: dataSourceLinks,
 };
 
 const helpByTabId: Record<string, HelpContent> = {
@@ -62,6 +88,7 @@ const helpByTabId: Record<string, HelpContent> = {
         ],
       },
       chartBasics,
+      linkBasics,
     ],
   },
   "india-exports": {
@@ -81,6 +108,7 @@ const helpByTabId: Record<string, HelpContent> = {
         ],
       },
       chartBasics,
+      linkBasics,
     ],
   },
   comparison: {
@@ -97,6 +125,7 @@ const helpByTabId: Record<string, HelpContent> = {
           "Differences can come from shipment timing, freight and insurance treatment, product classification, or reporting revisions.",
           "The comparison is most useful for direction, timing, and gap analysis rather than expecting the two sources to match exactly.",
         ],
+        links: dataSourceLinks,
       },
       {
         title: "What to do here",
@@ -107,6 +136,7 @@ const helpByTabId: Record<string, HelpContent> = {
         ],
       },
       chartBasics,
+      linkBasics,
     ],
   },
   "commodity-wise": {
@@ -126,6 +156,7 @@ const helpByTabId: Record<string, HelpContent> = {
         ],
       },
       chartBasics,
+      linkBasics,
     ],
   },
 };
@@ -133,6 +164,16 @@ const helpByTabId: Record<string, HelpContent> = {
 function buildSectorHelp(config: SectorConfigMetadata): HelpContent {
   const levels = config.levelsToRender ?? ["hs2", "hs4", "hs6"];
   const levelText = levels.map((level) => level.toUpperCase()).join(", ");
+  const scopeBullets = [
+    "Sector tabs are restricted to products and scopes available in that sector's source files.",
+    "Use import scopes to compare US-reported imports by country and export scopes to compare India-reported exports.",
+  ];
+
+  if (config.id === "textiles") {
+    scopeBullets.push(
+      "In Textiles, Global imports by US uses the US Census World Total import aggregate for HS61, HS62, and HS63.",
+    );
+  }
 
   return {
     title: `Using the ${config.tabLabel} tab`,
@@ -155,12 +196,13 @@ function buildSectorHelp(config: SectorConfigMetadata): HelpContent {
         title: "Drill-down charts",
         bullets: [
           `Below the summed chart, this sector includes ${levelText} charts where available.`,
-          "Start broad with HS2, then narrow to HS4, HS6, and HS8 if the data supports those levels.",
-          "Sector tabs are restricted to products and scopes available in that sector's source files.",
-          "Use import scopes to compare US-reported imports by country and export scopes to compare India-reported exports.",
+          "The first available commodity is selected by default so the drill-down charts start with data where possible.",
+          "Start broad with HS2, then narrow to HS4, HS6, and HS8 if the data supports those levels; changing a parent dropdown updates the lower-level choices.",
+          ...scopeBullets,
         ],
       },
       chartBasics,
+      linkBasics,
     ],
   };
 }
@@ -177,7 +219,7 @@ export function getHelpContent(tabId: string) {
       title: "Using this tool",
       intro:
         "Use the tabs to compare US-reported import data, India-reported export data, and matched commodity time series.",
-      sections: [hsCodeBasics, scopeBasics, chartBasics],
+      sections: [hsCodeBasics, scopeBasics, chartBasics, linkBasics],
     }
   );
 }

@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import {
   buildMonthlyGrowthRows,
+  buildPreviousCalendarYearTooltipRows,
   buildPreviousFiscalYearTooltipRows,
   buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
@@ -23,13 +24,16 @@ import {
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
   decodeGranularity,
+  decodePinnedTooltipLabel,
   decodeString,
   decodeStringArray,
   decodeValueMode,
   encodeGranularity,
+  encodePinnedTooltipLabel,
   encodeString,
   encodeStringArray,
   encodeValueMode,
+  pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
 import type { SectorConfig } from "../sectorConfigs";
@@ -42,8 +46,10 @@ import type {
 } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
+import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
 import SharedTooltip from "./SharedTooltip";
 import ValueModeToggle from "./ValueModeToggle";
+import usePinnedTooltip from "./usePinnedTooltip";
 
 type SectorScopeOption = {
   key: string;
@@ -82,14 +88,19 @@ type ParsedHs6Input = {
 type Hs6SumTimeView = "monthly" | "calendarYear" | "fiscalYear";
 
 const defaultImportScopeKey = "import:India";
+const worldTotalCountry = "World Total";
 const hs6SumTimeViews: Hs6SumTimeView[] = ["monthly", "calendarYear", "fiscalYear"];
-const defaultHs6SumExportScopeKeys = exportScopeOrder.map((scope) =>
-  getScopeKey({ type: "export", scope }),
-);
+const defaultHs6SumScopeKeys = [
+  getScopeKey({ type: "export", scope: "global" }),
+  getScopeKey({ type: "export", scope: "non-us-imports" }),
+  defaultImportScopeKey,
+];
 const allHs6SumCodesKey = "all";
-const firstHs6SumFiscalYearStart = 2024;
 
-type TooltipGrowthMode = "sameMonthPreviousYear" | "previousFiscalYear";
+type TooltipGrowthMode =
+  | "sameMonthPreviousYear"
+  | "previousCalendarYear"
+  | "previousFiscalYear";
 const levelKeyFields: Record<SectorLevel, "hsCode" | "hs4Code" | "hs6Code" | "hs8Code"> = {
   hs2: "hsCode",
   hs4: "hs4Code",
@@ -105,6 +116,27 @@ function getScopeKey(option: Pick<SectorScopeOption, "type" | "country" | "scope
 
 function getSeriesKey(scopeKey: string) {
   return scopeKey.replace(/[^a-z0-9]+/gi, "_").replace(/^_+|_+$/g, "");
+}
+
+function getImportScopeLabel(country: string) {
+  return country === worldTotalCountry
+    ? "Global imports by US"
+    : `US-reported imports from ${country}`;
+}
+
+function importCountrySort(left: string, right: string) {
+  if (left === worldTotalCountry && right !== worldTotalCountry) {
+    return -1;
+  }
+
+  if (right === worldTotalCountry && left !== worldTotalCountry) {
+    return 1;
+  }
+
+  return left.localeCompare(right, "en-US", {
+    numeric: true,
+    sensitivity: "base",
+  });
 }
 
 function isAllowedCode(allowedCodes: string[] | undefined, code?: string | null) {
@@ -175,10 +207,10 @@ function buildScopeOptions(config: SectorConfig) {
         .filter((country): country is string => Boolean(country)),
     ),
   ]
-    .sort()
+    .sort(importCountrySort)
     .map<SectorScopeOption>((country) => ({
       key: getScopeKey({ type: "import", country }),
-      label: `US-reported imports from ${country}`,
+      label: getImportScopeLabel(country),
       type: "import",
       country,
     }));
@@ -188,16 +220,12 @@ function buildScopeOptions(config: SectorConfig) {
 
 function getDefaultHs6SumScopeKeys(scopeOptions: SectorScopeOption[]) {
   const availableScopeKeys = new Set(scopeOptions.map((option) => option.key));
-  const defaultExportScopeKeys = defaultHs6SumExportScopeKeys.filter((scopeKey) =>
+  const availableDefaultScopeKeys = defaultHs6SumScopeKeys.filter((scopeKey) =>
     availableScopeKeys.has(scopeKey),
   );
 
-  if (defaultExportScopeKeys.length > 0) {
-    return defaultExportScopeKeys;
-  }
-
-  if (availableScopeKeys.has(defaultImportScopeKey)) {
-    return [defaultImportScopeKey];
+  if (availableDefaultScopeKeys.length > 0) {
+    return availableDefaultScopeKeys;
   }
 
   return scopeOptions.slice(0, 1).map((option) => option.key);
@@ -527,6 +555,78 @@ function getHs6SumGranularityLabel(timeView: Hs6SumTimeView) {
   return "monthly";
 }
 
+function getHs6SumBoundaryPeriodSorts(
+  periodSort: number,
+  timeView: Hs6SumTimeView,
+) {
+  if (timeView === "calendarYear") {
+    return [periodSort * 100 + 1, periodSort * 100 + 12];
+  }
+
+  if (timeView === "fiscalYear") {
+    return [periodSort * 100 + 4, (periodSort + 1) * 100 + 3];
+  }
+
+  return undefined;
+}
+
+function addHs6SumMonthCoverage({
+  coverageByPeriod,
+  periodKey,
+  seriesKey,
+  sourcePeriodSort,
+}: {
+  coverageByPeriod: Map<string, Map<string, Set<number>>>;
+  periodKey: string;
+  seriesKey: string;
+  sourcePeriodSort: number;
+}) {
+  let coverageBySeries = coverageByPeriod.get(periodKey);
+
+  if (!coverageBySeries) {
+    coverageBySeries = new Map();
+    coverageByPeriod.set(periodKey, coverageBySeries);
+  }
+
+  let coveredPeriods = coverageBySeries.get(seriesKey);
+
+  if (!coveredPeriods) {
+    coveredPeriods = new Set();
+    coverageBySeries.set(seriesKey, coveredPeriods);
+  }
+
+  coveredPeriods.add(sourcePeriodSort);
+}
+
+function hasHs6SumBoundaryCoverage({
+  row,
+  seriesKeys,
+  timeView,
+  coverageByPeriod,
+}: {
+  row: ChartRow;
+  seriesKeys: readonly string[];
+  timeView: Hs6SumTimeView;
+  coverageByPeriod: Map<string, Map<string, Set<number>>>;
+}) {
+  const boundarySorts = getHs6SumBoundaryPeriodSorts(row.periodSort, timeView);
+
+  if (!boundarySorts) {
+    return true;
+  }
+
+  const coverageBySeries = coverageByPeriod.get(row.periodKey);
+
+  return seriesKeys.every((seriesKey) => {
+    const coveredPeriods = coverageBySeries?.get(seriesKey);
+
+    return Boolean(
+      coveredPeriods &&
+        boundarySorts.every((periodSort) => coveredPeriods.has(periodSort)),
+    );
+  });
+}
+
 function buildRows({
   config,
   selectedScopes,
@@ -588,6 +688,8 @@ function buildHs6SumRows({
   timeView: Hs6SumTimeView;
 }) {
   const rowsByPeriod = new Map<string, ChartRow>();
+  const coverageByPeriod = new Map<string, Map<string, Set<number>>>();
+  const seriesKeys = selectedScopes.map((scope) => getSeriesKey(scope.key));
 
   if (hs6Codes.length === 0) {
     return [];
@@ -610,11 +712,13 @@ function buildHs6SumRows({
     for (const period of dataset.periods) {
       const displayPeriod = getHs6SumPeriod(period, timeView);
 
-      if (
-        timeView === "fiscalYear" &&
-        displayPeriod.sort < firstHs6SumFiscalYearStart
-      ) {
-        continue;
+      if (timeView !== "monthly") {
+        addHs6SumMonthCoverage({
+          coverageByPeriod,
+          periodKey: displayPeriod.key,
+          seriesKey,
+          sourcePeriodSort: period.sort,
+        });
       }
 
       const sourceRow = dataset.rows.find((row) => row.periodKey === period.key);
@@ -637,9 +741,16 @@ function buildHs6SumRows({
     }
   }
 
-  return [...rowsByPeriod.values()].sort(
-    (left, right) => left.periodSort - right.periodSort,
-  );
+  return [...rowsByPeriod.values()]
+    .filter((row) =>
+      hasHs6SumBoundaryCoverage({
+        row,
+        seriesKeys,
+        timeView,
+        coverageByPeriod,
+      }),
+    )
+    .sort((left, right) => left.periodSort - right.periodSort);
 }
 
 function SectorScopeMultiSelect({
@@ -855,12 +966,37 @@ function SectorLineChart({
       return buildSameMonthPreviousYearTooltipRows(rows, seriesKeys);
     }
 
+    if (tooltipGrowthMode === "previousCalendarYear") {
+      return buildPreviousCalendarYearTooltipRows(rows, seriesKeys);
+    }
+
     if (tooltipGrowthMode === "previousFiscalYear") {
       return buildPreviousFiscalYearTooltipRows(rows, seriesKeys);
     }
 
     return rows;
   }, [effectiveValueMode, rows, seriesKeys, tooltipGrowthMode]);
+  const pinnedTooltip = usePinnedTooltip({
+    rows: displayRows,
+    initialPinnedLabel: decodePinnedTooltipLabel(
+      chartLink?.chartState,
+      displayRows.map((row) => row.periodLabel),
+    ),
+    stateKey: chartLink?.chartStateKey,
+  });
+
+  function getPinnedChartParams(): ChartUrlState {
+    const state = chartLink?.getChartParams?.() ?? {};
+    const encodedPinnedTooltipLabel = encodePinnedTooltipLabel(
+      pinnedTooltip.pinnedLabel,
+    );
+
+    if (encodedPinnedTooltipLabel) {
+      state[pinnedTooltipStateKey] = encodedPinnedTooltipLabel;
+    }
+
+    return state;
+  }
 
   return (
     <section
@@ -879,16 +1015,19 @@ function SectorLineChart({
         </div>
         <div className="chart-header__actions">
           <span className="granularity">{granularityLabel ?? granularity}</span>
-          {chartLink ? <ChartLinkButton {...chartLink} /> : null}
+          {chartLink ? (
+            <ChartLinkButton {...chartLink} getChartParams={getPinnedChartParams} />
+          ) : null}
         </div>
       </div>
 
       {selectedScopes.length > 0 && rows.length > 0 ? (
-        <div className="chart-wrap chart-wrap--comparison">
+        <div className={pinnedTooltip.getChartWrapperClassName("chart-wrap chart-wrap--comparison")}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={displayRows}
               margin={{ top: 12, right: 32, bottom: 28, left: 24 }}
+              onClick={pinnedTooltip.handleChartClick}
             >
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis
@@ -904,15 +1043,21 @@ function SectorLineChart({
                 width={82}
               />
               <Tooltip
+                {...pinnedTooltip.tooltipProps}
+                allowEscapeViewBox={{ y: true }}
                 content={
                   <SharedTooltip
+                    isPinned={pinnedTooltip.isPinned}
+                    onClearPinned={pinnedTooltip.clearPinnedTooltip}
                     valueFormatter={
                       effectiveValueMode === "monthlyGrowth" ? formatPercent : undefined
                     }
                   />
                 }
+                wrapperStyle={{ whiteSpace: "normal", zIndex: 30 }}
               />
               <EventReferenceLines granularity={granularity} />
+              <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
               {selectedScopes.map((scope, index) => (
                 <Line
                   key={scope.key}
@@ -1086,9 +1231,11 @@ export function SectorImportsTab({
   const hs6SumTooltipGrowthMode: TooltipGrowthMode | undefined =
     hs6SumTimeView === "monthly"
       ? "sameMonthPreviousYear"
-      : hs6SumTimeView === "fiscalYear"
-        ? "previousFiscalYear"
-        : undefined;
+      : hs6SumTimeView === "calendarYear"
+        ? "previousCalendarYear"
+        : hs6SumTimeView === "fiscalYear"
+          ? "previousFiscalYear"
+          : undefined;
   const hs2Rows = useMemo(
     () =>
       buildRows({
@@ -1526,6 +1673,8 @@ export function SectorImportsTab({
             chartLink={{
               activeTab,
               chartId: "hs6-sum",
+              chartState: activeChart === "hs6-sum" ? chartState : undefined,
+              chartStateKey: activeChart === "hs6-sum" ? chartStateKey : undefined,
               getChartParams: getHs6SumChartParams,
               onChartLink,
             }}
@@ -1593,6 +1742,8 @@ export function SectorImportsTab({
           chartLink={{
             activeTab,
             chartId: "hs2",
+            chartState: activeChart === "hs2" ? chartState : undefined,
+            chartStateKey: activeChart === "hs2" ? chartStateKey : undefined,
             getChartParams: getStandardChartParams,
             onChartLink,
           }}
@@ -1637,6 +1788,8 @@ export function SectorImportsTab({
           chartLink={{
             activeTab,
             chartId: "hs4",
+            chartState: activeChart === "hs4" ? chartState : undefined,
+            chartStateKey: activeChart === "hs4" ? chartStateKey : undefined,
             getChartParams: getStandardChartParams,
             onChartLink,
           }}
@@ -1681,6 +1834,8 @@ export function SectorImportsTab({
           chartLink={{
             activeTab,
             chartId: "hs6",
+            chartState: activeChart === "hs6" ? chartState : undefined,
+            chartStateKey: activeChart === "hs6" ? chartStateKey : undefined,
             getChartParams: getStandardChartParams,
             onChartLink,
           }}
@@ -1727,6 +1882,8 @@ export function SectorImportsTab({
               chartLink={{
                 activeTab,
                 chartId: "hs8",
+                chartState: activeChart === "hs8" ? chartState : undefined,
+                chartStateKey: activeChart === "hs8" ? chartStateKey : undefined,
                 getChartParams: getStandardChartParams,
                 onChartLink,
               }}

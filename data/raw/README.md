@@ -8,7 +8,7 @@
 
 `us-census/imports/electronics` contains US Census import CSV exports for electronics imports, currently covering HS85; the sector preprocessing extracts HS2, HS4, HS6, and HS8 datasets for the Electronics tab.
 
-`us-census/imports/textiles` contains US Census import CSV exports for textiles and apparel imports, currently covering HS61, HS62, and HS63; the sector preprocessing extracts HS2, HS4, HS6, and HS8 datasets for the Textiles tab.
+`us-census/imports/textiles` contains US Census import CSV exports for textiles and apparel imports, currently covering HS61, HS62, and HS63; the sector preprocessing extracts HS2, HS4, HS6, and HS8 datasets for the Textiles tab from selected source countries and the World Total aggregate.
 
 `us-census/imports/gems-and-jewellery` contains US Census import CSV exports for gems and jewellery imports, currently covering HS71; the sector preprocessing extracts HS2, HS4, HS6, and HS8 datasets for the Gems & Jewellery tab.
 

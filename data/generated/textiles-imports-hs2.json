@@ -4207,6 +4207,532 @@
           "hs2_63": 213131171
         }
       ]
+    },
+    {
+      "id": "textiles-imports-hs2-world-total-monthly",
+      "label": "Monthly textiles HS2 imports - World Total",
+      "country": "World Total",
+      "sourceFile": "data/raw/us-census/imports/textiles/hs61-63-world-total.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "monthly",
+      "actualGranularity": "monthly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024-01",
+          "label": "Jan 2024",
+          "sort": 202401
+        },
+        {
+          "key": "2024-02",
+          "label": "Feb 2024",
+          "sort": 202402
+        },
+        {
+          "key": "2024-03",
+          "label": "Mar 2024",
+          "sort": 202403
+        },
+        {
+          "key": "2024-04",
+          "label": "Apr 2024",
+          "sort": 202404
+        },
+        {
+          "key": "2024-05",
+          "label": "May 2024",
+          "sort": 202405
+        },
+        {
+          "key": "2024-06",
+          "label": "Jun 2024",
+          "sort": 202406
+        },
+        {
+          "key": "2024-07",
+          "label": "Jul 2024",
+          "sort": 202407
+        },
+        {
+          "key": "2024-08",
+          "label": "Aug 2024",
+          "sort": 202408
+        },
+        {
+          "key": "2024-09",
+          "label": "Sep 2024",
+          "sort": 202409
+        },
+        {
+          "key": "2024-10",
+          "label": "Oct 2024",
+          "sort": 202410
+        },
+        {
+          "key": "2024-11",
+          "label": "Nov 2024",
+          "sort": 202411
+        },
+        {
+          "key": "2024-12",
+          "label": "Dec 2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025-01",
+          "label": "Jan 2025",
+          "sort": 202501
+        },
+        {
+          "key": "2025-02",
+          "label": "Feb 2025",
+          "sort": 202502
+        },
+        {
+          "key": "2025-03",
+          "label": "Mar 2025",
+          "sort": 202503
+        },
+        {
+          "key": "2025-04",
+          "label": "Apr 2025",
+          "sort": 202504
+        },
+        {
+          "key": "2025-05",
+          "label": "May 2025",
+          "sort": 202505
+        },
+        {
+          "key": "2025-06",
+          "label": "Jun 2025",
+          "sort": 202506
+        },
+        {
+          "key": "2025-07",
+          "label": "Jul 2025",
+          "sort": 202507
+        },
+        {
+          "key": "2025-08",
+          "label": "Aug 2025",
+          "sort": 202508
+        },
+        {
+          "key": "2025-09",
+          "label": "Sep 2025",
+          "sort": 202509
+        },
+        {
+          "key": "2025-10",
+          "label": "Oct 2025",
+          "sort": 202510
+        },
+        {
+          "key": "2025-11",
+          "label": "Nov 2025",
+          "sort": 202511
+        },
+        {
+          "key": "2025-12",
+          "label": "Dec 2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026-01",
+          "label": "Jan 2026",
+          "sort": 202601
+        },
+        {
+          "key": "2026-02",
+          "label": "Feb 2026",
+          "sort": 202602
+        },
+        {
+          "key": "2026-03",
+          "label": "Mar 2026",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_61",
+          "hsCode": "61",
+          "name": "61 Apparel Articles And Accessories, Knit Or Crochet",
+          "total": 99778270564
+        },
+        {
+          "id": "hs2_62",
+          "hsCode": "62",
+          "name": "62 Apparel Articles And Accessories, Not Knit Etc.",
+          "total": 77006899887
+        },
+        {
+          "id": "hs2_63",
+          "hsCode": "63",
+          "name": "63 Textile Art Nesoi; Needlecraft Sets; Worn Text Art",
+          "total": 35350856649
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024-01",
+          "periodLabel": "Jan 2024",
+          "periodSort": 202401,
+          "hs2_61": 3212066755,
+          "hs2_62": 2879581330,
+          "hs2_63": 1240709396
+        },
+        {
+          "periodKey": "2024-02",
+          "periodLabel": "Feb 2024",
+          "periodSort": 202402,
+          "hs2_61": 3228702604,
+          "hs2_62": 2986019342,
+          "hs2_63": 1272487678
+        },
+        {
+          "periodKey": "2024-03",
+          "periodLabel": "Mar 2024",
+          "periodSort": 202403,
+          "hs2_61": 3121781943,
+          "hs2_62": 2822056332,
+          "hs2_63": 1277788729
+        },
+        {
+          "periodKey": "2024-04",
+          "periodLabel": "Apr 2024",
+          "periodSort": 202404,
+          "hs2_61": 2983731061,
+          "hs2_62": 2710899227,
+          "hs2_63": 1325323897
+        },
+        {
+          "periodKey": "2024-05",
+          "periodLabel": "May 2024",
+          "periodSort": 202405,
+          "hs2_61": 3306245793,
+          "hs2_62": 2689556419,
+          "hs2_63": 1387014261
+        },
+        {
+          "periodKey": "2024-06",
+          "periodLabel": "Jun 2024",
+          "periodSort": 202406,
+          "hs2_61": 3512150273,
+          "hs2_62": 2717888355,
+          "hs2_63": 1354179921
+        },
+        {
+          "periodKey": "2024-07",
+          "periodLabel": "Jul 2024",
+          "periodSort": 202407,
+          "hs2_61": 4584862298,
+          "hs2_62": 3415495709,
+          "hs2_63": 1492173168
+        },
+        {
+          "periodKey": "2024-08",
+          "periodLabel": "Aug 2024",
+          "periodSort": 202408,
+          "hs2_61": 4591617441,
+          "hs2_62": 3196813494,
+          "hs2_63": 1501579595
+        },
+        {
+          "periodKey": "2024-09",
+          "periodLabel": "Sep 2024",
+          "periodSort": 202409,
+          "hs2_61": 4915881384,
+          "hs2_62": 3186022321,
+          "hs2_63": 1579691726
+        },
+        {
+          "periodKey": "2024-10",
+          "periodLabel": "Oct 2024",
+          "periodSort": 202410,
+          "hs2_61": 4748177809,
+          "hs2_62": 3090756289,
+          "hs2_63": 1637142526
+        },
+        {
+          "periodKey": "2024-11",
+          "periodLabel": "Nov 2024",
+          "periodSort": 202411,
+          "hs2_61": 3550709535,
+          "hs2_62": 2458894589,
+          "hs2_63": 1495525089
+        },
+        {
+          "periodKey": "2024-12",
+          "periodLabel": "Dec 2024",
+          "periodSort": 202412,
+          "hs2_61": 3630723546,
+          "hs2_62": 2747020266,
+          "hs2_63": 1353571179
+        },
+        {
+          "periodKey": "2025-01",
+          "periodLabel": "Jan 2025",
+          "periodSort": 202501,
+          "hs2_61": 3838930235,
+          "hs2_62": 3444870128,
+          "hs2_63": 1408828991
+        },
+        {
+          "periodKey": "2025-02",
+          "periodLabel": "Feb 2025",
+          "periodSort": 202502,
+          "hs2_61": 3342666599,
+          "hs2_62": 3084622171,
+          "hs2_63": 1352376071
+        },
+        {
+          "periodKey": "2025-03",
+          "periodLabel": "Mar 2025",
+          "periodSort": 202503,
+          "hs2_61": 3482894860,
+          "hs2_62": 3074430047,
+          "hs2_63": 1306310416
+        },
+        {
+          "periodKey": "2025-04",
+          "periodLabel": "Apr 2025",
+          "periodSort": 202504,
+          "hs2_61": 3299136444,
+          "hs2_62": 2930959152,
+          "hs2_63": 1307652687
+        },
+        {
+          "periodKey": "2025-05",
+          "periodLabel": "May 2025",
+          "periodSort": 202505,
+          "hs2_61": 3021473493,
+          "hs2_62": 2503194997,
+          "hs2_63": 1155187942
+        },
+        {
+          "periodKey": "2025-06",
+          "periodLabel": "Jun 2025",
+          "periodSort": 202506,
+          "hs2_61": 3683409574,
+          "hs2_62": 2823325305,
+          "hs2_63": 1087490053
+        },
+        {
+          "periodKey": "2025-07",
+          "periodLabel": "Jul 2025",
+          "periodSort": 202507,
+          "hs2_61": 4523007238,
+          "hs2_62": 3201928196,
+          "hs2_63": 1355530295
+        },
+        {
+          "periodKey": "2025-08",
+          "periodLabel": "Aug 2025",
+          "periodSort": 202508,
+          "hs2_61": 4397331946,
+          "hs2_62": 2868876475,
+          "hs2_63": 1374335006
+        },
+        {
+          "periodKey": "2025-09",
+          "periodLabel": "Sep 2025",
+          "periodSort": 202509,
+          "hs2_61": 4564293400,
+          "hs2_62": 2804494556,
+          "hs2_63": 1340411431
+        },
+        {
+          "periodKey": "2025-10",
+          "periodLabel": "Oct 2025",
+          "periodSort": 202510,
+          "hs2_61": 3894218204,
+          "hs2_62": 2467252313,
+          "hs2_63": 1268429890
+        },
+        {
+          "periodKey": "2025-11",
+          "periodLabel": "Nov 2025",
+          "periodSort": 202511,
+          "hs2_61": 3219508740,
+          "hs2_62": 2120128855,
+          "hs2_63": 1089448072
+        },
+        {
+          "periodKey": "2025-12",
+          "periodLabel": "Dec 2025",
+          "periodSort": 202512,
+          "hs2_61": 3539030470,
+          "hs2_62": 2489319620,
+          "hs2_63": 1066834170
+        },
+        {
+          "periodKey": "2026-01",
+          "periodLabel": "Jan 2026",
+          "periodSort": 202601,
+          "hs2_61": 3368235874,
+          "hs2_62": 2896933040,
+          "hs2_63": 1101655688
+        },
+        {
+          "periodKey": "2026-02",
+          "periodLabel": "Feb 2026",
+          "periodSort": 202602,
+          "hs2_61": 2971100431,
+          "hs2_62": 2595185636,
+          "hs2_63": 1047217832
+        },
+        {
+          "periodKey": "2026-03",
+          "periodLabel": "Mar 2026",
+          "periodSort": 202603,
+          "hs2_61": 3246382614,
+          "hs2_62": 2800375723,
+          "hs2_63": 1171960940
+        }
+      ]
+    },
+    {
+      "id": "textiles-imports-hs2-world-total-yearly",
+      "label": "Yearly textiles HS2 imports - World Total",
+      "country": "World Total",
+      "sourceFile": "data/raw/us-census/imports/textiles/hs61-63-world-total.csv",
+      "valueLabel": "Customs Value (Gen) ($US)",
+      "expectedGranularity": "yearly",
+      "actualGranularity": "yearly",
+      "coverage": {
+        "2024": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2025": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "2026": [
+          1,
+          2,
+          3
+        ]
+      },
+      "periods": [
+        {
+          "key": "2024",
+          "label": "2024",
+          "sort": 202412
+        },
+        {
+          "key": "2025",
+          "label": "2025",
+          "sort": 202512
+        },
+        {
+          "key": "2026",
+          "label": "2026 through Mar",
+          "sort": 202603
+        }
+      ],
+      "commodities": [
+        {
+          "id": "hs2_61",
+          "hsCode": "61",
+          "name": "61 Apparel Articles And Accessories, Knit Or Crochet",
+          "total": 99778270564
+        },
+        {
+          "id": "hs2_62",
+          "hsCode": "62",
+          "name": "62 Apparel Articles And Accessories, Not Knit Etc.",
+          "total": 77006899887
+        },
+        {
+          "id": "hs2_63",
+          "hsCode": "63",
+          "name": "63 Textile Art Nesoi; Needlecraft Sets; Worn Text Art",
+          "total": 35350856649
+        }
+      ],
+      "rows": [
+        {
+          "periodKey": "2024",
+          "periodLabel": "2024",
+          "periodSort": 202412,
+          "hs2_61": 45386650442,
+          "hs2_62": 34901003673,
+          "hs2_63": 16917187165
+        },
+        {
+          "periodKey": "2025",
+          "periodLabel": "2025",
+          "periodSort": 202512,
+          "hs2_61": 44805901203,
+          "hs2_62": 33813401815,
+          "hs2_63": 15112835024
+        },
+        {
+          "periodKey": "2026",
+          "periodLabel": "2026 through Mar",
+          "periodSort": 202603,
+          "hs2_61": 9585718919,
+          "hs2_62": 8292494399,
+          "hs2_63": 3320834460
+        }
+      ]
     }
   ]
 }

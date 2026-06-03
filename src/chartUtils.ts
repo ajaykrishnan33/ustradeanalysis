@@ -24,11 +24,19 @@ const tooltipGrowthPercentFormatter = new Intl.NumberFormat("en-US", {
   signDisplay: "exceptZero",
 });
 
+const tooltipDeltaFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+  signDisplay: "exceptZero",
+});
+
 export const tooltipGrowthMetadataKey = "__tooltipGrowth";
 
 export type TooltipGrowthMetadata = Record<
   string,
   {
+    delta: number;
     label: string;
     value: number;
   }
@@ -129,6 +137,10 @@ export function formatTooltipGrowthPercent(value: number) {
   return `${tooltipGrowthPercentFormatter.format(value)}%`;
 }
 
+export function formatTooltipDelta(value: number) {
+  return tooltipDeltaFormatter.format(value);
+}
+
 export function findDatasetByGranularity(
   datasets: Dataset[],
   granularity: Granularity,
@@ -207,6 +219,7 @@ export function buildTooltipGrowthRows({
       }
 
       metadata[dataKey] = {
+        delta: currentValue - comparisonValue,
         label,
         value,
       };
@@ -230,6 +243,18 @@ export function buildSameMonthPreviousYearTooltipRows(
     dataKeys,
     label: "YoY",
     getComparisonSort: (periodSort) => periodSort - 100,
+  });
+}
+
+export function buildPreviousCalendarYearTooltipRows(
+  rows: ChartRow[],
+  dataKeys: readonly string[],
+) {
+  return buildTooltipGrowthRows({
+    rows,
+    dataKeys,
+    label: "YoY",
+    getComparisonSort: (periodSort) => periodSort - 1,
   });
 }
 

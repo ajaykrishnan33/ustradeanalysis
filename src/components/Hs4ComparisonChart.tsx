@@ -20,18 +20,23 @@ import {
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
   decodeGranularity,
+  decodePinnedTooltipLabel,
   decodeString,
   decodeValueMode,
   encodeGranularity,
+  encodePinnedTooltipLabel,
   encodeString,
   encodeValueMode,
+  pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
 import type { ComparisonRow, Dataset, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
+import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
 import SharedTooltip from "./SharedTooltip";
 import ValueModeToggle from "./ValueModeToggle";
+import usePinnedTooltip from "./usePinnedTooltip";
 
 type Hs2ComparisonOption = {
   hsCode: string;
@@ -268,6 +273,14 @@ function Hs4ComparisonChart({
 
     return rows;
   }, [effectiveValueMode, granularity, rows]);
+  const pinnedTooltip = usePinnedTooltip({
+    rows: displayRows,
+    initialPinnedLabel: decodePinnedTooltipLabel(
+      chartLink?.chartState,
+      displayRows.map((row) => row.periodLabel),
+    ),
+    stateKey: chartLink?.chartStateKey,
+  });
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
 
@@ -338,6 +351,9 @@ function Hs4ComparisonChart({
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedHs2Code = encodeString(hsCode, defaultHs2Code);
     const encodedHs4Code = encodeString(hs4Code, defaultHs4Code);
+    const encodedPinnedTooltipLabel = encodePinnedTooltipLabel(
+      pinnedTooltip.pinnedLabel,
+    );
 
     if (encodedGranularity) {
       state.g = encodedGranularity;
@@ -353,6 +369,10 @@ function Hs4ComparisonChart({
 
     if (encodedHs4Code) {
       state.h4 = encodedHs4Code;
+    }
+
+    if (encodedPinnedTooltipLabel) {
+      state[pinnedTooltipStateKey] = encodedPinnedTooltipLabel;
     }
 
     return state;
@@ -449,11 +469,12 @@ function Hs4ComparisonChart({
           </div>
         </div>
 
-        <div className="chart-wrap chart-wrap--comparison">
+        <div className={pinnedTooltip.getChartWrapperClassName("chart-wrap chart-wrap--comparison")}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={displayRows}
               margin={{ top: 12, right: 32, bottom: 28, left: 24 }}
+              onClick={pinnedTooltip.handleChartClick}
             >
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis
@@ -469,8 +490,11 @@ function Hs4ComparisonChart({
                 width={82}
               />
               <Tooltip
+                {...pinnedTooltip.tooltipProps}
                 content={
                   <SharedTooltip
+                    isPinned={pinnedTooltip.isPinned}
+                    onClearPinned={pinnedTooltip.clearPinnedTooltip}
                     valueFormatter={
                       effectiveValueMode === "monthlyGrowth" ? formatPercent : undefined
                     }
@@ -478,6 +502,7 @@ function Hs4ComparisonChart({
                 }
               />
               <EventReferenceLines granularity={granularity} />
+              <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
               <Line
                 type="monotone"
                 dataKey="exportValue"

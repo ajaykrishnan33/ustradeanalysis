@@ -54,6 +54,21 @@ const tabs = [
   })),
 ];
 const defaultTabId = "us-imports";
+
+function ExternalLinkIcon() {
+  return (
+    <svg
+      className="site-footer__link-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M9 2h5v5h-1.5V4.56l-6.22 6.22-1.06-1.06 6.22-6.22H9V2Z" />
+      <path d="M3.5 4.5h4V6h-4v6.5H10v-4h1.5v4A1.5 1.5 0 0 1 10 14H3.5A1.5 1.5 0 0 1 2 12.5V6a1.5 1.5 0 0 1 1.5-1.5Z" />
+    </svg>
+  );
+}
+
 const chartIdsByTab: Record<string, string[]> = {
   "us-imports": ["all-imports", "hs2-imports", "hs4-imports"],
   "india-exports": ["all-exports", "hs2-exports", "hs4-exports"],
@@ -686,6 +701,44 @@ function App() {
         content={activeHelpContent}
         onClose={closeHelp}
       />
+
+      <footer className="site-footer">
+        <p>
+          Built by{" "}
+          <a
+            className="site-footer__author"
+            href="mailto:akj1996@gmail.com"
+            aria-label="Email Ajaykrishnan Jayagopal"
+            title="Email Ajaykrishnan Jayagopal"
+          >
+            Ajaykrishnan Jayagopal
+          </a>{" "}
+          (2026).
+        </p>
+        <nav className="site-footer__links" aria-label="Project and data sources">
+          <a
+            href="https://github.com/ajaykrishnan33/ustradeanalysis"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+            <ExternalLinkIcon />
+          </a>
+          <span className="site-footer__label">Data sources:</span>
+          <a href="https://usatrade.census.gov/" target="_blank" rel="noreferrer">
+            USA Trade Online
+            <ExternalLinkIcon />
+          </a>
+          <a
+            href="https://tradestat.commerce.gov.in/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            TradeStat
+            <ExternalLinkIcon />
+          </a>
+        </nav>
+      </footer>
     </main>
   );
 }

@@ -2,6 +2,7 @@ import type { ChartValueMode } from "./chartUtils";
 import type { Granularity } from "./types";
 
 export const chartStateParamName = "s";
+export const pinnedTooltipStateKey = "pt";
 
 export type EncodedSelectionDelta = {
   r: string[];
@@ -196,6 +197,17 @@ export function decodeString(
   }
 
   return value;
+}
+
+export function encodePinnedTooltipLabel(label: string | number | undefined) {
+  return label == null ? undefined : String(label);
+}
+
+export function decodePinnedTooltipLabel(
+  state: ChartUrlState | undefined,
+  allowedLabels: readonly string[],
+) {
+  return decodeString(state, pinnedTooltipStateKey, "", allowedLabels) || undefined;
 }
 
 export function areStringArraysEqual(left: readonly string[], right: readonly string[]) {

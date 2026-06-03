@@ -21,19 +21,24 @@ import {
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
   decodeGranularity,
+  decodePinnedTooltipLabel,
   decodeStringArray,
   decodeValueMode,
   encodeGranularity,
+  encodePinnedTooltipLabel,
   encodeStringArray,
   encodeValueMode,
+  pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
 import type { ChartRow, Dataset, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import CountryMultiSelect from "./CountryMultiSelect";
 import EventReferenceLines from "./EventReferenceLines";
+import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
 import SharedTooltip from "./SharedTooltip";
 import ValueModeToggle from "./ValueModeToggle";
+import usePinnedTooltip from "./usePinnedTooltip";
 
 type CountryAggregateChartProps = {
   title: string;
@@ -130,6 +135,14 @@ function CountryAggregateChart({
 
     return rows;
   }, [effectiveValueMode, granularity, rows, seriesKeys]);
+  const pinnedTooltip = usePinnedTooltip({
+    rows: displayRows,
+    initialPinnedLabel: decodePinnedTooltipLabel(
+      chartLink?.chartState,
+      displayRows.map((row) => row.periodLabel),
+    ),
+    stateKey: chartLink?.chartStateKey,
+  });
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
 
@@ -154,6 +167,9 @@ function CountryAggregateChart({
     const encodedGranularity = encodeGranularity(granularity);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedCountries = encodeStringArray(selectedCountries, availableCountries);
+    const encodedPinnedTooltipLabel = encodePinnedTooltipLabel(
+      pinnedTooltip.pinnedLabel,
+    );
 
     if (encodedGranularity) {
       state.g = encodedGranularity;
@@ -165,6 +181,10 @@ function CountryAggregateChart({
 
     if (encodedCountries) {
       state.c = encodedCountries;
+    }
+
+    if (encodedPinnedTooltipLabel) {
+      state[pinnedTooltipStateKey] = encodedPinnedTooltipLabel;
     }
 
     return state;
@@ -227,11 +247,12 @@ function CountryAggregateChart({
           </div>
         </div>
 
-        <div className="chart-wrap chart-wrap--comparison">
+        <div className={pinnedTooltip.getChartWrapperClassName("chart-wrap chart-wrap--comparison")}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={displayRows}
               margin={{ top: 12, right: 32, bottom: 28, left: 24 }}
+              onClick={pinnedTooltip.handleChartClick}
             >
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis
@@ -247,8 +268,11 @@ function CountryAggregateChart({
                 width={82}
               />
               <Tooltip
+                {...pinnedTooltip.tooltipProps}
                 content={
                   <SharedTooltip
+                    isPinned={pinnedTooltip.isPinned}
+                    onClearPinned={pinnedTooltip.clearPinnedTooltip}
                     valueFormatter={
                       effectiveValueMode === "monthlyGrowth" ? formatPercent : undefined
                     }
@@ -256,6 +280,7 @@ function CountryAggregateChart({
                 }
               />
               <EventReferenceLines granularity={granularity} />
+              <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
               {countries.map((country, index) => (
                 <Line
                   key={country}

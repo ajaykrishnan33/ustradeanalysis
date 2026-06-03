@@ -23,19 +23,24 @@ import {
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
   decodeGranularity,
+  decodePinnedTooltipLabel,
   decodeStringArray,
   decodeValueMode,
   encodeGranularity,
+  encodePinnedTooltipLabel,
   encodeStringArray,
   encodeValueMode,
+  pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
 import type { ChartRow, Dataset, ExportScope, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
 import ExportScopeMultiSelect from "./ExportScopeMultiSelect";
+import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
 import SharedTooltip from "./SharedTooltip";
 import ValueModeToggle from "./ValueModeToggle";
+import usePinnedTooltip from "./usePinnedTooltip";
 
 type ScopedAggregateExportChartProps = {
   title: string;
@@ -141,6 +146,14 @@ function ScopedAggregateExportChart({
 
     return rows;
   }, [effectiveValueMode, granularity, rows, seriesKeys]);
+  const pinnedTooltip = usePinnedTooltip({
+    rows: displayRows,
+    initialPinnedLabel: decodePinnedTooltipLabel(
+      chartLink?.chartState,
+      displayRows.map((row) => row.periodLabel),
+    ),
+    stateKey: chartLink?.chartStateKey,
+  });
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
 
@@ -170,6 +183,9 @@ function ScopedAggregateExportChart({
     const encodedGranularity = encodeGranularity(granularity);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedScopes = encodeStringArray(selectedScopes, availableScopes);
+    const encodedPinnedTooltipLabel = encodePinnedTooltipLabel(
+      pinnedTooltip.pinnedLabel,
+    );
 
     if (encodedGranularity) {
       state.g = encodedGranularity;
@@ -181,6 +197,10 @@ function ScopedAggregateExportChart({
 
     if (encodedScopes) {
       state.sc = encodedScopes;
+    }
+
+    if (encodedPinnedTooltipLabel) {
+      state[pinnedTooltipStateKey] = encodedPinnedTooltipLabel;
     }
 
     return state;
@@ -245,11 +265,12 @@ function ScopedAggregateExportChart({
         </div>
 
         {selectedScopes.length > 0 ? (
-          <div className="chart-wrap chart-wrap--comparison">
+          <div className={pinnedTooltip.getChartWrapperClassName("chart-wrap chart-wrap--comparison")}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={displayRows}
                 margin={{ top: 12, right: 32, bottom: 28, left: 24 }}
+                onClick={pinnedTooltip.handleChartClick}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis
@@ -265,8 +286,11 @@ function ScopedAggregateExportChart({
                   width={82}
                 />
                 <Tooltip
+                  {...pinnedTooltip.tooltipProps}
                   content={
                     <SharedTooltip
+                      isPinned={pinnedTooltip.isPinned}
+                      onClearPinned={pinnedTooltip.clearPinnedTooltip}
                       valueFormatter={
                         effectiveValueMode === "monthlyGrowth" ? formatPercent : undefined
                       }
@@ -274,6 +298,7 @@ function ScopedAggregateExportChart({
                   }
                 />
                 <EventReferenceLines granularity={granularity} />
+                <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
                 {selectedScopes.map((scope, index) => (
                   <Line
                     key={scope}

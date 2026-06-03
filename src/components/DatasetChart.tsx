@@ -11,7 +11,9 @@ import {
 import { formatCompactNumber, getLineColor } from "../chartUtils";
 import type { Commodity, Dataset } from "../types";
 import EventReferenceLines from "./EventReferenceLines";
+import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
 import SharedTooltip from "./SharedTooltip";
+import usePinnedTooltip from "./usePinnedTooltip";
 
 type DatasetChartProps = {
   title: string;
@@ -70,6 +72,7 @@ function DatasetChart({
       ),
     [dataset.commodities, selectedCommodityIds],
   );
+  const pinnedTooltip = usePinnedTooltip({ rows: dataset.rows });
 
   const topCommodity = useMemo(
     () =>
@@ -201,11 +204,12 @@ function DatasetChart({
           </div>
 
           {visibleCommodities.length > 0 ? (
-            <div className="chart-wrap">
+            <div className={pinnedTooltip.getChartWrapperClassName("chart-wrap")}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={dataset.rows}
                   margin={{ top: 12, right: 32, bottom: 28, left: 24 }}
+                  onClick={pinnedTooltip.handleChartClick}
                 >
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis
@@ -220,8 +224,17 @@ function DatasetChart({
                     tickFormatter={(value) => formatCompactNumber(Number(value))}
                     width={82}
                   />
-                  <Tooltip content={<SharedTooltip />} />
+                  <Tooltip
+                    {...pinnedTooltip.tooltipProps}
+                    content={
+                      <SharedTooltip
+                        isPinned={pinnedTooltip.isPinned}
+                        onClearPinned={pinnedTooltip.clearPinnedTooltip}
+                      />
+                    }
+                  />
                   <EventReferenceLines granularity={dataset.actualGranularity} />
+                  <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
                   {visibleCommodities.map((commodity) => (
                     <Line
                       key={commodity.id}

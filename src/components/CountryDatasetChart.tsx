@@ -21,23 +21,28 @@ import {
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
   decodeGranularity,
+  decodePinnedTooltipLabel,
   decodeSelection,
   decodeString,
   decodeStringArray,
   decodeValueMode,
   encodeGranularity,
+  encodePinnedTooltipLabel,
   encodeSelection,
   encodeString,
   encodeStringArray,
   encodeValueMode,
+  pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
 import type { ChartRow, Commodity, Dataset, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import CountryMultiSelect from "./CountryMultiSelect";
 import EventReferenceLines from "./EventReferenceLines";
+import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
 import SharedTooltip from "./SharedTooltip";
 import ValueModeToggle from "./ValueModeToggle";
+import usePinnedTooltip from "./usePinnedTooltip";
 
 type CountryDatasetChartProps = {
   title: string;
@@ -215,6 +220,14 @@ function CountryDatasetChart({
 
     return rows;
   }, [effectiveValueMode, granularity, rows, seriesKeys]);
+  const pinnedTooltip = usePinnedTooltip({
+    rows: displayRows,
+    initialPinnedLabel: decodePinnedTooltipLabel(
+      chartLink?.chartState,
+      displayRows.map((row) => row.periodLabel),
+    ),
+    stateKey: chartLink?.chartStateKey,
+  });
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
   const topCommodity = useMemo(
@@ -297,6 +310,9 @@ function CountryDatasetChart({
     const encodedCountries = encodeStringArray(selectedCountries, defaultCountries);
     const encodedQuery = encodeString(commodityQuery);
     const encodedHsCodes = encodeSelection(selectedHsCodesInOrder, defaultHsCodes);
+    const encodedPinnedTooltipLabel = encodePinnedTooltipLabel(
+      pinnedTooltip.pinnedLabel,
+    );
 
     if (encodedGranularity) {
       state.g = encodedGranularity;
@@ -316,6 +332,10 @@ function CountryDatasetChart({
 
     if (encodedHsCodes) {
       state.hs = encodedHsCodes;
+    }
+
+    if (encodedPinnedTooltipLabel) {
+      state[pinnedTooltipStateKey] = encodedPinnedTooltipLabel;
     }
 
     return state;
@@ -475,11 +495,12 @@ function CountryDatasetChart({
           </div>
 
           {visibleCommodities.length > 0 ? (
-            <div className="chart-wrap">
+            <div className={pinnedTooltip.getChartWrapperClassName("chart-wrap")}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={displayRows}
                   margin={{ top: 12, right: 32, bottom: 28, left: 24 }}
+                  onClick={pinnedTooltip.handleChartClick}
                 >
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis
@@ -495,8 +516,11 @@ function CountryDatasetChart({
                     width={82}
                   />
                   <Tooltip
+                    {...pinnedTooltip.tooltipProps}
                     content={
                       <SharedTooltip
+                        isPinned={pinnedTooltip.isPinned}
+                        onClearPinned={pinnedTooltip.clearPinnedTooltip}
                         valueFormatter={
                           effectiveValueMode === "monthlyGrowth" ? formatPercent : undefined
                         }
@@ -504,6 +528,7 @@ function CountryDatasetChart({
                     }
                   />
                   <EventReferenceLines granularity={granularity} />
+                  <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
                   {selectedCountries.flatMap((country, countryIndex) =>
                     visibleCommodities.map((commodity, commodityIndex) => {
                       if (!commodity.hsCode) {

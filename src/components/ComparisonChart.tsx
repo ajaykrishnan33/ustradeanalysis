@@ -22,18 +22,23 @@ import {
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
   decodeGranularity,
+  decodePinnedTooltipLabel,
   decodeString,
   decodeValueMode,
   encodeGranularity,
+  encodePinnedTooltipLabel,
   encodeString,
   encodeValueMode,
+  pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
 import type { ComparisonRow, Dataset, Granularity } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
+import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
 import SharedTooltip from "./SharedTooltip";
 import ValueModeToggle from "./ValueModeToggle";
+import usePinnedTooltip from "./usePinnedTooltip";
 
 const allCommoditiesOption = "__all_commodities__";
 const comparisonSeriesKeys = ["exportValue", "importValue"];
@@ -164,6 +169,14 @@ function ComparisonChart({
 
     return rows;
   }, [effectiveValueMode, granularity, rows]);
+  const pinnedTooltip = usePinnedTooltip({
+    rows: displayRows,
+    initialPinnedLabel: decodePinnedTooltipLabel(
+      chartLink?.chartState,
+      displayRows.map((row) => row.periodLabel),
+    ),
+    stateKey: chartLink?.chartStateKey,
+  });
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
 
@@ -188,6 +201,9 @@ function ComparisonChart({
     const encodedGranularity = encodeGranularity(granularity);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedHsCode = encodeString(hsCode, allCommoditiesOption);
+    const encodedPinnedTooltipLabel = encodePinnedTooltipLabel(
+      pinnedTooltip.pinnedLabel,
+    );
 
     if (encodedGranularity) {
       state.g = encodedGranularity;
@@ -199,6 +215,10 @@ function ComparisonChart({
 
     if (encodedHsCode) {
       state.h2 = encodedHsCode;
+    }
+
+    if (encodedPinnedTooltipLabel) {
+      state[pinnedTooltipStateKey] = encodedPinnedTooltipLabel;
     }
 
     return state;
@@ -284,11 +304,12 @@ function ComparisonChart({
           </div>
         </div>
 
-        <div className="chart-wrap chart-wrap--comparison">
+        <div className={pinnedTooltip.getChartWrapperClassName("chart-wrap chart-wrap--comparison")}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={displayRows}
               margin={{ top: 12, right: 32, bottom: 28, left: 24 }}
+              onClick={pinnedTooltip.handleChartClick}
             >
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis
@@ -304,8 +325,11 @@ function ComparisonChart({
                 width={82}
               />
               <Tooltip
+                {...pinnedTooltip.tooltipProps}
                 content={
                   <SharedTooltip
+                    isPinned={pinnedTooltip.isPinned}
+                    onClearPinned={pinnedTooltip.clearPinnedTooltip}
                     valueFormatter={
                       effectiveValueMode === "monthlyGrowth" ? formatPercent : undefined
                     }
@@ -313,6 +337,7 @@ function ComparisonChart({
                 }
               />
               <EventReferenceLines granularity={granularity} />
+              <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
               <Line
                 type="monotone"
                 dataKey="exportValue"

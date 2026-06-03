@@ -7,7 +7,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
 const generatedDataDir = path.join(rootDir, "data", "generated");
 
-const sourceFile = "data/raw/us-census/imports/textiles/hs61-63-primary.csv";
+const sourceFiles = [
+  "data/raw/us-census/imports/textiles/hs61-63-primary.csv",
+  "data/raw/us-census/imports/textiles/hs61-63-world-total.csv",
+];
 const valueColumn = "Customs Value (Gen) ($US)";
 const monthLabels = [
   "Jan",
@@ -99,7 +102,7 @@ function parseMonthlyTime(value) {
   };
 }
 
-function findHeaderIndex(text) {
+function findHeaderIndex(text, sourceFile) {
   const lines = text.split(/\r?\n/);
   const headerIndex = lines.findIndex(
     (line) => line.includes('"Commodity"') && line.includes('"Time"'),
@@ -110,6 +113,10 @@ function findHeaderIndex(text) {
   }
 
   return headerIndex;
+}
+
+function createEntriesByLevel() {
+  return Object.fromEntries(levels.map((level) => [level.id, []]));
 }
 
 function countrySlug(country) {
@@ -176,11 +183,11 @@ function buildHs8CommodityName(code, commodityName) {
   return `${code} ${String(commodityName).replace(/^\d+\s*/, "")}`;
 }
 
-async function readEntries() {
+async function readEntriesFromSource(sourceFile) {
   const csvPath = path.join(rootDir, sourceFile);
   const text = await readFile(csvPath, "utf8");
   const records = csvParse(
-    text.split(/\r?\n/).slice(findHeaderIndex(text)).join("\n").trim(),
+    text.split(/\r?\n/).slice(findHeaderIndex(text, sourceFile)).join("\n").trim(),
   );
   const missingColumns = ["Commodity", "Country", "Time", valueColumn].filter(
     (column) => !records.columns.includes(column),
@@ -190,7 +197,7 @@ async function readEntries() {
     throw new Error(`${sourceFile} is missing required columns: ${missingColumns.join(", ")}`);
   }
 
-  const entriesByLevel = Object.fromEntries(levels.map((level) => [level.id, []]));
+  const entriesByLevel = createEntriesByLevel();
   const hs10CodesByHs6 = new Map();
   let aggregatedTenDigitRows = 0;
   let skippedRows = 0;
@@ -253,6 +260,42 @@ async function readEntries() {
   };
 }
 
+async function readEntries() {
+  const sourceResults = await Promise.all(sourceFiles.map(readEntriesFromSource));
+  const entriesByLevel = createEntriesByLevel();
+  const hs10CodesByHs6 = new Map();
+  let aggregatedTenDigitRows = 0;
+  let skippedRows = 0;
+
+  for (const result of sourceResults) {
+    aggregatedTenDigitRows += result.aggregatedTenDigitRows;
+    skippedRows += result.skippedRows;
+
+    for (const level of levels) {
+      for (const entry of result.entriesByLevel[level.id]) {
+        entriesByLevel[level.id].push(entry);
+      }
+    }
+
+    for (const [hs6Code, hs10Codes] of result.hs10CodesByHs6.entries()) {
+      if (!hs10CodesByHs6.has(hs6Code)) {
+        hs10CodesByHs6.set(hs6Code, new Set());
+      }
+
+      for (const hs10Code of hs10Codes) {
+        hs10CodesByHs6.get(hs6Code).add(hs10Code);
+      }
+    }
+  }
+
+  return {
+    entriesByLevel,
+    hs10CodesByHs6,
+    aggregatedTenDigitRows,
+    skippedRows,
+  };
+}
+
 function buildCoverage(entries) {
   const coverageByYear = new Map();
 
@@ -289,6 +332,7 @@ function groupEntriesByCountry(entries) {
     .sort(([leftCountry], [rightCountry]) => countrySort(leftCountry, rightCountry))
     .map(([country, countryEntries]) => ({
       country,
+      sourceFile: [...new Set(countryEntries.map((entry) => entry.sourceFile))].join(", "),
       entries: countryEntries,
     }));
 }
@@ -301,6 +345,7 @@ function buildDataset({
   commodities,
   values,
   coverage,
+  sourceFile,
 }) {
   const datasetCommodities = commodities.map((commodity) => ({
     id: commodity.id,
@@ -347,7 +392,7 @@ function buildDataset({
   };
 }
 
-function buildDatasetsForCountry({ country, entries }, level, hs10CodesByHs6) {
+function buildDatasetsForCountry({ country, sourceFile, entries }, level, hs10CodesByHs6) {
   const commodityByCode = new Map();
   const monthlyPeriodsByKey = new Map();
   const monthlyValues = new Map();
@@ -409,6 +454,7 @@ function buildDatasetsForCountry({ country, entries }, level, hs10CodesByHs6) {
       commodities,
       values: monthlyValues,
       coverage,
+      sourceFile,
     }),
     buildDataset({
       country,
@@ -418,6 +464,7 @@ function buildDatasetsForCountry({ country, entries }, level, hs10CodesByHs6) {
       commodities,
       values: yearlyValues,
       coverage,
+      sourceFile,
     }),
   ];
 }

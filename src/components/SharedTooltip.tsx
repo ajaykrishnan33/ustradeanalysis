@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import {
+  formatTooltipDelta,
   formatNumber,
   formatTooltipGrowthPercent,
   getTooltipGrowthMetadata,
@@ -16,14 +17,18 @@ type TooltipPayloadItem = {
 
 type SharedTooltipProps = {
   active?: boolean;
+  isPinned?: boolean;
   label?: string;
+  onClearPinned?: () => void;
   payload?: TooltipPayloadItem[];
   valueFormatter?: (value: number) => string;
 };
 
 function SharedTooltip({
   active,
+  isPinned = false,
   label,
+  onClearPinned,
   payload,
   valueFormatter = formatNumber,
 }: SharedTooltipProps) {
@@ -54,7 +59,31 @@ function SharedTooltip({
 
   return (
     <div className="tooltip">
-      <div className="tooltip__header">{label}</div>
+      <div className="tooltip__header">
+        <span>{label}</span>
+        {isPinned && onClearPinned ? (
+          <button
+            type="button"
+            className="tooltip__close"
+            aria-label="Close pinned tooltip"
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onMouseDown={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onPointerDown={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onClearPinned();
+            }}
+          >
+            x
+          </button>
+        ) : null}
+      </div>
       <div className="tooltip__body">
         {values.map((item) => (
           <div className="tooltip__row" key={item.name}>
@@ -67,7 +96,8 @@ function SharedTooltip({
               <span>{valueFormatter(item.value)}</span>
               {item.growth ? (
                 <span className="tooltip__growth">
-                  {item.growth.label}: {formatTooltipGrowthPercent(item.growth.value)}
+                  {item.growth.label}: {formatTooltipGrowthPercent(item.growth.value)} (
+                  {formatTooltipDelta(item.growth.delta)})
                 </span>
               ) : null}
             </span>
