@@ -9,28 +9,34 @@ import {
   YAxis,
 } from "recharts";
 import {
+  addPeriodCoverage,
   buildMonthlyGrowthRows,
+  buildPreviousCalendarYearTooltipRows,
+  buildPreviousFiscalYearTooltipRows,
   buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   findDatasetByGranularity,
   formatCompactNumber,
   formatPercent,
+  getPeriodViewLabel,
+  getPeriodViewPeriod,
   getRowValue,
+  hasPeriodBoundaryCoverage,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
-  decodeGranularity,
+  decodePeriodView,
   decodePinnedTooltipLabel,
   decodeString,
   decodeValueMode,
-  encodeGranularity,
+  encodePeriodView,
   encodePinnedTooltipLabel,
   encodeString,
   encodeValueMode,
   pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
-import type { ComparisonRow, Dataset, Granularity } from "../types";
+import type { ComparisonRow, Dataset, PeriodView } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
 import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
@@ -48,12 +54,7 @@ type Hs4ComparisonOption = {
   label: string;
 };
 
-const visibleYears = new Set(["2025", "2026"]);
 const comparisonSeriesKeys = ["exportValue", "importValue"];
-
-function isVisibleYear(periodKey: string) {
-  return visibleYears.has(periodKey.slice(0, 4));
-}
 
 function hs2LabelByCode(dataset: Dataset) {
   return new Map(
@@ -153,10 +154,12 @@ function getHs4Codes(options: Hs4ComparisonOption[]) {
 }
 
 function buildComparisonRows({
+  periodView,
   hs4Code,
   exportDataset,
   importDataset,
 }: {
+  periodView: PeriodView;
   hs4Code: string;
   exportDataset: Dataset;
   importDataset: Dataset;
@@ -168,40 +171,81 @@ function buildComparisonRows({
     (commodity) => commodity.hs4Code === hs4Code,
   );
   const rowsByPeriod = new Map<string, ComparisonRow>();
+  const coverageByPeriod = new Map<string, Map<string, Set<number>>>();
+  const exportRowsByPeriod = new Map(
+    exportDataset.rows.map((row) => [row.periodKey, row]),
+  );
+  const importRowsByPeriod = new Map(
+    importDataset.rows.map((row) => [row.periodKey, row]),
+  );
 
-  for (const row of exportDataset.rows) {
-    if (!isVisibleYear(row.periodKey)) {
-      continue;
+  for (const period of exportDataset.periods) {
+    const displayPeriod = getPeriodViewPeriod(period, periodView);
+    const row = exportRowsByPeriod.get(period.key);
+    const value = row ? getRowValue(row, exportCommodity?.id) : undefined;
+    const existing = rowsByPeriod.get(displayPeriod.key);
+    const existingValue = existing?.exportValue;
+
+    if (periodView !== "monthly") {
+      addPeriodCoverage({
+        coverageByPeriod,
+        periodKey: displayPeriod.key,
+        seriesKey: "exportValue",
+        sourcePeriodSort: period.sort,
+      });
     }
 
-    rowsByPeriod.set(row.periodKey, {
-      periodKey: row.periodKey,
-      periodLabel: row.periodLabel,
-      periodSort: row.periodSort,
-      exportValue: getRowValue(row, exportCommodity?.id),
+    rowsByPeriod.set(displayPeriod.key, {
+      periodKey: displayPeriod.key,
+      periodLabel: existing?.periodLabel ?? displayPeriod.label,
+      periodSort: existing?.periodSort ?? displayPeriod.sort,
+      exportValue:
+        typeof value === "number"
+          ? (typeof existingValue === "number" ? existingValue : 0) + value
+          : existing?.exportValue,
+      importValue: existing?.importValue,
     });
   }
 
-  for (const row of importDataset.rows) {
-    if (!isVisibleYear(row.periodKey)) {
-      continue;
+  for (const period of importDataset.periods) {
+    const displayPeriod = getPeriodViewPeriod(period, periodView);
+    const row = importRowsByPeriod.get(period.key);
+    const value = row ? getRowValue(row, importCommodity?.id) : undefined;
+    const existing = rowsByPeriod.get(displayPeriod.key);
+    const existingValue = existing?.importValue;
+
+    if (periodView !== "monthly") {
+      addPeriodCoverage({
+        coverageByPeriod,
+        periodKey: displayPeriod.key,
+        seriesKey: "importValue",
+        sourcePeriodSort: period.sort,
+      });
     }
 
-    const existing = rowsByPeriod.get(row.periodKey);
-
-    rowsByPeriod.set(row.periodKey, {
-      periodKey: row.periodKey,
-      periodLabel: existing?.periodLabel ?? row.periodLabel,
-      periodSort: existing?.periodSort ?? row.periodSort,
+    rowsByPeriod.set(displayPeriod.key, {
+      periodKey: displayPeriod.key,
+      periodLabel: existing?.periodLabel ?? displayPeriod.label,
+      periodSort: existing?.periodSort ?? displayPeriod.sort,
       exportValue: existing?.exportValue,
-      importValue: getRowValue(row, importCommodity?.id),
+      importValue:
+        typeof value === "number"
+          ? (typeof existingValue === "number" ? existingValue : 0) + value
+          : existing?.importValue,
     });
   }
 
   return {
-    rows: [...rowsByPeriod.values()].sort(
-      (left, right) => left.periodSort - right.periodSort,
-    ),
+    rows: [...rowsByPeriod.values()]
+      .filter((row) =>
+        hasPeriodBoundaryCoverage({
+          coverageByPeriod,
+          periodView,
+          row,
+          seriesKeys: comparisonSeriesKeys,
+        }),
+      )
+      .sort((left, right) => left.periodSort - right.periodSort),
     exportCommodity,
     importCommodity,
   };
@@ -219,14 +263,14 @@ function Hs4ComparisonChart({
   chartLink,
 }: Hs4ComparisonChartProps) {
   const initialChartState = chartLink?.chartState;
-  const [granularity, setGranularity] = useState<Granularity>(() =>
-    decodeGranularity(initialChartState, "g"),
+  const [periodView, setPeriodView] = useState<PeriodView>(() =>
+    decodePeriodView(initialChartState, "g"),
   );
   const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
     decodeValueMode(initialChartState, "v"),
   );
-  const exportDataset = findDatasetByGranularity(exportHs4Datasets, granularity);
-  const importDataset = findDatasetByGranularity(indiaImportHs4Datasets, granularity);
+  const exportDataset = findDatasetByGranularity(exportHs4Datasets, "monthly");
+  const importDataset = findDatasetByGranularity(indiaImportHs4Datasets, "monthly");
   const hs2Options = useMemo(
     () => buildHs2Options(exportDataset, importDataset),
     [exportDataset, importDataset],
@@ -254,25 +298,34 @@ function Hs4ComparisonChart({
   const { rows, exportCommodity, importCommodity } = useMemo(
     () =>
       buildComparisonRows({
+        periodView,
         hs4Code,
         exportDataset,
         importDataset,
       }),
-    [exportDataset, hs4Code, importDataset],
+    [exportDataset, periodView, hs4Code, importDataset],
   );
   const effectiveValueMode =
-    granularity === "monthly" ? valueMode : "value";
+    periodView === "monthly" ? valueMode : "value";
   const displayRows = useMemo(() => {
     if (effectiveValueMode === "monthlyGrowth") {
       return buildMonthlyGrowthRows(rows, comparisonSeriesKeys);
     }
 
-    if (granularity === "monthly") {
+    if (periodView === "monthly") {
       return buildSameMonthPreviousYearTooltipRows(rows, comparisonSeriesKeys);
     }
 
+    if (periodView === "calendarYear") {
+      return buildPreviousCalendarYearTooltipRows(rows, comparisonSeriesKeys);
+    }
+
+    if (periodView === "fiscalYear") {
+      return buildPreviousFiscalYearTooltipRows(rows, comparisonSeriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, granularity, rows]);
+  }, [effectiveValueMode, periodView, rows]);
   const pinnedTooltip = usePinnedTooltip({
     rows: displayRows,
     initialPinnedLabel: decodePinnedTooltipLabel(
@@ -308,11 +361,11 @@ function Hs4ComparisonChart({
       return;
     }
 
-    const nextGranularity = decodeGranularity(chartLink.chartState, "g");
-    const nextExportDataset = findDatasetByGranularity(exportHs4Datasets, nextGranularity);
+    const nextPeriodView = decodePeriodView(chartLink.chartState, "g");
+    const nextExportDataset = findDatasetByGranularity(exportHs4Datasets, "monthly");
     const nextImportDataset = findDatasetByGranularity(
       indiaImportHs4Datasets,
-      nextGranularity,
+      "monthly",
     );
     const nextHs2Options = buildHs2Options(nextExportDataset, nextImportDataset);
     const nextHs2Codes = getHs2Codes(nextHs2Options);
@@ -332,7 +385,7 @@ function Hs4ComparisonChart({
     const nextDefaultHs4Code = nextHs4Options[0]?.hs4Code ?? "";
 
     appliedChartStateKeyRef.current = chartLink.chartStateKey;
-    setGranularity(nextGranularity);
+    setPeriodView(nextPeriodView);
     setValueMode(decodeValueMode(chartLink.chartState, "v"));
     setHsCode(nextHs2Code);
     setHs4Code(
@@ -347,7 +400,7 @@ function Hs4ComparisonChart({
 
   function getChartParams(): ChartUrlState {
     const state: ChartUrlState = {};
-    const encodedGranularity = encodeGranularity(granularity);
+    const encodedPeriodView = encodePeriodView(periodView);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedHs2Code = encodeString(hsCode, defaultHs2Code);
     const encodedHs4Code = encodeString(hs4Code, defaultHs4Code);
@@ -355,8 +408,8 @@ function Hs4ComparisonChart({
       pinnedTooltip.pinnedLabel,
     );
 
-    if (encodedGranularity) {
-      state.g = encodedGranularity;
+    if (encodedPeriodView) {
+      state.g = encodedPeriodView;
     }
 
     if (encodedValueMode) {
@@ -428,15 +481,16 @@ function Hs4ComparisonChart({
         <label className="field">
           <span>View</span>
           <select
-            value={granularity}
-            onChange={(event) => setGranularity(event.target.value as Granularity)}
+            value={periodView}
+            onChange={(event) => setPeriodView(event.target.value as PeriodView)}
           >
             <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
+            <option value="calendarYear">Calendar Year</option>
+            <option value="fiscalYear">Fiscal Year</option>
           </select>
         </label>
 
-        {granularity === "monthly" ? (
+        {periodView === "monthly" ? (
           <ValueModeToggle valueMode={valueMode} onChange={setValueMode} />
         ) : null}
       </section>
@@ -462,7 +516,7 @@ function Hs4ComparisonChart({
             </p>
           </div>
           <div className="chart-header__actions">
-            <span className="granularity">{granularity}</span>
+            <span className="granularity">{getPeriodViewLabel(periodView)}</span>
             {chartLink ? (
               <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
             ) : null}
@@ -501,7 +555,7 @@ function Hs4ComparisonChart({
                   />
                 }
               />
-              <EventReferenceLines granularity={granularity} />
+              <EventReferenceLines periodView={periodView} />
               <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
               <Line
                 type="monotone"

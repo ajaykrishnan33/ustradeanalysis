@@ -1,4 +1,4 @@
-import type { ChartRow, Dataset, ExportScope, Granularity } from "./types";
+import type { ChartRow, Dataset, ExportScope, Granularity, PeriodView } from "./types";
 
 export type ChartValueMode = "value" | "monthlyGrowth";
 
@@ -54,8 +54,8 @@ export const exportScopeLabels: Record<ExportScope, string> = {
   "non-us-imports": "Global Indian exports excluding the US",
 };
 
-export const eventMarkersByGranularity: Record<
-  Granularity,
+export const eventMarkersByPeriodView: Record<
+  PeriodView,
   Array<{
     key: string;
     label: string;
@@ -80,7 +80,7 @@ export const eventMarkersByGranularity: Record<
       labelSide: "right",
     },
   ],
-  yearly: [
+  calendarYear: [
     {
       key: "liberation-day",
       label: "April 2, 2025",
@@ -96,7 +96,167 @@ export const eventMarkersByGranularity: Record<
       labelSide: "right",
     },
   ],
+  fiscalYear: [
+    {
+      key: "liberation-day",
+      label: "April 2, 2025",
+      periodLabel: "FY 2025-26",
+      color: "#b42318",
+      labelSide: "left",
+    },
+    {
+      key: "russia-linked-tariffs",
+      label: "Aug 27, 2025",
+      periodLabel: "FY 2025-26",
+      color: "#7c2d12",
+      labelSide: "right",
+    },
+  ],
 };
+
+export const eventMarkersByGranularity: Record<
+  Granularity,
+  (typeof eventMarkersByPeriodView)[PeriodView]
+> = {
+  monthly: eventMarkersByPeriodView.monthly,
+  yearly: eventMarkersByPeriodView.calendarYear,
+};
+
+export type PeriodPoint = Dataset["periods"][number];
+
+export type PeriodCoverage = Map<string, Map<string, Set<number>>>;
+
+export function calendarYearFromSort(periodSort: number) {
+  return Math.floor(periodSort / 100);
+}
+
+export function monthFromSort(periodSort: number) {
+  return periodSort % 100;
+}
+
+export function fiscalYearStartFromSort(periodSort: number) {
+  const year = calendarYearFromSort(periodSort);
+  const month = monthFromSort(periodSort);
+
+  return month >= 4 ? year : year - 1;
+}
+
+export function fiscalYearLabel(startYear: number) {
+  return `FY ${startYear}-${String((startYear + 1) % 100).padStart(2, "0")}`;
+}
+
+export function getPeriodViewGranularity(periodView: PeriodView): Granularity {
+  return periodView === "monthly" ? "monthly" : "yearly";
+}
+
+export function getPeriodViewLabel(periodView: PeriodView) {
+  if (periodView === "calendarYear") {
+    return "calendar year";
+  }
+
+  if (periodView === "fiscalYear") {
+    return "fiscal year";
+  }
+
+  return "monthly";
+}
+
+export function getPeriodViewPeriod(period: PeriodPoint, periodView: PeriodView) {
+  if (periodView === "monthly") {
+    return {
+      key: period.key,
+      label: period.label,
+      sort: period.sort,
+    };
+  }
+
+  if (periodView === "calendarYear") {
+    const year = calendarYearFromSort(period.sort);
+
+    return {
+      key: `calendar-${year}`,
+      label: String(year),
+      sort: year,
+    };
+  }
+
+  const fiscalYearStart = fiscalYearStartFromSort(period.sort);
+
+  return {
+    key: `fiscal-${fiscalYearStart}`,
+    label: fiscalYearLabel(fiscalYearStart),
+    sort: fiscalYearStart,
+  };
+}
+
+export function getPeriodBoundarySorts(periodSort: number, periodView: PeriodView) {
+  if (periodView === "calendarYear") {
+    return [periodSort * 100 + 1, periodSort * 100 + 12];
+  }
+
+  if (periodView === "fiscalYear") {
+    return [periodSort * 100 + 4, (periodSort + 1) * 100 + 3];
+  }
+
+  return undefined;
+}
+
+export function addPeriodCoverage({
+  coverageByPeriod,
+  periodKey,
+  seriesKey,
+  sourcePeriodSort,
+}: {
+  coverageByPeriod: PeriodCoverage;
+  periodKey: string;
+  seriesKey: string;
+  sourcePeriodSort: number;
+}) {
+  let coverageBySeries = coverageByPeriod.get(periodKey);
+
+  if (!coverageBySeries) {
+    coverageBySeries = new Map();
+    coverageByPeriod.set(periodKey, coverageBySeries);
+  }
+
+  let coveredPeriods = coverageBySeries.get(seriesKey);
+
+  if (!coveredPeriods) {
+    coveredPeriods = new Set();
+    coverageBySeries.set(seriesKey, coveredPeriods);
+  }
+
+  coveredPeriods.add(sourcePeriodSort);
+}
+
+export function hasPeriodBoundaryCoverage({
+  coverageByPeriod,
+  periodView,
+  row,
+  seriesKeys,
+}: {
+  coverageByPeriod: PeriodCoverage;
+  periodView: PeriodView;
+  row: ChartRow;
+  seriesKeys: readonly string[];
+}) {
+  const boundarySorts = getPeriodBoundarySorts(row.periodSort, periodView);
+
+  if (!boundarySorts) {
+    return true;
+  }
+
+  const coverageBySeries = coverageByPeriod.get(row.periodKey);
+
+  return seriesKeys.every((seriesKey) => {
+    const coveredPeriods = coverageBySeries?.get(seriesKey);
+
+    return Boolean(
+      coveredPeriods &&
+        boundarySorts.every((periodSort) => coveredPeriods.has(periodSort)),
+    );
+  });
+}
 
 export function getLineColor(index: number) {
   return `hsl(${(index * 137.508) % 360} 68% 42%)`;

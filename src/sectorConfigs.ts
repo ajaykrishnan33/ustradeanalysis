@@ -1,6 +1,9 @@
 import type { Dataset, SectorLevel } from "./types";
 
 export type SectorDatasetsByLevel = Partial<Record<SectorLevel, Dataset[]>>;
+export type BasketFallbackDatasetsByLevel = Partial<
+  Record<"hs2" | "hs4", Dataset[]>
+>;
 
 export type SectorConfigMetadata = {
   id: string;
@@ -18,6 +21,8 @@ export type SectorConfigMetadata = {
 export type SectorConfig = SectorConfigMetadata & {
   datasetsByLevel: SectorDatasetsByLevel;
   exportDatasetsByLevel?: SectorDatasetsByLevel;
+  basketFallbackImportDatasetsByLevel?: BasketFallbackDatasetsByLevel;
+  basketFallbackExportDatasetsByLevel?: BasketFallbackDatasetsByLevel;
 };
 
 export const autoPartsSectorConfig: SectorConfigMetadata = {

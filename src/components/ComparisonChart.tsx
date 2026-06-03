@@ -9,30 +9,35 @@ import {
   YAxis,
 } from "recharts";
 import {
+  addPeriodCoverage,
   buildMonthlyGrowthRows,
+  buildPreviousCalendarYearTooltipRows,
+  buildPreviousFiscalYearTooltipRows,
   buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
-  comparisonYearKey,
   findDatasetByGranularity,
   formatCompactNumber,
   formatPercent,
+  getPeriodViewLabel,
+  getPeriodViewPeriod,
   getRowValue,
+  hasPeriodBoundaryCoverage,
   sumCommodityValues,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
-  decodeGranularity,
+  decodePeriodView,
   decodePinnedTooltipLabel,
   decodeString,
   decodeValueMode,
-  encodeGranularity,
+  encodePeriodView,
   encodePinnedTooltipLabel,
   encodeString,
   encodeValueMode,
   pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
-import type { ComparisonRow, Dataset, Granularity } from "../types";
+import type { ComparisonRow, Dataset, PeriodView } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
 import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
@@ -44,12 +49,12 @@ const allCommoditiesOption = "__all_commodities__";
 const comparisonSeriesKeys = ["exportValue", "importValue"];
 
 function buildComparisonRows({
-  granularity,
+  periodView,
   hsCode,
   exportDataset,
   importDataset,
 }: {
-  granularity: Granularity;
+  periodView: PeriodView;
   hsCode: string;
   exportDataset: Dataset;
   importDataset: Dataset;
@@ -64,38 +69,90 @@ function buildComparisonRows({
   const exportCommodityIds = exportDataset.commodities.map((commodity) => commodity.id);
   const importCommodityIds = importDataset.commodities.map((commodity) => commodity.id);
   const rowsByPeriod = new Map<string, ComparisonRow>();
+  const coverageByPeriod = new Map<string, Map<string, Set<number>>>();
 
-  for (const row of exportDataset.rows) {
-    const periodKey = granularity === "yearly" ? comparisonYearKey(row) : row.periodKey;
-    rowsByPeriod.set(periodKey, {
-      periodKey,
-      periodLabel: row.periodLabel,
-      periodSort: row.periodSort,
-      exportValue: useAllCommodities
+  const exportRowsByPeriod = new Map(
+    exportDataset.rows.map((row) => [row.periodKey, row]),
+  );
+  const importRowsByPeriod = new Map(
+    importDataset.rows.map((row) => [row.periodKey, row]),
+  );
+
+  for (const period of exportDataset.periods) {
+    const displayPeriod = getPeriodViewPeriod(period, periodView);
+    const row = exportRowsByPeriod.get(period.key);
+    const existing = rowsByPeriod.get(displayPeriod.key);
+    const existingValue = existing?.exportValue;
+    const value = row
+      ? useAllCommodities
         ? sumCommodityValues(row, exportCommodityIds)
-        : getRowValue(row, exportCommodity?.id),
+        : getRowValue(row, exportCommodity?.id)
+      : undefined;
+
+    if (periodView !== "monthly") {
+      addPeriodCoverage({
+        coverageByPeriod,
+        periodKey: displayPeriod.key,
+        seriesKey: "exportValue",
+        sourcePeriodSort: period.sort,
+      });
+    }
+
+    rowsByPeriod.set(displayPeriod.key, {
+      periodKey: displayPeriod.key,
+      periodLabel: existing?.periodLabel ?? displayPeriod.label,
+      periodSort: existing?.periodSort ?? displayPeriod.sort,
+      exportValue:
+        typeof value === "number"
+          ? (typeof existingValue === "number" ? existingValue : 0) + value
+          : existing?.exportValue,
+      importValue: existing?.importValue,
     });
   }
 
-  for (const row of importDataset.rows) {
-    const periodKey = granularity === "yearly" ? comparisonYearKey(row) : row.periodKey;
-    const existing = rowsByPeriod.get(periodKey);
-
-    rowsByPeriod.set(periodKey, {
-      periodKey,
-      periodLabel: row.periodLabel || existing?.periodLabel || periodKey,
-      periodSort: existing?.periodSort ?? row.periodSort,
-      exportValue: existing?.exportValue,
-      importValue: useAllCommodities
+  for (const period of importDataset.periods) {
+    const displayPeriod = getPeriodViewPeriod(period, periodView);
+    const row = importRowsByPeriod.get(period.key);
+    const existing = rowsByPeriod.get(displayPeriod.key);
+    const existingValue = existing?.importValue;
+    const value = row
+      ? useAllCommodities
         ? sumCommodityValues(row, importCommodityIds)
-        : getRowValue(row, importCommodity?.id),
+        : getRowValue(row, importCommodity?.id)
+      : undefined;
+
+    if (periodView !== "monthly") {
+      addPeriodCoverage({
+        coverageByPeriod,
+        periodKey: displayPeriod.key,
+        seriesKey: "importValue",
+        sourcePeriodSort: period.sort,
+      });
+    }
+
+    rowsByPeriod.set(displayPeriod.key, {
+      periodKey: displayPeriod.key,
+      periodLabel: existing?.periodLabel ?? displayPeriod.label,
+      periodSort: existing?.periodSort ?? displayPeriod.sort,
+      exportValue: existing?.exportValue,
+      importValue:
+        typeof value === "number"
+          ? (typeof existingValue === "number" ? existingValue : 0) + value
+          : existing?.importValue,
     });
   }
 
   return {
-    rows: [...rowsByPeriod.values()].sort(
-      (left, right) => left.periodSort - right.periodSort,
-    ),
+    rows: [...rowsByPeriod.values()]
+      .filter((row) =>
+        hasPeriodBoundaryCoverage({
+          coverageByPeriod,
+          periodView,
+          row,
+          seriesKeys: comparisonSeriesKeys,
+        }),
+      )
+      .sort((left, right) => left.periodSort - right.periodSort),
     exportCommodity,
     importCommodity,
   };
@@ -113,8 +170,8 @@ function ComparisonChart({
   chartLink,
 }: ComparisonChartProps) {
   const initialChartState = chartLink?.chartState;
-  const [granularity, setGranularity] = useState<Granularity>(() =>
-    decodeGranularity(initialChartState, "g"),
+  const [periodView, setPeriodView] = useState<PeriodView>(() =>
+    decodePeriodView(initialChartState, "g"),
   );
   const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
     decodeValueMode(initialChartState, "v"),
@@ -144,31 +201,39 @@ function ComparisonChart({
   );
   const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
 
-  const exportDataset = findDatasetByGranularity(exportDatasets, granularity);
-  const importDataset = findDatasetByGranularity(indiaImportDatasets, granularity);
+  const exportDataset = findDatasetByGranularity(exportDatasets, "monthly");
+  const importDataset = findDatasetByGranularity(indiaImportDatasets, "monthly");
   const { rows, exportCommodity, importCommodity } = useMemo(
     () =>
       buildComparisonRows({
-        granularity,
+        periodView,
         hsCode,
         exportDataset,
         importDataset,
       }),
-    [exportDataset, granularity, hsCode, importDataset],
+    [exportDataset, periodView, hsCode, importDataset],
   );
   const effectiveValueMode =
-    granularity === "monthly" ? valueMode : "value";
+    periodView === "monthly" ? valueMode : "value";
   const displayRows = useMemo(() => {
     if (effectiveValueMode === "monthlyGrowth") {
       return buildMonthlyGrowthRows(rows, comparisonSeriesKeys);
     }
 
-    if (granularity === "monthly") {
+    if (periodView === "monthly") {
       return buildSameMonthPreviousYearTooltipRows(rows, comparisonSeriesKeys);
     }
 
+    if (periodView === "calendarYear") {
+      return buildPreviousCalendarYearTooltipRows(rows, comparisonSeriesKeys);
+    }
+
+    if (periodView === "fiscalYear") {
+      return buildPreviousFiscalYearTooltipRows(rows, comparisonSeriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, granularity, rows]);
+  }, [effectiveValueMode, periodView, rows]);
   const pinnedTooltip = usePinnedTooltip({
     rows: displayRows,
     initialPinnedLabel: decodePinnedTooltipLabel(
@@ -189,7 +254,7 @@ function ComparisonChart({
     }
 
     appliedChartStateKeyRef.current = chartLink.chartStateKey;
-    setGranularity(decodeGranularity(chartLink.chartState, "g"));
+    setPeriodView(decodePeriodView(chartLink.chartState, "g"));
     setValueMode(decodeValueMode(chartLink.chartState, "v"));
     setHsCode(
       decodeString(chartLink.chartState, "h2", allCommoditiesOption, comparisonCodes),
@@ -198,15 +263,15 @@ function ComparisonChart({
 
   function getChartParams(): ChartUrlState {
     const state: ChartUrlState = {};
-    const encodedGranularity = encodeGranularity(granularity);
+    const encodedPeriodView = encodePeriodView(periodView);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedHsCode = encodeString(hsCode, allCommoditiesOption);
     const encodedPinnedTooltipLabel = encodePinnedTooltipLabel(
       pinnedTooltip.pinnedLabel,
     );
 
-    if (encodedGranularity) {
-      state.g = encodedGranularity;
+    if (encodedPeriodView) {
+      state.g = encodedPeriodView;
     }
 
     if (encodedValueMode) {
@@ -252,15 +317,16 @@ function ComparisonChart({
         <label className="field">
           <span>View</span>
           <select
-            value={granularity}
-            onChange={(event) => setGranularity(event.target.value as Granularity)}
+            value={periodView}
+            onChange={(event) => setPeriodView(event.target.value as PeriodView)}
           >
             <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
+            <option value="calendarYear">Calendar Year</option>
+            <option value="fiscalYear">Fiscal Year</option>
           </select>
         </label>
 
-        {granularity === "monthly" ? (
+        {periodView === "monthly" ? (
           <ValueModeToggle valueMode={valueMode} onChange={setValueMode} />
         ) : null}
       </section>
@@ -297,7 +363,7 @@ function ComparisonChart({
             </p>
           </div>
           <div className="chart-header__actions">
-            <span className="granularity">{granularity}</span>
+            <span className="granularity">{getPeriodViewLabel(periodView)}</span>
             {chartLink ? (
               <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
             ) : null}
@@ -336,7 +402,7 @@ function ComparisonChart({
                   />
                 }
               />
-              <EventReferenceLines granularity={granularity} />
+              <EventReferenceLines periodView={periodView} />
               <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
               <Line
                 type="monotone"

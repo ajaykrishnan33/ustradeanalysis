@@ -9,7 +9,10 @@ import {
   YAxis,
 } from "recharts";
 import {
+  addPeriodCoverage,
   buildMonthlyGrowthRows,
+  buildPreviousCalendarYearTooltipRows,
+  buildPreviousFiscalYearTooltipRows,
   buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   exportScopeOrder,
@@ -18,16 +21,19 @@ import {
   formatPercent,
   getExportScopeLabel,
   getLineColor,
+  getPeriodViewLabel,
+  getPeriodViewPeriod,
   getRowValue,
+  hasPeriodBoundaryCoverage,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
-  decodeGranularity,
+  decodePeriodView,
   decodePinnedTooltipLabel,
   decodeString,
   decodeStringArray,
   decodeValueMode,
-  encodeGranularity,
+  encodePeriodView,
   encodePinnedTooltipLabel,
   encodeString,
   encodeStringArray,
@@ -35,7 +41,7 @@ import {
   pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
-import type { ChartRow, Dataset, ExportScope, Granularity } from "../types";
+import type { ChartRow, Dataset, ExportScope, PeriodView } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
 import PinnedTooltipReferenceLine from "./PinnedTooltipReferenceLine";
@@ -137,7 +143,6 @@ function getHs4Codes(options: Hs4Option[]) {
 function findScopedDataset(
   data: CommodityWiseTabData,
   option: CommodityScopeOption,
-  granularity: Granularity,
   level: "hs2" | "hs4",
 ) {
   if (option.type === "export" && option.scope) {
@@ -145,7 +150,7 @@ function findScopedDataset(
       level === "hs2" ? data.exportScopeDatasets : data.exportHs4ScopeDatasets;
     return datasets.find(
       (dataset) =>
-        dataset.actualGranularity === granularity && dataset.scope === option.scope,
+        dataset.actualGranularity === "monthly" && dataset.scope === option.scope,
     );
   }
 
@@ -153,7 +158,7 @@ function findScopedDataset(
     const datasets = level === "hs2" ? data.importDatasets : data.importHs4Datasets;
     return datasets.find(
       (dataset) =>
-        dataset.actualGranularity === granularity &&
+        dataset.actualGranularity === "monthly" &&
         dataset.country === option.country,
     );
   }
@@ -233,22 +238,24 @@ function buildHs4Options(data: CommodityWiseTabData, selectedHs2Code: string) {
 function buildRows({
   data,
   selectedScopes,
-  granularity,
+  periodView,
   commodityCode,
   level,
   fillMissingValues = false,
 }: {
   data: CommodityWiseTabData;
   selectedScopes: CommodityScopeOption[];
-  granularity: Granularity;
+  periodView: PeriodView;
   commodityCode: string;
   level: "hs2" | "hs4";
   fillMissingValues?: boolean;
 }) {
   const rowsByPeriod = new Map<string, ChartRow>();
+  const coverageByPeriod = new Map<string, Map<string, Set<number>>>();
+  const coverageSeriesKeys = new Set<string>();
 
   for (const scope of selectedScopes) {
-    const dataset = findScopedDataset(data, scope, granularity, level);
+    const dataset = findScopedDataset(data, scope, level);
     const commodity = dataset?.commodities.find((item) =>
       level === "hs2"
         ? item.hsCode === commodityCode
@@ -260,29 +267,53 @@ function buildRows({
     }
 
     const seriesKey = getSeriesKey(scope.key);
+    const rowsBySourcePeriod = new Map(
+      dataset.rows.map((row) => [row.periodKey, row]),
+    );
+    coverageSeriesKeys.add(seriesKey);
 
     for (const period of dataset.periods) {
-      const sourceRow = dataset.rows.find((row) => row.periodKey === period.key);
+      const displayPeriod = getPeriodViewPeriod(period, periodView);
+      const sourceRow = rowsBySourcePeriod.get(period.key);
       const value = sourceRow ? getRowValue(sourceRow, commodity.id) : undefined;
 
       if (value == null && !fillMissingValues) {
         continue;
       }
 
-      const existing = rowsByPeriod.get(period.key);
-      rowsByPeriod.set(period.key, {
-        periodKey: period.key,
-        periodLabel: existing?.periodLabel ?? period.label,
-        periodSort: existing?.periodSort ?? period.sort,
+      const existing = rowsByPeriod.get(displayPeriod.key);
+      const existingValue = existing?.[seriesKey];
+
+      if (periodView !== "monthly") {
+        addPeriodCoverage({
+          coverageByPeriod,
+          periodKey: displayPeriod.key,
+          seriesKey,
+          sourcePeriodSort: period.sort,
+        });
+      }
+
+      rowsByPeriod.set(displayPeriod.key, {
+        periodKey: displayPeriod.key,
+        periodLabel: existing?.periodLabel ?? displayPeriod.label,
+        periodSort: existing?.periodSort ?? displayPeriod.sort,
         ...existing,
-        [seriesKey]: value ?? 0,
+        [seriesKey]:
+          (typeof existingValue === "number" ? existingValue : 0) + (value ?? 0),
       });
     }
   }
 
-  return [...rowsByPeriod.values()].sort(
-    (left, right) => left.periodSort - right.periodSort,
-  );
+  return [...rowsByPeriod.values()]
+    .filter((row) =>
+      hasPeriodBoundaryCoverage({
+        coverageByPeriod,
+        periodView,
+        row,
+        seriesKeys: [...coverageSeriesKeys],
+      }),
+    )
+    .sort((left, right) => left.periodSort - right.periodSort);
 }
 
 function CommodityScopeMultiSelect({
@@ -384,7 +415,7 @@ function CommodityLineChart({
   description,
   rows,
   selectedScopes,
-  granularity,
+  periodView,
   chartLink,
   effectiveValueMode,
   valueFormatter,
@@ -393,7 +424,7 @@ function CommodityLineChart({
   description: string;
   rows: ChartRow[];
   selectedScopes: CommodityScopeOption[];
-  granularity: Granularity;
+  periodView: PeriodView;
   chartLink?: ChartLinkProps;
   effectiveValueMode: ChartValueMode;
   valueFormatter: (value: number) => string;
@@ -407,12 +438,20 @@ function CommodityLineChart({
       return buildMonthlyGrowthRows(rows, seriesKeys);
     }
 
-    if (granularity === "monthly") {
+    if (periodView === "monthly") {
       return buildSameMonthPreviousYearTooltipRows(rows, seriesKeys);
     }
 
+    if (periodView === "calendarYear") {
+      return buildPreviousCalendarYearTooltipRows(rows, seriesKeys);
+    }
+
+    if (periodView === "fiscalYear") {
+      return buildPreviousFiscalYearTooltipRows(rows, seriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, granularity, rows, seriesKeys]);
+  }, [effectiveValueMode, periodView, rows, seriesKeys]);
   const pinnedTooltip = usePinnedTooltip({
     rows: displayRows,
     initialPinnedLabel: decodePinnedTooltipLabel(
@@ -451,7 +490,7 @@ function CommodityLineChart({
           <p>{description}</p>
         </div>
         <div className="chart-header__actions">
-          <span className="granularity">{granularity}</span>
+          <span className="granularity">{getPeriodViewLabel(periodView)}</span>
           {chartLink ? (
             <ChartLinkButton {...chartLink} getChartParams={getPinnedChartParams} />
           ) : null}
@@ -491,7 +530,7 @@ function CommodityLineChart({
                   />
                 }
               />
-              <EventReferenceLines granularity={granularity} />
+              <EventReferenceLines periodView={periodView} />
               <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
               {selectedScopes.map((scope, index) => (
                 <Line
@@ -529,8 +568,8 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
     data.activeChart === "hs2-commodity" || data.activeChart === "hs4-commodity"
       ? data.chartState
       : undefined;
-  const [granularity, setGranularity] = useState<Granularity>(() =>
-    decodeGranularity(initialChartState, "g"),
+  const [periodView, setPeriodView] = useState<PeriodView>(() =>
+    decodePeriodView(initialChartState, "g"),
   );
   const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
     decodeValueMode(initialChartState, "v"),
@@ -569,7 +608,7 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
     (option) => option.hs4Code === selectedHs4Code,
   );
   const effectiveValueMode =
-    granularity === "monthly" ? valueMode : "value";
+    periodView === "monthly" ? valueMode : "value";
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
   const hs2Rows = useMemo(
@@ -577,23 +616,23 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
       buildRows({
         data,
         selectedScopes,
-        granularity,
+        periodView,
         commodityCode: selectedHs2Code,
         level: "hs2",
       }),
-    [granularity, selectedHs2Code, selectedScopes],
+    [data, periodView, selectedHs2Code, selectedScopes],
   );
   const hs4Rows = useMemo(
     () =>
       buildRows({
         data,
         selectedScopes,
-        granularity,
+        periodView,
         commodityCode: selectedHs4Code,
         level: "hs4",
         fillMissingValues: true,
       }),
-    [granularity, selectedHs4Code, selectedScopes],
+    [data, periodView, selectedHs4Code, selectedScopes],
   );
 
   useEffect(() => {
@@ -626,7 +665,7 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
     const nextHs4Codes = getHs4Codes(nextHs4Options);
 
     appliedChartStateKeyRef.current = data.chartStateKey;
-    setGranularity(decodeGranularity(data.chartState, "g"));
+    setPeriodView(decodePeriodView(data.chartState, "g"));
     setValueMode(decodeValueMode(data.chartState, "v"));
     setSelectedScopeKeys(
       decodeStringArray(
@@ -650,14 +689,14 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
 
   function getChartParams(): ChartUrlState {
     const state: ChartUrlState = {};
-    const encodedGranularity = encodeGranularity(granularity);
+    const encodedPeriodView = encodePeriodView(periodView);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedScopes = encodeStringArray(selectedScopeKeys, defaultScopeKeys);
     const encodedHs2Code = encodeString(selectedHs2Code);
     const encodedHs4Code = encodeString(selectedHs4Code);
 
-    if (encodedGranularity) {
-      state.g = encodedGranularity;
+    if (encodedPeriodView) {
+      state.g = encodedPeriodView;
     }
 
     if (encodedValueMode) {
@@ -695,11 +734,12 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
         <label className="field">
           <span>View</span>
           <select
-            value={granularity}
-            onChange={(event) => setGranularity(event.target.value as Granularity)}
+            value={periodView}
+            onChange={(event) => setPeriodView(event.target.value as PeriodView)}
           >
             <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
+            <option value="calendarYear">Calendar Year</option>
+            <option value="fiscalYear">Fiscal Year</option>
           </select>
         </label>
 
@@ -709,7 +749,7 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
           onChange={setSelectedScopeKeys}
         />
 
-        {granularity === "monthly" ? (
+        {periodView === "monthly" ? (
           <ValueModeToggle valueMode={valueMode} onChange={setValueMode} />
         ) : null}
 
@@ -740,7 +780,7 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
           }`}
           rows={hs2Rows}
           selectedScopes={selectedScopes}
-          granularity={granularity}
+          periodView={periodView}
           chartLink={{
             activeTab: data.activeTab,
             chartId: "hs2-commodity",
@@ -786,7 +826,7 @@ function CommodityWiseTab(data: CommodityWiseTabProps) {
           }
           rows={hs4Rows}
           selectedScopes={selectedScopes}
-          granularity={granularity}
+          periodView={periodView}
           chartLink={{
             activeTab: data.activeTab,
             chartId: "hs4-commodity",

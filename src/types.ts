@@ -1,4 +1,5 @@
 export type Granularity = "monthly" | "yearly";
+export type PeriodView = "monthly" | "calendarYear" | "fiscalYear";
 export type ExportScope = "global" | "us" | "non-us-imports";
 export type SectorLevel = "hs2" | "hs4" | "hs6" | "hs8";
 export type AutoPartsLevel = SectorLevel;

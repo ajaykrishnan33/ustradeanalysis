@@ -9,29 +9,36 @@ import {
   YAxis,
 } from "recharts";
 import {
+  addPeriodCoverage,
   buildMonthlyGrowthRows,
+  buildPreviousCalendarYearTooltipRows,
+  buildPreviousFiscalYearTooltipRows,
   buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   formatCompactNumber,
   formatPercent,
   getCountrySeriesKey,
   getLineColor,
+  getPeriodViewGranularity,
+  getPeriodViewLabel,
+  getPeriodViewPeriod,
+  hasPeriodBoundaryCoverage,
   sumCommodityValues,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
-  decodeGranularity,
+  decodePeriodView,
   decodePinnedTooltipLabel,
   decodeStringArray,
   decodeValueMode,
-  encodeGranularity,
+  encodePeriodView,
   encodePinnedTooltipLabel,
   encodeStringArray,
   encodeValueMode,
   pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
-import type { ChartRow, Dataset, Granularity } from "../types";
+import type { ChartRow, Dataset, PeriodView } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import CountryMultiSelect from "./CountryMultiSelect";
 import EventReferenceLines from "./EventReferenceLines";
@@ -47,29 +54,57 @@ type CountryAggregateChartProps = {
   chartLink?: ChartLinkProps;
 };
 
-function buildCountryRows(datasets: Dataset[]) {
+function buildCountryRows(datasets: Dataset[], periodView: PeriodView) {
   const rowsByPeriod = new Map<string, ChartRow>();
+  const coverageByPeriod = new Map<string, Map<string, Set<number>>>();
+  const seriesKeys = datasets.map((dataset) =>
+    getCountrySeriesKey(dataset.country ?? "Unknown"),
+  );
 
   for (const dataset of datasets) {
     const country = dataset.country ?? "Unknown";
     const seriesKey = getCountrySeriesKey(country);
     const commodityIds = dataset.commodities.map((commodity) => commodity.id);
+    const rowsBySourcePeriod = new Map(
+      dataset.rows.map((row) => [row.periodKey, row]),
+    );
 
-    for (const row of dataset.rows) {
-      const existing = rowsByPeriod.get(row.periodKey);
-      rowsByPeriod.set(row.periodKey, {
-        periodKey: row.periodKey,
-        periodLabel: existing?.periodLabel ?? row.periodLabel,
-        periodSort: existing?.periodSort ?? row.periodSort,
+    for (const period of dataset.periods) {
+      const displayPeriod = getPeriodViewPeriod(period, periodView);
+      const sourceRow = rowsBySourcePeriod.get(period.key);
+      const value = sourceRow ? sumCommodityValues(sourceRow, commodityIds) : 0;
+      const existing = rowsByPeriod.get(displayPeriod.key);
+      const existingValue = existing?.[seriesKey];
+
+      if (periodView !== "monthly") {
+        addPeriodCoverage({
+          coverageByPeriod,
+          periodKey: displayPeriod.key,
+          seriesKey,
+          sourcePeriodSort: period.sort,
+        });
+      }
+
+      rowsByPeriod.set(displayPeriod.key, {
+        periodKey: displayPeriod.key,
+        periodLabel: existing?.periodLabel ?? displayPeriod.label,
+        periodSort: existing?.periodSort ?? displayPeriod.sort,
         ...existing,
-        [seriesKey]: sumCommodityValues(row, commodityIds),
+        [seriesKey]: (typeof existingValue === "number" ? existingValue : 0) + value,
       });
     }
   }
 
-  return [...rowsByPeriod.values()].sort(
-    (left, right) => left.periodSort - right.periodSort,
-  );
+  return [...rowsByPeriod.values()]
+    .filter((row) =>
+      hasPeriodBoundaryCoverage({
+        coverageByPeriod,
+        periodView,
+        row,
+        seriesKeys,
+      }),
+    )
+    .sort((left, right) => left.periodSort - right.periodSort);
 }
 
 function getAvailableCountries(datasets: Dataset[]) {
@@ -93,9 +128,10 @@ function CountryAggregateChart({
     [datasets],
   );
   const initialChartState = chartLink?.chartState;
-  const [granularity, setGranularity] = useState<Granularity>(() =>
-    decodeGranularity(initialChartState, "g"),
+  const [periodView, setPeriodView] = useState<PeriodView>(() =>
+    decodePeriodView(initialChartState, "g"),
   );
+  const granularity = getPeriodViewGranularity(periodView);
   const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
     decodeValueMode(initialChartState, "v"),
   );
@@ -107,12 +143,15 @@ function CountryAggregateChart({
     () =>
       datasets.filter(
         (dataset) =>
-          dataset.actualGranularity === granularity &&
+          dataset.actualGranularity === "monthly" &&
           selectedCountries.includes(dataset.country ?? ""),
       ),
-    [datasets, granularity, selectedCountries],
+    [datasets, selectedCountries],
   );
-  const rows = useMemo(() => buildCountryRows(visibleDatasets), [visibleDatasets]);
+  const rows = useMemo(
+    () => buildCountryRows(visibleDatasets, periodView),
+    [periodView, visibleDatasets],
+  );
   const countries = useMemo(
     () =>
       [...new Set(visibleDatasets.map((dataset) => dataset.country ?? "Unknown"))].sort(),
@@ -123,18 +162,26 @@ function CountryAggregateChart({
     [countries],
   );
   const effectiveValueMode =
-    granularity === "monthly" ? valueMode : "value";
+    periodView === "monthly" ? valueMode : "value";
   const displayRows = useMemo(() => {
     if (effectiveValueMode === "monthlyGrowth") {
       return buildMonthlyGrowthRows(rows, seriesKeys);
     }
 
-    if (granularity === "monthly") {
+    if (periodView === "monthly") {
       return buildSameMonthPreviousYearTooltipRows(rows, seriesKeys);
     }
 
+    if (periodView === "calendarYear") {
+      return buildPreviousCalendarYearTooltipRows(rows, seriesKeys);
+    }
+
+    if (periodView === "fiscalYear") {
+      return buildPreviousFiscalYearTooltipRows(rows, seriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, granularity, rows, seriesKeys]);
+  }, [effectiveValueMode, periodView, rows, seriesKeys]);
   const pinnedTooltip = usePinnedTooltip({
     rows: displayRows,
     initialPinnedLabel: decodePinnedTooltipLabel(
@@ -155,7 +202,7 @@ function CountryAggregateChart({
     }
 
     appliedChartStateKeyRef.current = chartLink.chartStateKey;
-    setGranularity(decodeGranularity(chartLink.chartState, "g"));
+    setPeriodView(decodePeriodView(chartLink.chartState, "g"));
     setValueMode(decodeValueMode(chartLink.chartState, "v"));
     setSelectedCountries(
       decodeStringArray(chartLink.chartState, "c", availableCountries, availableCountries),
@@ -164,15 +211,15 @@ function CountryAggregateChart({
 
   function getChartParams(): ChartUrlState {
     const state: ChartUrlState = {};
-    const encodedGranularity = encodeGranularity(granularity);
+    const encodedPeriodView = encodePeriodView(periodView);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedCountries = encodeStringArray(selectedCountries, availableCountries);
     const encodedPinnedTooltipLabel = encodePinnedTooltipLabel(
       pinnedTooltip.pinnedLabel,
     );
 
-    if (encodedGranularity) {
-      state.g = encodedGranularity;
+    if (encodedPeriodView) {
+      state.g = encodedPeriodView;
     }
 
     if (encodedValueMode) {
@@ -203,11 +250,12 @@ function CountryAggregateChart({
         <label className="field">
           <span>View</span>
           <select
-            value={granularity}
-            onChange={(event) => setGranularity(event.target.value as Granularity)}
+            value={periodView}
+            onChange={(event) => setPeriodView(event.target.value as PeriodView)}
           >
             <option value="monthly">Monthly imports</option>
-            <option value="yearly">Yearly imports</option>
+            <option value="calendarYear">Calendar Year imports</option>
+            <option value="fiscalYear">Fiscal Year imports</option>
           </select>
         </label>
         <CountryMultiSelect
@@ -215,7 +263,7 @@ function CountryAggregateChart({
           selectedCountries={selectedCountries}
           onChange={setSelectedCountries}
         />
-        {granularity === "monthly" ? (
+        {periodView === "monthly" ? (
           <ValueModeToggle valueMode={valueMode} onChange={setValueMode} />
         ) : null}
       </section>
@@ -240,7 +288,7 @@ function CountryAggregateChart({
             </p>
           </div>
           <div className="chart-header__actions">
-            <span className="granularity">{granularity}</span>
+            <span className="granularity">{getPeriodViewLabel(periodView)}</span>
             {chartLink ? (
               <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
             ) : null}
@@ -279,7 +327,7 @@ function CountryAggregateChart({
                   />
                 }
               />
-              <EventReferenceLines granularity={granularity} />
+              <EventReferenceLines periodView={periodView} />
               <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
               {countries.map((country, index) => (
                 <Line

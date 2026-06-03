@@ -1,5 +1,5 @@
 import type { ChartValueMode } from "./chartUtils";
-import type { Granularity } from "./types";
+import type { Granularity, PeriodView } from "./types";
 
 export const chartStateParamName = "s";
 export const pinnedTooltipStateKey = "pt";
@@ -15,6 +15,12 @@ export type ChartUrlState = Record<string, ChartUrlValue>;
 const granularityTokens: Record<Granularity, string> = {
   monthly: "m",
   yearly: "y",
+};
+
+const periodViewTokens: Record<PeriodView, string> = {
+  monthly: "m",
+  calendarYear: "cy",
+  fiscalYear: "fy",
 };
 
 const valueModeTokens: Record<ChartValueMode, string> = {
@@ -149,6 +155,35 @@ export function decodeGranularity(
   }
 
   return defaultGranularity;
+}
+
+export function encodePeriodView(
+  periodView: PeriodView,
+  defaultPeriodView: PeriodView = "monthly",
+) {
+  return periodView === defaultPeriodView ? undefined : periodViewTokens[periodView];
+}
+
+export function decodePeriodView(
+  state: ChartUrlState | undefined,
+  key: string,
+  defaultPeriodView: PeriodView = "monthly",
+) {
+  const value = state?.[key];
+
+  if (value === periodViewTokens.fiscalYear) {
+    return "fiscalYear";
+  }
+
+  if (value === periodViewTokens.calendarYear || value === granularityTokens.yearly) {
+    return "calendarYear";
+  }
+
+  if (value === periodViewTokens.monthly) {
+    return "monthly";
+  }
+
+  return defaultPeriodView;
 }
 
 export function encodeValueMode(

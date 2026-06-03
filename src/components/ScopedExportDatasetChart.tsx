@@ -9,7 +9,10 @@ import {
   YAxis,
 } from "recharts";
 import {
+  addPeriodCoverage,
   buildMonthlyGrowthRows,
+  buildPreviousCalendarYearTooltipRows,
+  buildPreviousFiscalYearTooltipRows,
   buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   exportScopeOrder,
@@ -18,17 +21,20 @@ import {
   getExportScopeKey,
   getExportScopeLabel,
   getLineColor,
+  getPeriodViewLabel,
+  getPeriodViewPeriod,
   getRowValue,
+  hasPeriodBoundaryCoverage,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
-  decodeGranularity,
+  decodePeriodView,
   decodePinnedTooltipLabel,
   decodeSelection,
   decodeString,
   decodeStringArray,
   decodeValueMode,
-  encodeGranularity,
+  encodePeriodView,
   encodePinnedTooltipLabel,
   encodeSelection,
   encodeString,
@@ -37,7 +43,7 @@ import {
   pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
-import type { ChartRow, Commodity, Dataset, ExportScope, Granularity } from "../types";
+import type { ChartRow, Commodity, Dataset, ExportScope, PeriodView } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import EventReferenceLines from "./EventReferenceLines";
 import ExportScopeMultiSelect from "./ExportScopeMultiSelect";
@@ -75,55 +81,87 @@ function getCommodityHsCodes(commodities: Commodity[]) {
 
 function getDataset(
   datasets: Dataset[],
-  granularity: Granularity,
   scope: ExportScope,
 ) {
   return datasets.find(
     (dataset) =>
-      dataset.actualGranularity === granularity && dataset.scope === scope,
+      dataset.actualGranularity === "monthly" && dataset.scope === scope,
   );
 }
 
 function buildRows({
   datasets,
+  periodView,
   selectedHsCodes,
 }: {
   datasets: Dataset[];
+  periodView: PeriodView;
   selectedHsCodes: Set<string>;
 }) {
   const rowsByPeriod = new Map<string, ChartRow>();
+  const coverageByPeriod = new Map<string, Map<string, Set<number>>>();
+  const coverageSeriesKeys = new Set<string>();
 
   for (const dataset of datasets) {
     if (!dataset.scope) {
       continue;
     }
 
-    for (const row of dataset.rows) {
-      const period = dataset.periods.find((item) => item.key === row.periodKey);
-      const existing = rowsByPeriod.get(row.periodKey);
+    const rowsBySourcePeriod = new Map(
+      dataset.rows.map((row) => [row.periodKey, row]),
+    );
+    const selectedCommodities = dataset.commodities.filter(
+      (commodity) => commodity.hsCode && selectedHsCodes.has(commodity.hsCode),
+    );
+
+    for (const period of dataset.periods) {
+      const displayPeriod = getPeriodViewPeriod(period, periodView);
+      const sourceRow = rowsBySourcePeriod.get(period.key);
+      const existing = rowsByPeriod.get(displayPeriod.key);
       const nextRow: ChartRow = {
-        periodKey: row.periodKey,
-        periodLabel: existing?.periodLabel ?? period?.label ?? row.periodLabel,
-        periodSort: existing?.periodSort ?? period?.sort ?? row.periodSort,
+        periodKey: displayPeriod.key,
+        periodLabel: existing?.periodLabel ?? displayPeriod.label,
+        periodSort: existing?.periodSort ?? displayPeriod.sort,
         ...existing,
       };
 
-      for (const commodity of dataset.commodities) {
-        if (!commodity.hsCode || !selectedHsCodes.has(commodity.hsCode)) {
+      for (const commodity of selectedCommodities) {
+        if (!commodity.hsCode || !dataset.scope) {
           continue;
         }
 
-        nextRow[seriesKey(dataset.scope, commodity.hsCode)] =
-          getRowValue(row, commodity.id) ?? 0;
+        const key = seriesKey(dataset.scope, commodity.hsCode);
+        const existingValue = nextRow[key];
+        coverageSeriesKeys.add(key);
+
+        if (periodView !== "monthly") {
+          addPeriodCoverage({
+            coverageByPeriod,
+            periodKey: displayPeriod.key,
+            seriesKey: key,
+            sourcePeriodSort: period.sort,
+          });
+        }
+
+        nextRow[key] =
+          (typeof existingValue === "number" ? existingValue : 0) +
+          (sourceRow ? getRowValue(sourceRow, commodity.id) ?? 0 : 0);
       }
 
-      rowsByPeriod.set(row.periodKey, nextRow);
+      rowsByPeriod.set(displayPeriod.key, nextRow);
     }
   }
 
-  return [...rowsByPeriod.values()].sort(
-    (left, right) => left.periodSort - right.periodSort,
-  );
+  return [...rowsByPeriod.values()]
+    .filter((row) =>
+      hasPeriodBoundaryCoverage({
+        coverageByPeriod,
+        periodView,
+        row,
+        seriesKeys: [...coverageSeriesKeys],
+      }),
+    )
+    .sort((left, right) => left.periodSort - right.periodSort);
 }
 
 function ScopedExportDatasetChart({
@@ -136,8 +174,8 @@ function ScopedExportDatasetChart({
   const availableScopes = useMemo(() => getAvailableScopes(datasets), [datasets]);
   const defaultScopes = useMemo(() => getDefaultScopes(availableScopes), [availableScopes]);
   const initialChartState = chartLink?.chartState;
-  const [granularity, setGranularity] = useState<Granularity>(() =>
-    decodeGranularity(initialChartState, "g"),
+  const [periodView, setPeriodView] = useState<PeriodView>(() =>
+    decodePeriodView(initialChartState, "g"),
   );
   const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
     decodeValueMode(initialChartState, "v"),
@@ -154,14 +192,14 @@ function ScopedExportDatasetChart({
   const [commodityQuery, setCommodityQuery] = useState(() =>
     decodeString(initialChartState, "q"),
   );
-  const initializedGranularityRef = useRef<Granularity | null>(granularity);
+  const initializedPeriodViewRef = useRef<PeriodView | null>(periodView);
   const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
   const visibleDatasets = selectedScopes
-    .map((scope) => getDataset(datasets, granularity, scope))
+    .map((scope) => getDataset(datasets, scope))
     .filter((dataset): dataset is Dataset => Boolean(dataset));
   const primaryScope = selectedScopes[0];
   const primaryDataset = primaryScope
-    ? getDataset(datasets, granularity, primaryScope)
+    ? getDataset(datasets, primaryScope)
     : undefined;
   const primaryCommodities = primaryDataset?.commodities ?? [];
   const defaultHsCodes = useMemo(
@@ -189,9 +227,10 @@ function ScopedExportDatasetChart({
     () =>
       buildRows({
         datasets: visibleDatasets,
+        periodView,
         selectedHsCodes,
       }),
-    [selectedHsCodes, visibleDatasets],
+    [periodView, selectedHsCodes, visibleDatasets],
   );
   const visibleCommodities = useMemo(
     () =>
@@ -212,18 +251,26 @@ function ScopedExportDatasetChart({
     [selectedScopes, visibleCommodities],
   );
   const effectiveValueMode =
-    granularity === "monthly" ? valueMode : "value";
+    periodView === "monthly" ? valueMode : "value";
   const displayRows = useMemo(() => {
     if (effectiveValueMode === "monthlyGrowth") {
       return buildMonthlyGrowthRows(rows, seriesKeys);
     }
 
-    if (granularity === "monthly") {
+    if (periodView === "monthly") {
       return buildSameMonthPreviousYearTooltipRows(rows, seriesKeys);
     }
 
+    if (periodView === "calendarYear") {
+      return buildPreviousCalendarYearTooltipRows(rows, seriesKeys);
+    }
+
+    if (periodView === "fiscalYear") {
+      return buildPreviousFiscalYearTooltipRows(rows, seriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, granularity, rows, seriesKeys]);
+  }, [effectiveValueMode, periodView, rows, seriesKeys]);
   const pinnedTooltip = usePinnedTooltip({
     rows: displayRows,
     initialPinnedLabel: decodePinnedTooltipLabel(
@@ -245,11 +292,11 @@ function ScopedExportDatasetChart({
   );
 
   useEffect(() => {
-    if (initializedGranularityRef.current === granularity) {
+    if (initializedPeriodViewRef.current === periodView) {
       return;
     }
 
-    initializedGranularityRef.current = granularity;
+    initializedPeriodViewRef.current = periodView;
     setCommodityQuery("");
     setSelectedHsCodes(
       new Set(
@@ -258,7 +305,7 @@ function ScopedExportDatasetChart({
           .filter((hsCode): hsCode is string => Boolean(hsCode)),
       ),
     );
-  }, [granularity, primaryCommodities]);
+  }, [periodView, primaryCommodities]);
 
   useEffect(() => {
     if (
@@ -268,7 +315,7 @@ function ScopedExportDatasetChart({
       return;
     }
 
-    const nextGranularity = decodeGranularity(chartLink.chartState, "g");
+    const nextPeriodView = decodePeriodView(chartLink.chartState, "g");
     const nextScopes = decodeStringArray(
       chartLink.chartState,
       "sc",
@@ -276,13 +323,13 @@ function ScopedExportDatasetChart({
       availableScopes,
     ) as ExportScope[];
     const nextPrimaryDataset = nextScopes[0]
-      ? getDataset(datasets, nextGranularity, nextScopes[0])
+      ? getDataset(datasets, nextScopes[0])
       : undefined;
     const nextDefaultHsCodes = getCommodityHsCodes(nextPrimaryDataset?.commodities ?? []);
 
     appliedChartStateKeyRef.current = chartLink.chartStateKey;
-    initializedGranularityRef.current = nextGranularity;
-    setGranularity(nextGranularity);
+    initializedPeriodViewRef.current = nextPeriodView;
+    setPeriodView(nextPeriodView);
     setValueMode(decodeValueMode(chartLink.chartState, "v"));
     setSelectedScopes(nextScopes);
     setCommodityQuery(decodeString(chartLink.chartState, "q"));
@@ -309,7 +356,7 @@ function ScopedExportDatasetChart({
     const selectedHsCodesInOrder = defaultHsCodes.filter((hsCode) =>
       selectedHsCodes.has(hsCode),
     );
-    const encodedGranularity = encodeGranularity(granularity);
+    const encodedPeriodView = encodePeriodView(periodView);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedScopes = encodeStringArray(selectedScopes, defaultScopes);
     const encodedQuery = encodeString(commodityQuery);
@@ -318,8 +365,8 @@ function ScopedExportDatasetChart({
       pinnedTooltip.pinnedLabel,
     );
 
-    if (encodedGranularity) {
-      state.g = encodedGranularity;
+    if (encodedPeriodView) {
+      state.g = encodedPeriodView;
     }
 
     if (encodedValueMode) {
@@ -390,11 +437,12 @@ function ScopedExportDatasetChart({
         <label className="field">
           <span>View</span>
           <select
-            value={granularity}
-            onChange={(event) => setGranularity(event.target.value as Granularity)}
+            value={periodView}
+            onChange={(event) => setPeriodView(event.target.value as PeriodView)}
           >
             <option value="monthly">Monthly exports</option>
-            <option value="yearly">Yearly exports</option>
+            <option value="calendarYear">Calendar Year exports</option>
+            <option value="fiscalYear">Fiscal Year exports</option>
           </select>
         </label>
 
@@ -403,7 +451,7 @@ function ScopedExportDatasetChart({
           selectedScopes={selectedScopes}
           onChange={setSelectedScopes}
         />
-        {granularity === "monthly" ? (
+        {periodView === "monthly" ? (
           <ValueModeToggle valueMode={valueMode} onChange={setValueMode} />
         ) : null}
 
@@ -491,7 +539,7 @@ function ScopedExportDatasetChart({
               </p>
             </div>
             <div className="chart-header__actions">
-              <span className="granularity">{granularity}</span>
+            <span className="granularity">{getPeriodViewLabel(periodView)}</span>
               {chartLink ? (
                 <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
               ) : null}
@@ -531,7 +579,7 @@ function ScopedExportDatasetChart({
                       />
                     }
                   />
-                  <EventReferenceLines granularity={granularity} />
+                  <EventReferenceLines periodView={periodView} />
                   <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
                   {selectedScopes.flatMap((scope, scopeIndex) =>
                     visibleCommodities.map((commodity, commodityIndex) => {

@@ -9,6 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import {
+  addPeriodCoverage,
   buildMonthlyGrowthRows,
   buildPreviousCalendarYearTooltipRows,
   buildPreviousFiscalYearTooltipRows,
@@ -19,16 +20,21 @@ import {
   formatPercent,
   getExportScopeLabel,
   getLineColor,
+  getPeriodBoundarySorts,
+  getPeriodViewGranularity,
+  getPeriodViewLabel,
+  getPeriodViewPeriod,
   getRowValue,
+  hasPeriodBoundaryCoverage,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
-  decodeGranularity,
+  decodePeriodView,
   decodePinnedTooltipLabel,
   decodeString,
   decodeStringArray,
   decodeValueMode,
-  encodeGranularity,
+  encodePeriodView,
   encodePinnedTooltipLabel,
   encodeString,
   encodeStringArray,
@@ -42,6 +48,7 @@ import type {
   Dataset,
   ExportScope,
   Granularity,
+  PeriodView,
   SectorLevel,
 } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
@@ -79,13 +86,22 @@ type Hs8Option = {
   label: string;
 };
 
-type ParsedHs6Input = {
+type BasketLevel = "hs2" | "hs4" | "hs6";
+
+type BasketItem = {
+  level: BasketLevel;
+  code: string;
+  label: string;
+};
+
+type ParsedBasketInput = {
+  selectedItems: BasketItem[];
   selectedCodes: string[];
   invalidEntries: string[];
   unknownCodes: string[];
 };
 
-type Hs6SumTimeView = "monthly" | "calendarYear" | "fiscalYear";
+type Hs6SumTimeView = PeriodView;
 
 const defaultImportScopeKey = "import:India";
 const worldTotalCountry = "World Total";
@@ -181,13 +197,35 @@ function getExportDatasets(config: SectorConfig, level: SectorLevel) {
   return config.exportDatasetsByLevel?.[level] ?? [];
 }
 
+function getBasketFallbackImportDatasets(config: SectorConfig, level: BasketLevel) {
+  if (level === "hs6") {
+    return [];
+  }
+
+  return config.basketFallbackImportDatasetsByLevel?.[level] ?? [];
+}
+
+function getBasketFallbackExportDatasets(config: SectorConfig, level: BasketLevel) {
+  if (level === "hs6") {
+    return [];
+  }
+
+  return config.basketFallbackExportDatasetsByLevel?.[level] ?? [];
+}
+
 function getLevelDatasets(config: SectorConfig, level: SectorLevel) {
   return [...getImportDatasets(config, level), ...getExportDatasets(config, level)];
 }
 
-function buildScopeOptions(config: SectorConfig) {
+function buildScopeOptionsFromDatasets({
+  importDatasets,
+  exportDatasetsByLevel,
+}: {
+  importDatasets: Dataset[];
+  exportDatasetsByLevel?: Partial<Record<SectorLevel, Dataset[]>>;
+}) {
   const exportScopes = new Set(
-    Object.values(config.exportDatasetsByLevel ?? {})
+    Object.values(exportDatasetsByLevel ?? {})
       .flat()
       .map((dataset) => dataset.scope)
       .filter((scope): scope is ExportScope => Boolean(scope)),
@@ -202,7 +240,7 @@ function buildScopeOptions(config: SectorConfig) {
     }));
   const importOptions = [
     ...new Set(
-      getImportDatasets(config, "hs2")
+      importDatasets
         .map((dataset) => dataset.country)
         .filter((country): country is string => Boolean(country)),
     ),
@@ -216,6 +254,26 @@ function buildScopeOptions(config: SectorConfig) {
     }));
 
   return [...exportOptions, ...importOptions];
+}
+
+function buildScopeOptions(config: SectorConfig) {
+  return buildScopeOptionsFromDatasets({
+    importDatasets: getImportDatasets(config, "hs2"),
+    exportDatasetsByLevel: config.exportDatasetsByLevel,
+  });
+}
+
+function buildBasketScopeOptions(config: SectorConfig) {
+  return buildScopeOptionsFromDatasets({
+    importDatasets: [
+      ...getImportDatasets(config, "hs2"),
+      ...getBasketFallbackImportDatasets(config, "hs2"),
+    ],
+    exportDatasetsByLevel: {
+      ...config.basketFallbackExportDatasetsByLevel,
+      ...config.exportDatasetsByLevel,
+    },
+  });
 }
 
 function getDefaultHs6SumScopeKeys(scopeOptions: SectorScopeOption[]) {
@@ -396,26 +454,6 @@ function buildHs8Options(config: SectorConfig, selectedHs6Code: string) {
     );
 }
 
-function buildKnownHs6Labels(config: SectorConfig) {
-  const labelsByHs6 = new Map<string, string>();
-
-  for (const dataset of getLevelDatasets(config, "hs6")) {
-    for (const commodity of dataset.commodities) {
-      if (
-        !commodity.hs6Code ||
-        labelsByHs6.has(commodity.hs6Code) ||
-        !isAllowedHs6Commodity(config, commodity)
-      ) {
-        continue;
-      }
-
-      labelsByHs6.set(commodity.hs6Code, commodity.name);
-    }
-  }
-
-  return labelsByHs6;
-}
-
 function buildHs10CodeCounts(config: SectorConfig) {
   const countsByHs6 = new Map<string, number>();
 
@@ -439,12 +477,142 @@ function buildHs10CodeCounts(config: SectorConfig) {
   return countsByHs6;
 }
 
-function parseHs6Input(value: string, knownHs6Labels: Map<string, string>): ParsedHs6Input {
+function getBasketLevelForCode(code: string): BasketLevel | undefined {
+  if (/^\d{2}$/.test(code)) {
+    return "hs2";
+  }
+
+  if (/^\d{4}$/.test(code)) {
+    return "hs4";
+  }
+
+  if (/^\d{6}$/.test(code)) {
+    return "hs6";
+  }
+
+  return undefined;
+}
+
+function getBasketLevelLabel(level: BasketLevel) {
+  return level.toUpperCase();
+}
+
+function setBasketCatalogItem(
+  catalog: Map<string, BasketItem>,
+  level: BasketLevel,
+  code?: string | null,
+  label?: string | null,
+) {
+  if (!code || !label || catalog.has(code)) {
+    return;
+  }
+
+  catalog.set(code, {
+    level,
+    code,
+    label,
+  });
+}
+
+function addBasketCatalogItemsFromDatasets(
+  catalog: Map<string, BasketItem>,
+  level: BasketLevel,
+  datasets: Dataset[],
+) {
+  const keyField = levelKeyFields[level];
+
+  for (const dataset of datasets) {
+    for (const commodity of dataset.commodities) {
+      setBasketCatalogItem(catalog, level, commodity[keyField], commodity.name);
+    }
+  }
+}
+
+function buildBasketCatalog(config: SectorConfig) {
+  const catalog = new Map<string, BasketItem>();
+
+  for (const dataset of getLevelDatasets(config, "hs2")) {
+    for (const commodity of dataset.commodities) {
+      if (!isAllowedCode(config.hs2Codes, commodity.hsCode)) {
+        continue;
+      }
+
+      setBasketCatalogItem(catalog, "hs2", commodity.hsCode, commodity.name);
+    }
+  }
+
+  for (const dataset of getLevelDatasets(config, "hs4")) {
+    for (const commodity of dataset.commodities) {
+      if (!isAllowedHs4Commodity(config, commodity)) {
+        continue;
+      }
+
+      setBasketCatalogItem(catalog, "hs4", commodity.hs4Code, commodity.name);
+    }
+  }
+
+  for (const dataset of getLevelDatasets(config, "hs6")) {
+    for (const commodity of dataset.commodities) {
+      if (!isAllowedHs6Commodity(config, commodity)) {
+        continue;
+      }
+
+      setBasketCatalogItem(catalog, "hs6", commodity.hs6Code, commodity.name);
+    }
+  }
+
+  addBasketCatalogItemsFromDatasets(
+    catalog,
+    "hs2",
+    [
+      ...getBasketFallbackImportDatasets(config, "hs2"),
+      ...getBasketFallbackExportDatasets(config, "hs2"),
+    ],
+  );
+  addBasketCatalogItemsFromDatasets(
+    catalog,
+    "hs4",
+    [
+      ...getBasketFallbackImportDatasets(config, "hs4"),
+      ...getBasketFallbackExportDatasets(config, "hs4"),
+    ],
+  );
+
+  return catalog;
+}
+
+function isContainedBySelectedHigherLevel(
+  item: BasketItem,
+  selectedCodes: Set<string>,
+) {
+  if (item.level === "hs2") {
+    return false;
+  }
+
+  if (selectedCodes.has(item.code.slice(0, 2))) {
+    return true;
+  }
+
+  return item.level === "hs6" && selectedCodes.has(item.code.slice(0, 4));
+}
+
+function normalizeBasketItems(items: BasketItem[]) {
+  const selectedCodes = new Set(items.map((item) => item.code));
+
+  return items.filter(
+    (item) => !isContainedBySelectedHigherLevel(item, selectedCodes),
+  );
+}
+
+function parseBasketInput(
+  value: string,
+  basketCatalog: Map<string, BasketItem>,
+): ParsedBasketInput {
   const tokens = value
     .split(/[,\s]+/)
     .map((token) => token.trim())
     .filter(Boolean);
-  const selectedCodes: string[] = [];
+  const selectedItems: BasketItem[] = [];
   const invalidEntries: string[] = [];
   const unknownCodes: string[] = [];
   const seenCodes = new Set<string>();
@@ -452,7 +620,7 @@ function parseHs6Input(value: string, knownHs6Labels: Map<string, string>): Pars
   const seenUnknownCodes = new Set<string>();
 
   for (const token of tokens) {
-    if (!/^\d{6}$/.test(token)) {
+    if (!getBasketLevelForCode(token)) {
       if (!seenInvalidEntries.has(token)) {
         invalidEntries.push(token);
         seenInvalidEntries.add(token);
@@ -467,7 +635,9 @@ function parseHs6Input(value: string, knownHs6Labels: Map<string, string>): Pars
 
     seenCodes.add(token);
 
-    if (!knownHs6Labels.has(token)) {
+    const item = basketCatalog.get(token);
+
+    if (!item) {
       if (!seenUnknownCodes.has(token)) {
         unknownCodes.push(token);
         seenUnknownCodes.add(token);
@@ -476,11 +646,14 @@ function parseHs6Input(value: string, knownHs6Labels: Map<string, string>): Pars
       continue;
     }
 
-    selectedCodes.push(token);
+    selectedItems.push(item);
   }
 
+  const normalizedItems = normalizeBasketItems(selectedItems);
+
   return {
-    selectedCodes,
+    selectedItems: normalizedItems,
+    selectedCodes: normalizedItems.map((item) => item.code),
     invalidEntries,
     unknownCodes,
   };
@@ -492,91 +665,34 @@ function findCommodity(dataset: Dataset | undefined, level: SectorLevel, code: s
   return dataset?.commodities.find((commodity) => commodity[keyField] === code);
 }
 
-function calendarYearFromSort(periodSort: number) {
-  return Math.floor(periodSort / 100);
-}
-
-function monthFromSort(periodSort: number) {
-  return periodSort % 100;
-}
-
-function fiscalYearStartFromSort(periodSort: number) {
-  const year = calendarYearFromSort(periodSort);
-  const month = monthFromSort(periodSort);
-
-  return month >= 4 ? year : year - 1;
-}
-
-function fiscalYearLabel(startYear: number) {
-  return `FY ${startYear}-${String((startYear + 1) % 100).padStart(2, "0")}`;
-}
-
 function getHs6SumPeriod(period: Dataset["periods"][number], timeView: Hs6SumTimeView) {
-  if (timeView === "monthly") {
-    return {
-      key: period.key,
-      label: period.label,
-      sort: period.sort,
-    };
-  }
-
-  if (timeView === "calendarYear") {
-    const year = calendarYearFromSort(period.sort);
-
-    return {
-      key: `calendar-${year}`,
-      label: String(year),
-      sort: year,
-    };
-  }
-
-  const fiscalYearStart = fiscalYearStartFromSort(period.sort);
-
-  return {
-    key: `fiscal-${fiscalYearStart}`,
-    label: fiscalYearLabel(fiscalYearStart),
-    sort: fiscalYearStart,
-  };
+  return getPeriodViewPeriod(period, timeView);
 }
 
 function getHs6SumGranularity(timeView: Hs6SumTimeView): Granularity {
-  return timeView === "monthly" ? "monthly" : "yearly";
+  return getPeriodViewGranularity(timeView);
 }
 
 function getHs6SumGranularityLabel(timeView: Hs6SumTimeView) {
-  if (timeView === "calendarYear") {
-    return "calendar year";
-  }
-
-  if (timeView === "fiscalYear") {
-    return "fiscal year";
-  }
-
-  return "monthly";
+  return getPeriodViewLabel(timeView);
 }
 
 function getHs6SumBoundaryPeriodSorts(
   periodSort: number,
   timeView: Hs6SumTimeView,
 ) {
-  if (timeView === "calendarYear") {
-    return [periodSort * 100 + 1, periodSort * 100 + 12];
-  }
-
-  if (timeView === "fiscalYear") {
-    return [periodSort * 100 + 4, (periodSort + 1) * 100 + 3];
-  }
-
-  return undefined;
+  return getPeriodBoundarySorts(periodSort, timeView);
 }
 
 function addHs6SumMonthCoverage({
   coverageByPeriod,
+  itemCode,
   periodKey,
   seriesKey,
   sourcePeriodSort,
 }: {
-  coverageByPeriod: Map<string, Map<string, Set<number>>>;
+  coverageByPeriod: Map<string, Map<string, Map<string, Set<number>>>>;
+  itemCode: string;
   periodKey: string;
   seriesKey: string;
   sourcePeriodSort: number;
@@ -588,26 +704,35 @@ function addHs6SumMonthCoverage({
     coverageByPeriod.set(periodKey, coverageBySeries);
   }
 
-  let coveredPeriods = coverageBySeries.get(seriesKey);
+  let coverageByItem = coverageBySeries.get(seriesKey);
+
+  if (!coverageByItem) {
+    coverageByItem = new Map();
+    coverageBySeries.set(seriesKey, coverageByItem);
+  }
+
+  let coveredPeriods = coverageByItem.get(itemCode);
 
   if (!coveredPeriods) {
     coveredPeriods = new Set();
-    coverageBySeries.set(seriesKey, coveredPeriods);
+    coverageByItem.set(itemCode, coveredPeriods);
   }
 
   coveredPeriods.add(sourcePeriodSort);
 }
 
 function hasHs6SumBoundaryCoverage({
+  basketItems,
   row,
   seriesKeys,
   timeView,
   coverageByPeriod,
 }: {
+  basketItems: readonly BasketItem[];
   row: ChartRow;
   seriesKeys: readonly string[];
   timeView: Hs6SumTimeView;
-  coverageByPeriod: Map<string, Map<string, Set<number>>>;
+  coverageByPeriod: Map<string, Map<string, Map<string, Set<number>>>>;
 }) {
   const boundarySorts = getHs6SumBoundaryPeriodSorts(row.periodSort, timeView);
 
@@ -618,125 +743,162 @@ function hasHs6SumBoundaryCoverage({
   const coverageBySeries = coverageByPeriod.get(row.periodKey);
 
   return seriesKeys.every((seriesKey) => {
-    const coveredPeriods = coverageBySeries?.get(seriesKey);
+    const coverageByItem = coverageBySeries?.get(seriesKey);
 
-    return Boolean(
-      coveredPeriods &&
-        boundarySorts.every((periodSort) => coveredPeriods.has(periodSort)),
-    );
+    return basketItems.every((item) => {
+      const coveredPeriods = coverageByItem?.get(item.code);
+
+      return Boolean(
+        coveredPeriods &&
+          boundarySorts.every((periodSort) => coveredPeriods.has(periodSort)),
+      );
+    });
   });
 }
 
-function buildRows({
-  config,
-  selectedScopes,
-  granularity,
-  commodityCode,
-  level,
+function addBasketValueToRows({
+  rowsByPeriod,
+  coverageByPeriod,
+  item,
+  dataset,
+  commodity,
+  seriesKey,
+  timeView,
 }: {
-  config: SectorConfig;
-  selectedScopes: SectorScopeOption[];
-  granularity: Granularity;
-  commodityCode: string;
-  level: SectorLevel;
+  rowsByPeriod: Map<string, ChartRow>;
+  coverageByPeriod: Map<string, Map<string, Map<string, Set<number>>>>;
+  item: BasketItem;
+  dataset: Dataset;
+  commodity?: Dataset["commodities"][number];
+  seriesKey: string;
+  timeView: Hs6SumTimeView;
 }) {
-  const rowsByPeriod = new Map<string, ChartRow>();
+  for (const period of dataset.periods) {
+    const displayPeriod = getHs6SumPeriod(period, timeView);
 
-  if (!commodityCode) {
-    return [];
-  }
-
-  for (const scope of selectedScopes) {
-    const dataset = findDataset(config, level, granularity, scope);
-    const commodity = findCommodity(dataset, level, commodityCode);
-
-    if (!dataset || !commodity) {
-      continue;
-    }
-
-    const seriesKey = getSeriesKey(scope.key);
-
-    for (const period of dataset.periods) {
-      const sourceRow = dataset.rows.find((row) => row.periodKey === period.key);
-      const value = sourceRow ? getRowValue(sourceRow, commodity.id) : undefined;
-      const existing = rowsByPeriod.get(period.key);
-
-      rowsByPeriod.set(period.key, {
-        periodKey: period.key,
-        periodLabel: existing?.periodLabel ?? period.label,
-        periodSort: existing?.periodSort ?? period.sort,
-        ...existing,
-        [seriesKey]: value ?? 0,
+    if (timeView !== "monthly") {
+      addHs6SumMonthCoverage({
+        coverageByPeriod,
+        itemCode: item.code,
+        periodKey: displayPeriod.key,
+        seriesKey,
+        sourcePeriodSort: period.sort,
       });
     }
-  }
 
-  return [...rowsByPeriod.values()].sort(
-    (left, right) => left.periodSort - right.periodSort,
-  );
+    const sourceRow = dataset.rows.find((row) => row.periodKey === period.key);
+    const value = sourceRow && commodity ? getRowValue(sourceRow, commodity.id) ?? 0 : 0;
+    const existing = rowsByPeriod.get(displayPeriod.key);
+    const existingValue = existing?.[seriesKey];
+
+    rowsByPeriod.set(displayPeriod.key, {
+      periodKey: displayPeriod.key,
+      periodLabel: existing?.periodLabel ?? displayPeriod.label,
+      periodSort: existing?.periodSort ?? displayPeriod.sort,
+      ...existing,
+      [seriesKey]:
+        (typeof existingValue === "number" ? existingValue : 0) + value,
+    });
+  }
 }
 
-function buildHs6SumRows({
+function findBasketFallbackDataset(
+  config: SectorConfig,
+  item: BasketItem,
+  granularity: Granularity,
+  scope: SectorScopeOption,
+) {
+  if (item.level === "hs6") {
+    return undefined;
+  }
+
+  if (scope.type === "export" && scope.scope) {
+    return getBasketFallbackExportDatasets(config, item.level).find(
+      (dataset) =>
+        dataset.actualGranularity === granularity && dataset.scope === scope.scope,
+    );
+  }
+
+  if (scope.type === "import" && scope.country) {
+    return getBasketFallbackImportDatasets(config, item.level).find(
+      (dataset) =>
+        dataset.actualGranularity === granularity && dataset.country === scope.country,
+    );
+  }
+
+  return undefined;
+}
+
+function findBasketDataset(
+  config: SectorConfig,
+  item: BasketItem,
+  granularity: Granularity,
+  scope: SectorScopeOption,
+) {
+  const sectorDataset = findDataset(config, item.level, granularity, scope);
+  const sectorCommodity = findCommodity(sectorDataset, item.level, item.code);
+
+  if (sectorDataset && (sectorCommodity || item.level === "hs6")) {
+    return {
+      dataset: sectorDataset,
+      commodity: sectorCommodity,
+    };
+  }
+
+  const fallbackDataset = findBasketFallbackDataset(config, item, granularity, scope);
+
+  if (fallbackDataset) {
+    return {
+      dataset: fallbackDataset,
+      commodity: findCommodity(fallbackDataset, item.level, item.code),
+    };
+  }
+
+  return sectorDataset
+    ? {
+        dataset: sectorDataset,
+        commodity: sectorCommodity,
+      }
+    : undefined;
+}
+
+function buildBasketRows({
   config,
   selectedScopes,
-  hs6Codes,
+  basketItems,
   timeView,
 }: {
   config: SectorConfig;
   selectedScopes: SectorScopeOption[];
-  hs6Codes: string[];
+  basketItems: BasketItem[];
   timeView: Hs6SumTimeView;
 }) {
   const rowsByPeriod = new Map<string, ChartRow>();
-  const coverageByPeriod = new Map<string, Map<string, Set<number>>>();
+  const coverageByPeriod = new Map<string, Map<string, Map<string, Set<number>>>>();
   const seriesKeys = selectedScopes.map((scope) => getSeriesKey(scope.key));
 
-  if (hs6Codes.length === 0) {
+  if (basketItems.length === 0) {
     return [];
   }
 
   for (const scope of selectedScopes) {
-    const dataset = findDataset(config, "hs6", "monthly", scope);
-
-    if (!dataset) {
-      continue;
-    }
-
-    const commodityIdByCode = new Map(
-      dataset.commodities
-        .filter((commodity) => commodity.hs6Code)
-        .map((commodity) => [commodity.hs6Code, commodity.id]),
-    );
     const seriesKey = getSeriesKey(scope.key);
 
-    for (const period of dataset.periods) {
-      const displayPeriod = getHs6SumPeriod(period, timeView);
+    for (const item of basketItems) {
+      const basketDataset = findBasketDataset(config, item, "monthly", scope);
 
-      if (timeView !== "monthly") {
-        addHs6SumMonthCoverage({
-          coverageByPeriod,
-          periodKey: displayPeriod.key,
-          seriesKey,
-          sourcePeriodSort: period.sort,
-        });
+      if (!basketDataset) {
+        continue;
       }
 
-      const sourceRow = dataset.rows.find((row) => row.periodKey === period.key);
-      const value = hs6Codes.reduce((sum, hs6Code) => {
-        const commodityId = commodityIdByCode.get(hs6Code);
-
-        return sum + (sourceRow ? getRowValue(sourceRow, commodityId) ?? 0 : 0);
-      }, 0);
-      const existing = rowsByPeriod.get(displayPeriod.key);
-      const existingValue = existing?.[seriesKey];
-
-      rowsByPeriod.set(displayPeriod.key, {
-        periodKey: displayPeriod.key,
-        periodLabel: existing?.periodLabel ?? displayPeriod.label,
-        periodSort: existing?.periodSort ?? displayPeriod.sort,
-        ...existing,
-        [seriesKey]:
-          (typeof existingValue === "number" ? existingValue : 0) + value,
+      addBasketValueToRows({
+        rowsByPeriod,
+        coverageByPeriod,
+        item,
+        dataset: basketDataset.dataset,
+        commodity: basketDataset.commodity,
+        seriesKey,
+        timeView,
       });
     }
   }
@@ -744,10 +906,85 @@ function buildHs6SumRows({
   return [...rowsByPeriod.values()]
     .filter((row) =>
       hasHs6SumBoundaryCoverage({
+        basketItems,
         row,
         seriesKeys,
         timeView,
         coverageByPeriod,
+      }),
+    )
+    .sort((left, right) => left.periodSort - right.periodSort);
+}
+
+function buildRows({
+  config,
+  selectedScopes,
+  periodView,
+  commodityCode,
+  level,
+}: {
+  config: SectorConfig;
+  selectedScopes: SectorScopeOption[];
+  periodView: PeriodView;
+  commodityCode: string;
+  level: SectorLevel;
+}) {
+  const rowsByPeriod = new Map<string, ChartRow>();
+  const coverageByPeriod = new Map<string, Map<string, Set<number>>>();
+  const coverageSeriesKeys = new Set<string>();
+
+  if (!commodityCode) {
+    return [];
+  }
+
+  for (const scope of selectedScopes) {
+    const dataset = findDataset(config, level, "monthly", scope);
+    const commodity = findCommodity(dataset, level, commodityCode);
+
+    if (!dataset || !commodity) {
+      continue;
+    }
+
+    const seriesKey = getSeriesKey(scope.key);
+    const rowsBySourcePeriod = new Map(
+      dataset.rows.map((row) => [row.periodKey, row]),
+    );
+    coverageSeriesKeys.add(seriesKey);
+
+    for (const period of dataset.periods) {
+      const displayPeriod = getPeriodViewPeriod(period, periodView);
+      const sourceRow = rowsBySourcePeriod.get(period.key);
+      const value = sourceRow ? getRowValue(sourceRow, commodity.id) : undefined;
+      const existing = rowsByPeriod.get(displayPeriod.key);
+      const existingValue = existing?.[seriesKey];
+
+      if (periodView !== "monthly") {
+        addPeriodCoverage({
+          coverageByPeriod,
+          periodKey: displayPeriod.key,
+          seriesKey,
+          sourcePeriodSort: period.sort,
+        });
+      }
+
+      rowsByPeriod.set(displayPeriod.key, {
+        periodKey: displayPeriod.key,
+        periodLabel: existing?.periodLabel ?? displayPeriod.label,
+        periodSort: existing?.periodSort ?? displayPeriod.sort,
+        ...existing,
+        [seriesKey]:
+          (typeof existingValue === "number" ? existingValue : 0) + (value ?? 0),
+      });
+    }
+  }
+
+  return [...rowsByPeriod.values()]
+    .filter((row) =>
+      hasPeriodBoundaryCoverage({
+        coverageByPeriod,
+        periodView,
+        row,
+        seriesKeys: [...coverageSeriesKeys],
       }),
     )
     .sort((left, right) => left.periodSort - right.periodSort);
@@ -848,33 +1085,22 @@ function SectorScopeMultiSelect({
 }
 
 function Hs6SumSidePanel({
-  hs6Codes,
-  knownHs6Labels,
+  basketItems,
   hs10CodeCounts,
   selectedHs6SumCode,
   onChange,
 }: {
-  hs6Codes: string[];
-  knownHs6Labels: Map<string, string>;
+  basketItems: BasketItem[];
   hs10CodeCounts: Map<string, number>;
   selectedHs6SumCode: string;
   onChange: (hs6Code: string) => void;
 }) {
-  const allHs10Count = hs6Codes.reduce((sum, hs6Code) => {
-    return sum + (hs10CodeCounts.get(hs6Code) ?? 0);
-  }, 0);
-  const missingHs10CountCount = hs6Codes.filter(
-    (hs6Code) => !hs10CodeCounts.has(hs6Code),
-  ).length;
-  const allHs10CountLabel =
-    hs6Codes.length === 0 || missingHs10CountCount === hs6Codes.length
-      ? "HS10 count unavailable"
-      : missingHs10CountCount > 0
-        ? `${allHs10Count} known HS10 code${allHs10Count === 1 ? "" : "s"}`
-        : `${allHs10Count} HS10 code${allHs10Count === 1 ? "" : "s"}`;
+  function getHs10CountLabel(item: BasketItem) {
+    if (item.level !== "hs6") {
+      return undefined;
+    }
 
-  function getHs10CountLabel(hs6Code: string) {
-    const count = hs10CodeCounts.get(hs6Code);
+    const count = hs10CodeCounts.get(item.code);
 
     if (count == null) {
       return "HS10 count unavailable";
@@ -887,7 +1113,7 @@ function Hs6SumSidePanel({
     <aside className="hs6-sum-panel" aria-label="Product group basket selection">
       <div className="hs6-sum-panel__header">
         <h2>Product groups</h2>
-        <span>{hs6Codes.length} codes</span>
+        <span>{basketItems.length} codes</span>
       </div>
 
       <div className="hs6-sum-panel__options">
@@ -903,26 +1129,31 @@ function Hs6SumSidePanel({
         >
           <strong>All</strong>
           <span>Combine all selected product groups</span>
-          <span>{allHs10CountLabel}</span>
         </button>
 
-        {hs6Codes.map((hs6Code) => (
+        {basketItems.map((item) => {
+          const hs10CountLabel = getHs10CountLabel(item);
+
+          return (
           <button
             type="button"
-            key={hs6Code}
+            key={item.code}
             className={
-              selectedHs6SumCode === hs6Code
+              selectedHs6SumCode === item.code
                 ? "hs6-sum-panel__option hs6-sum-panel__option--active"
                 : "hs6-sum-panel__option"
             }
-            aria-pressed={selectedHs6SumCode === hs6Code}
-            onClick={() => onChange(hs6Code)}
+            aria-pressed={selectedHs6SumCode === item.code}
+            onClick={() => onChange(item.code)}
           >
-            <strong>{hs6Code}</strong>
-            <span>{knownHs6Labels.get(hs6Code) ?? hs6Code}</span>
-            <span>{getHs10CountLabel(hs6Code)}</span>
+            <strong>
+              {getBasketLevelLabel(item.level)} {item.code}
+            </strong>
+            <span>{item.label}</span>
+            {hs10CountLabel ? <span>{hs10CountLabel}</span> : null}
           </button>
-        ))}
+          );
+        })}
       </div>
     </aside>
   );
@@ -936,6 +1167,7 @@ function SectorLineChart({
   selectedScopes,
   granularity,
   granularityLabel,
+  periodView,
   chartLink,
   tooltipGrowthMode,
   effectiveValueMode,
@@ -948,6 +1180,7 @@ function SectorLineChart({
   selectedScopes: SectorScopeOption[];
   granularity: Granularity;
   granularityLabel?: string;
+  periodView?: PeriodView;
   chartLink?: ChartLinkProps;
   tooltipGrowthMode?: TooltipGrowthMode;
   effectiveValueMode: ChartValueMode;
@@ -1056,7 +1289,7 @@ function SectorLineChart({
                 }
                 wrapperStyle={{ whiteSpace: "normal", zIndex: 30 }}
               />
-              <EventReferenceLines granularity={granularity} />
+              <EventReferenceLines granularity={granularity} periodView={periodView} />
               <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
               {selectedScopes.map((scope, index) => (
                 <Line
@@ -1100,22 +1333,32 @@ export function SectorImportsTab({
   const levelsToRender = config.levelsToRender ?? ["hs2", "hs4", "hs6"];
   const shouldRenderHs8 = levelsToRender.includes("hs8");
   const scopeOptions = useMemo(() => buildScopeOptions(config), [config]);
+  const basketScopeOptions = useMemo(() => buildBasketScopeOptions(config), [config]);
   const hs2Options = useMemo(() => buildHs2Options(config), [config]);
-  const knownHs6Labels = useMemo(() => buildKnownHs6Labels(config), [config]);
+  const basketCatalog = useMemo(() => buildBasketCatalog(config), [config]);
   const hs10CodeCounts = useMemo(() => buildHs10CodeCounts(config), [config]);
   const standardChartIds = levelsToRender;
   const defaultScopeKeys = useMemo(() => getDefaultScopeKeys(scopeOptions), [scopeOptions]);
   const defaultHs6SumScopeKeys = useMemo(
-    () => getDefaultHs6SumScopeKeys(scopeOptions),
-    [scopeOptions],
+    () => getDefaultHs6SumScopeKeys(basketScopeOptions),
+    [basketScopeOptions],
   );
   const scopeKeys = useMemo(
     () => scopeOptions.map((option) => option.key),
     [scopeOptions],
   );
-  const knownHs6Codes = useMemo(
-    () => [...knownHs6Labels.keys()],
-    [knownHs6Labels],
+  const basketScopeKeys = useMemo(
+    () => basketScopeOptions.map((option) => option.key),
+    [basketScopeOptions],
+  );
+  const knownBasketCodes = useMemo(
+    () => [...basketCatalog.keys()],
+    [basketCatalog],
+  );
+  const defaultBasketCodes = useMemo(
+    () =>
+      parseBasketInput(config.defaultHs6SumCodes.join("\n"), basketCatalog).selectedCodes,
+    [basketCatalog, config.defaultHs6SumCodes],
   );
   const hs2Codes = useMemo(() => getHs2Codes(hs2Options), [hs2Options]);
   const defaultHs2Code = hs2Options[0]?.hsCode ?? "";
@@ -1125,18 +1368,23 @@ export function SectorImportsTab({
       : undefined;
   const initialBasketState = activeChart === "hs6-sum" ? chartState : undefined;
   const initialHs6SumCodes = useMemo(
-    () =>
-      decodeStringArray(
+    () => {
+      const decodedCodes = decodeStringArray(
         initialBasketState,
         "bc",
-        config.defaultHs6SumCodes,
-        knownHs6Codes,
-      ),
-    [config.defaultHs6SumCodes, initialBasketState, knownHs6Codes],
+        defaultBasketCodes,
+        knownBasketCodes,
+      );
+
+      return parseBasketInput(decodedCodes.join("\n"), basketCatalog).selectedCodes;
+    },
+    [basketCatalog, defaultBasketCodes, initialBasketState, knownBasketCodes],
   );
-  const [granularity, setGranularity] = useState<Granularity>(() =>
-    decodeGranularity(initialStandardState, "g"),
+  const [periodView, setPeriodView] = useState<PeriodView>(() =>
+    decodePeriodView(initialStandardState, "g"),
   );
+  const granularity = getPeriodViewGranularity(periodView);
+  const granularityLabel = getPeriodViewLabel(periodView);
   const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
     decodeValueMode(initialStandardState, "v"),
   );
@@ -1144,7 +1392,13 @@ export function SectorImportsTab({
     decodeStringArray(initialStandardState, "sc", defaultScopeKeys, scopeKeys),
   );
   const [selectedHs6SumScopeKeys, setSelectedHs6SumScopeKeys] = useState<string[]>(
-    () => decodeStringArray(initialBasketState, "bsc", defaultHs6SumScopeKeys, scopeKeys),
+    () =>
+      decodeStringArray(
+        initialBasketState,
+        "bsc",
+        defaultHs6SumScopeKeys,
+        basketScopeKeys,
+      ),
   );
   const [hs6SumTimeView, setHs6SumTimeView] = useState<Hs6SumTimeView>(() =>
     decodeHs6SumTimeView(initialBasketState),
@@ -1200,9 +1454,9 @@ export function SectorImportsTab({
   const selectedHs6SumScopes = useMemo(
     () =>
       selectedHs6SumScopeKeys
-        .map((scopeKey) => scopeOptions.find((option) => option.key === scopeKey))
+        .map((scopeKey) => basketScopeOptions.find((option) => option.key === scopeKey))
         .filter((option): option is SectorScopeOption => Boolean(option)),
-    [scopeOptions, selectedHs6SumScopeKeys],
+    [basketScopeOptions, selectedHs6SumScopeKeys],
   );
   const selectedHs2Option = hs2Options.find(
     (option) => option.hsCode === selectedHs2Code,
@@ -1217,11 +1471,17 @@ export function SectorImportsTab({
     (option) => option.hs8Code === selectedHs8Code,
   );
   const effectiveValueMode =
-    granularity === "monthly" ? valueMode : "value";
+    periodView === "monthly" ? valueMode : "value";
   const valueFormatter =
     effectiveValueMode === "monthlyGrowth" ? formatPercent : formatCompactNumber;
   const tooltipGrowthMode: TooltipGrowthMode | undefined =
-    granularity === "monthly" ? "sameMonthPreviousYear" : undefined;
+    periodView === "monthly"
+      ? "sameMonthPreviousYear"
+      : periodView === "calendarYear"
+        ? "previousCalendarYear"
+        : periodView === "fiscalYear"
+          ? "previousFiscalYear"
+          : undefined;
   const hs6SumEffectiveValueMode =
     hs6SumTimeView === "monthly" ? hs6SumValueMode : "value";
   const hs6SumValueFormatter =
@@ -1241,70 +1501,72 @@ export function SectorImportsTab({
       buildRows({
         config,
         selectedScopes,
-        granularity,
+        periodView,
         commodityCode: selectedHs2Code,
         level: "hs2",
       }),
-    [config, granularity, selectedHs2Code, selectedScopes],
+    [config, periodView, selectedHs2Code, selectedScopes],
   );
   const hs4Rows = useMemo(
     () =>
       buildRows({
         config,
         selectedScopes,
-        granularity,
+        periodView,
         commodityCode: selectedHs4Code,
         level: "hs4",
       }),
-    [config, granularity, selectedHs4Code, selectedScopes],
+    [config, periodView, selectedHs4Code, selectedScopes],
   );
   const hs6Rows = useMemo(
     () =>
       buildRows({
         config,
         selectedScopes,
-        granularity,
+        periodView,
         commodityCode: selectedHs6Code,
         level: "hs6",
       }),
-    [config, granularity, selectedHs6Code, selectedScopes],
+    [config, periodView, selectedHs6Code, selectedScopes],
   );
   const hs8Rows = useMemo(
     () =>
       buildRows({
         config,
         selectedScopes,
-        granularity,
+        periodView,
         commodityCode: selectedHs8Code,
         level: "hs8",
       }),
-    [config, granularity, selectedHs8Code, selectedScopes],
+    [config, periodView, selectedHs8Code, selectedScopes],
   );
-  const parsedHs6SumInput = useMemo(
-    () => parseHs6Input(hs6SumInput, knownHs6Labels),
-    [hs6SumInput, knownHs6Labels],
+  const parsedBasketInput = useMemo(
+    () => parseBasketInput(hs6SumInput, basketCatalog),
+    [basketCatalog, hs6SumInput],
   );
-  const activeHs6SumCodes = useMemo(() => {
+  const activeBasketItems = useMemo(() => {
     if (selectedHs6SumCode === allHs6SumCodesKey) {
-      return parsedHs6SumInput.selectedCodes;
+      return parsedBasketInput.selectedItems;
     }
 
-    return parsedHs6SumInput.selectedCodes.includes(selectedHs6SumCode)
-      ? [selectedHs6SumCode]
-      : parsedHs6SumInput.selectedCodes;
-  }, [parsedHs6SumInput.selectedCodes, selectedHs6SumCode]);
+    const selectedItem = parsedBasketInput.selectedItems.find(
+      (item) => item.code === selectedHs6SumCode,
+    );
+
+    return selectedItem ? [selectedItem] : parsedBasketInput.selectedItems;
+  }, [parsedBasketInput.selectedItems, selectedHs6SumCode]);
   const hs6SumRows = useMemo(
     () =>
-      buildHs6SumRows({
+      buildBasketRows({
         config,
         selectedScopes: selectedHs6SumScopes,
-        hs6Codes: activeHs6SumCodes,
+        basketItems: activeBasketItems,
         timeView: hs6SumTimeView,
       }),
-    [activeHs6SumCodes, config, hs6SumTimeView, selectedHs6SumScopes],
+    [activeBasketItems, config, hs6SumTimeView, selectedHs6SumScopes],
   );
   const hs6SumDescription = (() => {
-    if (parsedHs6SumInput.selectedCodes.length === 0) {
+    if (parsedBasketInput.selectedItems.length === 0) {
       return `Choose one or more product groups from the ${config.title} data to compare them as a custom basket.`;
     }
 
@@ -1316,18 +1578,23 @@ export function SectorImportsTab({
           : "Monthly values show each period directly.";
 
     if (selectedHs6SumCode !== allHs6SumCodesKey) {
-      return `Showing one product group, HS6 ${selectedHs6SumCode}: ${
-        knownHs6Labels.get(selectedHs6SumCode) ?? selectedHs6SumCode
-      }. ${periodDescription} ${
+      const selectedItem = parsedBasketInput.selectedItems.find(
+        (item) => item.code === selectedHs6SumCode,
+      );
+      const selectedItemLabel = selectedItem
+        ? `${getBasketLevelLabel(selectedItem.level)} ${selectedItem.code}: ${selectedItem.label}`
+        : selectedHs6SumCode;
+
+      return `Showing one product group, ${selectedItemLabel}. ${periodDescription} ${
         hs6SumEffectiveValueMode === "monthlyGrowth"
           ? "Values shown as % growth."
           : "Values shown in US dollars."
       }`;
     }
 
-    return `Showing a custom basket of ${parsedHs6SumInput.selectedCodes.length} product group${
-      parsedHs6SumInput.selectedCodes.length === 1 ? "" : "s"
-    } (${parsedHs6SumInput.selectedCodes.join(", ")}). ${periodDescription} ${
+    return `Showing a custom basket of ${parsedBasketInput.selectedItems.length} product group${
+      parsedBasketInput.selectedItems.length === 1 ? "" : "s"
+    } (${parsedBasketInput.selectedCodes.join(", ")}). ${periodDescription} ${
       hs6SumEffectiveValueMode === "monthlyGrowth"
         ? "Values shown as % growth."
         : "Values shown in US dollars."
@@ -1394,11 +1661,11 @@ export function SectorImportsTab({
   useEffect(() => {
     if (
       selectedHs6SumCode !== allHs6SumCodesKey &&
-      !parsedHs6SumInput.selectedCodes.includes(selectedHs6SumCode)
+      !parsedBasketInput.selectedCodes.includes(selectedHs6SumCode)
     ) {
       setSelectedHs6SumCode(allHs6SumCodesKey);
     }
-  }, [parsedHs6SumInput.selectedCodes, selectedHs6SumCode]);
+  }, [parsedBasketInput.selectedCodes, selectedHs6SumCode]);
 
   useEffect(() => {
     if (
@@ -1409,34 +1676,39 @@ export function SectorImportsTab({
       return;
     }
 
-    const nextHs6SumCodes = decodeStringArray(
+    const nextDecodedBasketCodes = decodeStringArray(
       chartState,
       "bc",
-      config.defaultHs6SumCodes,
-      knownHs6Codes,
+      defaultBasketCodes,
+      knownBasketCodes,
     );
+    const nextBasketCodes = parseBasketInput(
+      nextDecodedBasketCodes.join("\n"),
+      basketCatalog,
+    ).selectedCodes;
 
     appliedChartStateKeyRef.current = chartStateKey;
     setSelectedHs6SumScopeKeys(
-      decodeStringArray(chartState, "bsc", defaultHs6SumScopeKeys, scopeKeys),
+      decodeStringArray(chartState, "bsc", defaultHs6SumScopeKeys, basketScopeKeys),
     );
     setHs6SumTimeView(decodeHs6SumTimeView(chartState));
     setHs6SumValueMode(decodeValueMode(chartState, "bvm"));
-    setHs6SumInput(nextHs6SumCodes.join("\n"));
+    setHs6SumInput(nextBasketCodes.join("\n"));
     setSelectedHs6SumCode(
       decodeString(chartState, "bsel", allHs6SumCodesKey, [
         allHs6SumCodesKey,
-        ...nextHs6SumCodes,
+        ...nextBasketCodes,
       ]),
     );
   }, [
     activeChart,
+    basketCatalog,
+    basketScopeKeys,
     chartState,
     chartStateKey,
-    config.defaultHs6SumCodes,
+    defaultBasketCodes,
     defaultHs6SumScopeKeys,
-    knownHs6Codes,
-    scopeKeys,
+    knownBasketCodes,
   ]);
 
   useEffect(() => {
@@ -1475,7 +1747,7 @@ export function SectorImportsTab({
     const nextDefaultHs8Code = nextHs8Options[0]?.hs8Code ?? "";
 
     appliedChartStateKeyRef.current = chartStateKey;
-    setGranularity(decodeGranularity(chartState, "g"));
+    setPeriodView(decodePeriodView(chartState, "g"));
     setValueMode(decodeValueMode(chartState, "v"));
     setSelectedScopeKeys(decodeStringArray(chartState, "sc", defaultScopeKeys, scopeKeys));
     setSelectedHs2Code(nextHs2Code);
@@ -1505,10 +1777,15 @@ export function SectorImportsTab({
     const encodedTimeView = encodeString(hs6SumTimeView, "monthly");
     const encodedValueMode = encodeValueMode(hs6SumValueMode);
     const encodedCodes = encodeStringArray(
-      parsedHs6SumInput.selectedCodes,
-      config.defaultHs6SumCodes,
+      parsedBasketInput.selectedCodes,
+      defaultBasketCodes,
     );
-    const encodedSelectedCode = encodeString(selectedHs6SumCode, allHs6SumCodesKey);
+    const selectedBasketCode =
+      selectedHs6SumCode !== allHs6SumCodesKey &&
+      parsedBasketInput.selectedCodes.includes(selectedHs6SumCode)
+        ? selectedHs6SumCode
+        : allHs6SumCodesKey;
+    const encodedSelectedCode = encodeString(selectedBasketCode, allHs6SumCodesKey);
 
     if (encodedScopes) {
       state.bsc = encodedScopes;
@@ -1535,7 +1812,7 @@ export function SectorImportsTab({
 
   function getStandardChartParams(): ChartUrlState {
     const state: ChartUrlState = {};
-    const encodedGranularity = encodeGranularity(granularity);
+    const encodedPeriodView = encodePeriodView(periodView);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedScopes = encodeStringArray(selectedScopeKeys, defaultScopeKeys);
     const encodedHs2Code = encodeString(selectedHs2Code, defaultHs2Code);
@@ -1543,8 +1820,8 @@ export function SectorImportsTab({
     const encodedHs6Code = encodeString(selectedHs6Code, defaultHs6Code);
     const encodedHs8Code = encodeString(selectedHs8Code, defaultHs8Code);
 
-    if (encodedGranularity) {
-      state.g = encodedGranularity;
+    if (encodedPeriodView) {
+      state.g = encodedPeriodView;
     }
 
     if (encodedValueMode) {
@@ -1597,7 +1874,7 @@ export function SectorImportsTab({
 
         <section className="controls controls--auto-parts controls--hs6-sum" aria-label={`Custom ${config.title} product basket controls`}>
           <SectorScopeMultiSelect
-            scopeOptions={scopeOptions}
+            scopeOptions={basketScopeOptions}
             selectedScopeKeys={selectedHs6SumScopeKeys}
             onChange={setSelectedHs6SumScopeKeys}
           />
@@ -1626,37 +1903,39 @@ export function SectorImportsTab({
               className="hs6-sum-input"
               value={hs6SumInput}
               onChange={(event) => setHs6SumInput(event.target.value)}
-              placeholder="Enter product group codes separated by commas, spaces, or new lines, e.g. 870899, 850110"
+              placeholder="Enter HS2, HS4, or HS6 codes separated by commas, spaces, or new lines, e.g. 85, 8501, 850110"
               rows={3}
             />
           </label>
 
           <div className="hs6-sum-summary" aria-live="polite">
-            {parsedHs6SumInput.selectedCodes.length > 0 ? (
+            {parsedBasketInput.selectedItems.length > 0 ? (
               <p>
                 Included:{" "}
-                {parsedHs6SumInput.selectedCodes
-                  .map((code) => `${code} (${knownHs6Labels.get(code) ?? code})`)
+                {parsedBasketInput.selectedItems
+                  .map(
+                    (item) =>
+                      `${getBasketLevelLabel(item.level)} ${item.code} (${item.label})`,
+                  )
                   .join("; ")}
               </p>
             ) : (
-              <p>No valid known HS6 codes selected.</p>
+              <p>No valid known HS2, HS4, or HS6 codes selected.</p>
             )}
 
-            {parsedHs6SumInput.unknownCodes.length > 0 ? (
-              <p>Unknown HS6 codes ignored: {parsedHs6SumInput.unknownCodes.join(", ")}</p>
+            {parsedBasketInput.unknownCodes.length > 0 ? (
+              <p>Unknown HS codes ignored: {parsedBasketInput.unknownCodes.join(", ")}</p>
             ) : null}
 
-            {parsedHs6SumInput.invalidEntries.length > 0 ? (
-              <p>Invalid entries ignored: {parsedHs6SumInput.invalidEntries.join(", ")}</p>
+            {parsedBasketInput.invalidEntries.length > 0 ? (
+              <p>Invalid entries ignored: {parsedBasketInput.invalidEntries.join(", ")}</p>
             ) : null}
           </div>
         </section>
 
         <div className="hs6-sum-chart-layout">
           <Hs6SumSidePanel
-            hs6Codes={parsedHs6SumInput.selectedCodes}
-            knownHs6Labels={knownHs6Labels}
+            basketItems={parsedBasketInput.selectedItems}
             hs10CodeCounts={hs10CodeCounts}
             selectedHs6SumCode={selectedHs6SumCode}
             onChange={setSelectedHs6SumCode}
@@ -1670,6 +1949,7 @@ export function SectorImportsTab({
             selectedScopes={selectedHs6SumScopes}
             granularity={hs6SumGranularity}
             granularityLabel={hs6SumGranularityLabel}
+            periodView={hs6SumTimeView}
             chartLink={{
               activeTab,
               chartId: "hs6-sum",
@@ -1689,11 +1969,12 @@ export function SectorImportsTab({
         <label className="field">
           <span>View</span>
           <select
-            value={granularity}
-            onChange={(event) => setGranularity(event.target.value as Granularity)}
+            value={periodView}
+            onChange={(event) => setPeriodView(event.target.value as PeriodView)}
           >
             <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
+            <option value="calendarYear">Calendar Year</option>
+            <option value="fiscalYear">Fiscal Year</option>
           </select>
         </label>
 
@@ -1703,7 +1984,7 @@ export function SectorImportsTab({
           onChange={setSelectedScopeKeys}
         />
 
-        {granularity === "monthly" ? (
+        {periodView === "monthly" ? (
           <ValueModeToggle valueMode={valueMode} onChange={setValueMode} />
         ) : null}
 
@@ -1739,6 +2020,8 @@ export function SectorImportsTab({
           rows={hs2Rows}
           selectedScopes={selectedScopes}
           granularity={granularity}
+          granularityLabel={granularityLabel}
+          periodView={periodView}
           chartLink={{
             activeTab,
             chartId: "hs2",
@@ -1785,6 +2068,8 @@ export function SectorImportsTab({
           rows={hs4Rows}
           selectedScopes={selectedScopes}
           granularity={granularity}
+          granularityLabel={granularityLabel}
+          periodView={periodView}
           chartLink={{
             activeTab,
             chartId: "hs4",
@@ -1831,6 +2116,8 @@ export function SectorImportsTab({
           rows={hs6Rows}
           selectedScopes={selectedScopes}
           granularity={granularity}
+          granularityLabel={granularityLabel}
+          periodView={periodView}
           chartLink={{
             activeTab,
             chartId: "hs6",
@@ -1879,6 +2166,8 @@ export function SectorImportsTab({
               rows={hs8Rows}
               selectedScopes={selectedScopes}
               granularity={granularity}
+              granularityLabel={granularityLabel}
+              periodView={periodView}
               chartLink={{
                 activeTab,
                 chartId: "hs8",

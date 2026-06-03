@@ -9,24 +9,30 @@ import {
   YAxis,
 } from "recharts";
 import {
+  addPeriodCoverage,
   buildMonthlyGrowthRows,
+  buildPreviousCalendarYearTooltipRows,
+  buildPreviousFiscalYearTooltipRows,
   buildSameMonthPreviousYearTooltipRows,
   type ChartValueMode,
   formatCompactNumber,
   formatPercent,
   getCountrySeriesKey,
   getLineColor,
+  getPeriodViewLabel,
+  getPeriodViewPeriod,
   getRowValue,
+  hasPeriodBoundaryCoverage,
 } from "../chartUtils";
 import { getChartTargetId, type ChartLinkProps } from "../chartLinks";
 import {
-  decodeGranularity,
+  decodePeriodView,
   decodePinnedTooltipLabel,
   decodeSelection,
   decodeString,
   decodeStringArray,
   decodeValueMode,
-  encodeGranularity,
+  encodePeriodView,
   encodePinnedTooltipLabel,
   encodeSelection,
   encodeString,
@@ -35,7 +41,7 @@ import {
   pinnedTooltipStateKey,
   type ChartUrlState,
 } from "../chartUrlState";
-import type { ChartRow, Commodity, Dataset, Granularity } from "../types";
+import type { ChartRow, Commodity, Dataset, PeriodView } from "../types";
 import ChartLinkButton from "./ChartLinkButton";
 import CountryMultiSelect from "./CountryMultiSelect";
 import EventReferenceLines from "./EventReferenceLines";
@@ -63,10 +69,10 @@ function seriesKey(country: string, hs4Code: string) {
   return `${getCountrySeriesKey(country)}_${hs4Code}`;
 }
 
-function getDataset(datasets: Dataset[], granularity: Granularity, country: string) {
+function getDataset(datasets: Dataset[], country: string) {
   return datasets.find(
     (dataset) =>
-      dataset.actualGranularity === granularity && dataset.country === country,
+      dataset.actualGranularity === "monthly" && dataset.country === country,
   );
 }
 
@@ -123,42 +129,74 @@ function buildHs2Options(dataset: Dataset) {
 
 function buildRows({
   datasets,
+  periodView,
   selectedHs4Codes,
 }: {
   datasets: Dataset[];
+  periodView: PeriodView;
   selectedHs4Codes: Set<string>;
 }) {
   const rowsByPeriod = new Map<string, ChartRow>();
+  const coverageByPeriod = new Map<string, Map<string, Set<number>>>();
+  const coverageSeriesKeys = new Set<string>();
 
   for (const dataset of datasets) {
     const country = dataset.country ?? "Unknown";
+    const rowsBySourcePeriod = new Map(
+      dataset.rows.map((row) => [row.periodKey, row]),
+    );
+    const selectedCommodities = dataset.commodities.filter(
+      (commodity) => commodity.hs4Code && selectedHs4Codes.has(commodity.hs4Code),
+    );
 
-    for (const row of dataset.rows) {
-      const period = dataset.periods.find((item) => item.key === row.periodKey);
-      const existing = rowsByPeriod.get(row.periodKey);
+    for (const period of dataset.periods) {
+      const displayPeriod = getPeriodViewPeriod(period, periodView);
+      const sourceRow = rowsBySourcePeriod.get(period.key);
+      const existing = rowsByPeriod.get(displayPeriod.key);
       const nextRow: ChartRow = {
-        periodKey: row.periodKey,
-        periodLabel: existing?.periodLabel ?? period?.label ?? row.periodLabel,
-        periodSort: existing?.periodSort ?? period?.sort ?? row.periodSort,
+        periodKey: displayPeriod.key,
+        periodLabel: existing?.periodLabel ?? displayPeriod.label,
+        periodSort: existing?.periodSort ?? displayPeriod.sort,
         ...existing,
       };
 
-      for (const commodity of dataset.commodities) {
-        if (!commodity.hs4Code || !selectedHs4Codes.has(commodity.hs4Code)) {
+      for (const commodity of selectedCommodities) {
+        if (!commodity.hs4Code) {
           continue;
         }
 
-        nextRow[seriesKey(country, commodity.hs4Code)] =
-          getRowValue(row, commodity.id) ?? 0;
+        const key = seriesKey(country, commodity.hs4Code);
+        const existingValue = nextRow[key];
+        coverageSeriesKeys.add(key);
+
+        if (periodView !== "monthly") {
+          addPeriodCoverage({
+            coverageByPeriod,
+            periodKey: displayPeriod.key,
+            seriesKey: key,
+            sourcePeriodSort: period.sort,
+          });
+        }
+
+        nextRow[key] =
+          (typeof existingValue === "number" ? existingValue : 0) +
+          (sourceRow ? getRowValue(sourceRow, commodity.id) ?? 0 : 0);
       }
 
-      rowsByPeriod.set(row.periodKey, nextRow);
+      rowsByPeriod.set(displayPeriod.key, nextRow);
     }
   }
 
-  return [...rowsByPeriod.values()].sort(
-    (left, right) => left.periodSort - right.periodSort,
-  );
+  return [...rowsByPeriod.values()]
+    .filter((row) =>
+      hasPeriodBoundaryCoverage({
+        coverageByPeriod,
+        periodView,
+        row,
+        seriesKeys: [...coverageSeriesKeys],
+      }),
+    )
+    .sort((left, right) => left.periodSort - right.periodSort);
 }
 
 function CountryHs4DatasetChart({
@@ -178,8 +216,8 @@ function CountryHs4DatasetChart({
     [availableCountries],
   );
   const initialChartState = chartLink?.chartState;
-  const [granularity, setGranularity] = useState<Granularity>(() =>
-    decodeGranularity(initialChartState, "g"),
+  const [periodView, setPeriodView] = useState<PeriodView>(() =>
+    decodePeriodView(initialChartState, "g"),
   );
   const [valueMode, setValueMode] = useState<ChartValueMode>(() =>
     decodeValueMode(initialChartState, "v"),
@@ -190,14 +228,14 @@ function CountryHs4DatasetChart({
   const [commodityQuery, setCommodityQuery] = useState(() =>
     decodeString(initialChartState, "q"),
   );
-  const initializedGranularityRef = useRef<Granularity | null>(granularity);
+  const initializedPeriodViewRef = useRef<PeriodView | null>(periodView);
   const appliedChartStateKeyRef = useRef<string | undefined>(chartLink?.chartStateKey);
   const visibleDatasets = selectedCountries
-    .map((country) => getDataset(datasets, granularity, country))
+    .map((country) => getDataset(datasets, country))
     .filter((dataset): dataset is Dataset => Boolean(dataset));
   const primaryCountry = selectedCountries[0];
   const primaryDataset =
-    primaryCountry ? getDataset(datasets, granularity, primaryCountry) : undefined;
+    primaryCountry ? getDataset(datasets, primaryCountry) : undefined;
   const hs2Options = useMemo(
     () => (primaryDataset ? buildHs2Options(primaryDataset) : []),
     [primaryDataset],
@@ -247,9 +285,10 @@ function CountryHs4DatasetChart({
     () =>
       buildRows({
         datasets: visibleDatasets,
+        periodView,
         selectedHs4Codes,
       }),
-    [selectedHs4Codes, visibleDatasets],
+    [periodView, selectedHs4Codes, visibleDatasets],
   );
   const seriesKeys = useMemo(
     () =>
@@ -263,18 +302,26 @@ function CountryHs4DatasetChart({
     [selectedCountries, visibleCommodities],
   );
   const effectiveValueMode =
-    granularity === "monthly" ? valueMode : "value";
+    periodView === "monthly" ? valueMode : "value";
   const displayRows = useMemo(() => {
     if (effectiveValueMode === "monthlyGrowth") {
       return buildMonthlyGrowthRows(rows, seriesKeys);
     }
 
-    if (granularity === "monthly") {
+    if (periodView === "monthly") {
       return buildSameMonthPreviousYearTooltipRows(rows, seriesKeys);
     }
 
+    if (periodView === "calendarYear") {
+      return buildPreviousCalendarYearTooltipRows(rows, seriesKeys);
+    }
+
+    if (periodView === "fiscalYear") {
+      return buildPreviousFiscalYearTooltipRows(rows, seriesKeys);
+    }
+
     return rows;
-  }, [effectiveValueMode, granularity, rows, seriesKeys]);
+  }, [effectiveValueMode, periodView, rows, seriesKeys]);
   const pinnedTooltip = usePinnedTooltip({
     rows: displayRows,
     initialPinnedLabel: decodePinnedTooltipLabel(
@@ -296,16 +343,16 @@ function CountryHs4DatasetChart({
   );
 
   useEffect(() => {
-    if (initializedGranularityRef.current === granularity) {
+    if (initializedPeriodViewRef.current === periodView) {
       return;
     }
 
-    initializedGranularityRef.current = granularity;
+    initializedPeriodViewRef.current = periodView;
     const firstOption = hs2Options[0];
     setCommodityQuery("");
     setSelectedHs2Code(firstOption?.hsCode ?? "");
     setSelectedHs4Codes(new Set(firstOption?.hs4Codes ?? []));
-  }, [granularity, hs2Options]);
+  }, [periodView, hs2Options]);
 
   useEffect(() => {
     if (
@@ -315,7 +362,7 @@ function CountryHs4DatasetChart({
       return;
     }
 
-    const nextGranularity = decodeGranularity(chartLink.chartState, "g");
+    const nextPeriodView = decodePeriodView(chartLink.chartState, "g");
     const nextCountries = decodeStringArray(
       chartLink.chartState,
       "c",
@@ -323,7 +370,7 @@ function CountryHs4DatasetChart({
       availableCountries,
     );
     const nextPrimaryDataset = nextCountries[0]
-      ? getDataset(datasets, nextGranularity, nextCountries[0])
+      ? getDataset(datasets, nextCountries[0])
       : undefined;
     const nextHs2Options = nextPrimaryDataset ? buildHs2Options(nextPrimaryDataset) : [];
     const nextHs2Codes = getHs2Codes(nextHs2Options);
@@ -338,8 +385,8 @@ function CountryHs4DatasetChart({
       nextHs2Options.find((option) => option.hsCode === nextHs2Code)?.hs4Codes ?? [];
 
     appliedChartStateKeyRef.current = chartLink.chartStateKey;
-    initializedGranularityRef.current = nextGranularity;
-    setGranularity(nextGranularity);
+    initializedPeriodViewRef.current = nextPeriodView;
+    setPeriodView(nextPeriodView);
     setValueMode(decodeValueMode(chartLink.chartState, "v"));
     setSelectedCountries(nextCountries);
     setCommodityQuery(decodeString(chartLink.chartState, "q"));
@@ -367,7 +414,7 @@ function CountryHs4DatasetChart({
     const selectedHs4CodesInOrder = defaultHs4Codes.filter((hs4Code) =>
       selectedHs4Codes.has(hs4Code),
     );
-    const encodedGranularity = encodeGranularity(granularity);
+    const encodedPeriodView = encodePeriodView(periodView);
     const encodedValueMode = encodeValueMode(valueMode);
     const encodedCountries = encodeStringArray(selectedCountries, defaultCountries);
     const encodedQuery = encodeString(commodityQuery);
@@ -377,8 +424,8 @@ function CountryHs4DatasetChart({
       pinnedTooltip.pinnedLabel,
     );
 
-    if (encodedGranularity) {
-      state.g = encodedGranularity;
+    if (encodedPeriodView) {
+      state.g = encodedPeriodView;
     }
 
     if (encodedValueMode) {
@@ -455,11 +502,12 @@ function CountryHs4DatasetChart({
         <label className="field">
           <span>View</span>
           <select
-            value={granularity}
-            onChange={(event) => setGranularity(event.target.value as Granularity)}
+            value={periodView}
+            onChange={(event) => setPeriodView(event.target.value as PeriodView)}
           >
             <option value="monthly">Monthly imports</option>
-            <option value="yearly">Yearly imports</option>
+            <option value="calendarYear">Calendar Year imports</option>
+            <option value="fiscalYear">Fiscal Year imports</option>
           </select>
         </label>
 
@@ -468,7 +516,7 @@ function CountryHs4DatasetChart({
           selectedCountries={selectedCountries}
           onChange={setSelectedCountries}
         />
-        {granularity === "monthly" ? (
+        {periodView === "monthly" ? (
           <ValueModeToggle valueMode={valueMode} onChange={setValueMode} />
         ) : null}
 
@@ -562,7 +610,7 @@ function CountryHs4DatasetChart({
               </p>
             </div>
             <div className="chart-header__actions">
-              <span className="granularity">{granularity}</span>
+            <span className="granularity">{getPeriodViewLabel(periodView)}</span>
               {chartLink ? (
                 <ChartLinkButton {...chartLink} getChartParams={getChartParams} />
               ) : null}
@@ -602,7 +650,7 @@ function CountryHs4DatasetChart({
                       />
                     }
                   />
-                  <EventReferenceLines granularity={granularity} />
+                  <EventReferenceLines periodView={periodView} />
                   <PinnedTooltipReferenceLine label={pinnedTooltip.pinnedLabel} />
                   {selectedCountries.flatMap((country, countryIndex) =>
                     visibleCommodities.map((commodity, commodityIndex) => {

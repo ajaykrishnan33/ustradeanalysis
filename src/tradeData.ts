@@ -412,15 +412,34 @@ export function loadSectorConfig(metadata: SectorConfigMetadata) {
     bundleCache,
     `sector-${metadata.id}`,
     async () => {
-      const [datasetsByLevel, exportDatasetsByLevel] = await Promise.all([
+      const [
+        datasetsByLevel,
+        exportDatasetsByLevel,
+        { importDatasets },
+        { importHs4Datasets },
+        { exportScopeDatasets },
+        { exportHs4ScopeDatasets },
+      ] = await Promise.all([
         loadSectorImportDatasets(metadata.id),
         loadSectorExportDatasets(metadata.id),
+        loadBaseImportData(),
+        loadHs4ImportData(),
+        loadBaseExportData(),
+        loadHs4ExportData(),
       ]);
 
       return {
         ...metadata,
         datasetsByLevel,
         exportDatasetsByLevel,
+        basketFallbackImportDatasetsByLevel: {
+          hs2: importDatasets,
+          hs4: importHs4Datasets,
+        },
+        basketFallbackExportDatasetsByLevel: {
+          hs2: exportScopeDatasets,
+          hs4: exportHs4ScopeDatasets,
+        },
         hs2Codes: metadata.hs2Codes ?? collectCodes(datasetsByLevel.hs2, "hsCode"),
         hs4Codes: metadata.hs4Codes ?? collectCodes(datasetsByLevel.hs4, "hs4Code"),
         hs6Codes: metadata.hs6Codes ?? collectCodes(datasetsByLevel.hs6, "hs6Code"),

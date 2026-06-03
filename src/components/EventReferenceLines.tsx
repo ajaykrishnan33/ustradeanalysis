@@ -1,8 +1,8 @@
 import { ReferenceLine } from "recharts";
-import { eventMarkersByGranularity } from "../chartUtils";
-import type { Granularity } from "../types";
+import { eventMarkersByGranularity, eventMarkersByPeriodView } from "../chartUtils";
+import type { Granularity, PeriodView } from "../types";
 
-type EventMarker = (typeof eventMarkersByGranularity)[Granularity][number];
+type EventMarker = (typeof eventMarkersByPeriodView)[PeriodView][number];
 
 type ReferenceLabelProps = {
   viewBox?: {
@@ -35,13 +35,18 @@ function renderEventLabel(marker: EventMarker) {
 }
 
 type EventReferenceLinesProps = {
-  granularity: Granularity;
+  granularity?: Granularity;
+  periodView?: PeriodView;
 };
 
-function EventReferenceLines({ granularity }: EventReferenceLinesProps) {
+function EventReferenceLines({ granularity, periodView }: EventReferenceLinesProps) {
+  const markers = periodView
+    ? eventMarkersByPeriodView[periodView]
+    : eventMarkersByGranularity[granularity ?? "monthly"];
+
   return (
     <>
-      {eventMarkersByGranularity[granularity].map((marker) => (
+      {markers.map((marker) => (
         <ReferenceLine
           key={marker.key}
           x={marker.periodLabel}

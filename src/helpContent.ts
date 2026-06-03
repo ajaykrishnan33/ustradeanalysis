@@ -132,7 +132,7 @@ const helpByTabId: Record<string, HelpContent> = {
         bullets: [
           "Use the HS2 comparison for broad commodities or All Commodities.",
           "Use the HS4 comparison when you want a more specific matched product family.",
-          "Use monthly view for recent movement and yearly view for the broader trend.",
+          "Use monthly view for recent movement, Calendar Year for Jan-Dec totals, or Fiscal Year for Apr-Mar totals.",
         ],
       },
       chartBasics,
@@ -187,7 +187,7 @@ function buildSectorHelp(config: SectorConfigMetadata): HelpContent {
           "The first chart combines the product groups you choose into one basket for each selected scope.",
           "Use the product-group input to add or remove codes. Put one code per line or separate codes with commas.",
           "Use the period selector to switch between monthly values, calendar-year totals from January through December, and fiscal-year totals from April through March.",
-          "The % growth unit is available for monthly values; yearly views show total US dollar values.",
+          "The % growth unit is available for monthly values; annual views show total US dollar values.",
           "Use the side panel beside the chart to switch between the whole basket and an individual product group.",
           "This top chart has its own scope selector and unit toggle, separate from the drill-down charts below.",
         ],
